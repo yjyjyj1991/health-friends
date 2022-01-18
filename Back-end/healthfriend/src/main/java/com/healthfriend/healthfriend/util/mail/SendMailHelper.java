@@ -47,7 +47,7 @@ public class SendMailHelper {
   }
 
   private void initSession() {
-    session = Session.getDefaultInstance(prop, new Authenticator() {
+    session = Session.getInstance(prop, new Authenticator() {
       protected PasswordAuthentication getPasswordAuthentication() {
         return new PasswordAuthentication(sendMailId, sendMailPassword);
       }
@@ -62,8 +62,9 @@ public class SendMailHelper {
       msg.setFrom(new InternetAddress(sendMailId, "HEALTH FRIEND"));
 
       msg.addRecipient(Message.RecipientType.TO, new InternetAddress(toAddress));
-      msg.setSubject("HEALTH FRIEND 임시 비밀번호입니다.");
-      msg.setText(String.format("임시 비밀번호 %s", tmpPassword));
+
+      msg.setSubject(String.format("HEALTH FRIEND %s", tmpPassword.length() == 5 ? "인증 값 입니다." : "임시 비밀번호입니다."));
+      msg.setText(String.format("%s %s", tmpPassword.length() == 5 ? "인증 값" : "임시 비밀번호", tmpPassword));
 
       Transport.send(msg);
 
