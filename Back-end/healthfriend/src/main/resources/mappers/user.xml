@@ -5,19 +5,19 @@
 <mapper namespace="com.healthfriend.healthfriend.model.mapper.UserMapper">
 
 	<insert id="insertUser" parameterType="userDto">
-		insert into tbl_user(purpose_id, email, name, nickname, password, isWithdraw,weight,active_point )
-		values (#{purpose_id}, #{email}, #{name}, #{nickname} , #{password}, #{isWithdraw},#{weight},#{active_point});
+		INSERT INTO tbl_user(purpose_id, email, name, nickname, password, isWithdraw,weight,active_point )
+		VALUES ( #{purpose_id}, #{email}, #{name}, #{nickname}, #{password}, #{isWithdraw}, #{weight}, #{active_point} );
 	</insert>
 
     <update id="updateUser" parameterType="userDto">
-        update tbl_user
-		set nickname = #{nickname}, password = #{password} , active_point = #{active_point}
-		where id = #{id};
+    	UPDATE tbl_user
+			SET nickname = #{nickname}, password = #{password} , active_point = #{active_point}
+			WHERE id = #{id};
     </update>
 
     <update id="deleteUser" parameterType="userDto">
-        update tbl_user
-		set isWithdraw = 1, withdraw_reason = #{withdraw_reason}
-		where id = #{id};
+      UPDATE tbl_user
+			SET isWithdraw = 1, withdraw_reason = #{withdraw_reason}
+			WHERE id = #{id};
     </update>
 </mapper>

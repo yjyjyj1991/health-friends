@@ -21,35 +21,34 @@ import io.swagger.annotations.ApiParam;
 @RequestMapping("/user")
 @Api("사용자 컨트롤러  API V1")
 public class UserController {
-    @Autowired
+	@Autowired
 	private UserService userService;
 
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
 
 	@PostMapping("/save")
-    @ApiOperation(value = "회원등록", notes = "회원 정보를 등록한다.")
+	@ApiOperation(value = "회원등록", notes = "회원 정보를 등록한다.")
 	public ResponseEntity<String> UserSave(@RequestBody UserDto userDto) throws Exception {
 		if (userService.saveUser(userDto)) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
+
 	@ApiOperation(value = "회원 정보 수정", notes = "회원 정보를 수정한다.")
 	@PutMapping("/modify")
 	public ResponseEntity<String> UserModify(
-			@RequestBody 
-			@ApiParam(value = "회원 정보 수정시 필요한 회원 정보", required = true)
-			 UserDto userDto) throws Exception {
-		if (userService.ModifyUser(userDto)) { //존재하면 수정
+			@RequestBody @ApiParam(value = "회원 정보 수정시 필요한 회원 정보", required = true) UserDto userDto) throws Exception {
+		if (userService.modifyUser(userDto)) { // 존재하면 수정
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 
 	@DeleteMapping("/delete")
-	public ResponseEntity<String> UserDelete(@RequestBody UserDto userDto) throws Exception{
-		if(userService.ModifyRemoveUser(userDto)){
+	public ResponseEntity<String> UserDelete(@RequestBody UserDto userDto) throws Exception {
+		if (userService.deleteUser(userDto)) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
