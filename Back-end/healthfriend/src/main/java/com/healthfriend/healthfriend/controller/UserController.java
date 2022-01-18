@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/user")
@@ -66,5 +67,28 @@ public class UserController {
 		RandomPassword rp = new RandomPassword();
 		String randomValue = rp.getRandomPassword(5);
 		return SendMailHelper.getInstance().SendMail(email, randomValue) ? randomValue : null;
+	}
+
+	@ApiOperation(value = "임시 비밀번호 적용", notes = "해당 이메일로 임시 비밀번호를 전송")
+	@PutMapping(value = "reset-password/{email}")
+	public ResponseEntity<String> putMethodName(@PathVariable String email) throws Exception {
+		boolean isSuccess = false;
+
+		RandomPassword rp = new RandomPassword();
+		String randomValue = rp.getRandomPassword(10);
+
+		UserDto user = new UserDto();
+		user.setEmail(email);
+		user.setPassword(randomValue);
+
+		if (userService.updateUserPassword(user)) {
+			if (SendMailHelper.getInstance().SendMail(email, randomValue))
+				isSuccess = true;
+		}
+
+		if (isSuccess)
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 }

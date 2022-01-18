@@ -5,9 +5,14 @@ import java.sql.SQLException;
 import com.healthfriend.healthfriend.model.UserDto;
 
 import org.apache.ibatis.annotations.Mapper;
+
 @Mapper
 public interface UserMapper {
     public int insertUser(UserDto userDto) throws SQLException;
+
     public int updateUser(UserDto userDto) throws SQLException;
+
     public int updateDUser(UserDto userDto) throws SQLException;
+
+    public int updateUserPassword(UserDto userDto) throws SQLException;
 }

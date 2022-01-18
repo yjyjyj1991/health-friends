@@ -30,4 +30,9 @@ public class UserServiceImpl implements UserService {
     public boolean deleteUser(UserDto userDto) throws Exception {
         return sqlSession.getMapper(UserMapper.class).updateDUser(userDto) == 1;
     }
+
+    @Override
+    public boolean updateUserPassword(UserDto userDto) throws Exception {
+        return sqlSession.getMapper(UserMapper.class).updateUserPassword(userDto) == 1;
+    }
 }

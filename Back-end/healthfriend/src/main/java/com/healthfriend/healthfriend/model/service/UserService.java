@@ -8,4 +8,6 @@ public interface UserService {
     public boolean modifyUser(UserDto userDto) throws Exception;
 
     public boolean deleteUser(UserDto userDto) throws Exception;
+
+    public boolean updateUserPassword(UserDto userDto) throws Exception;
 }
