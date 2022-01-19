@@ -1,0 +1,20 @@
+package com.healthfriend.healthfriend.model.service;
+
+import com.healthfriend.healthfriend.model.DTO.RoomDto;
+import com.healthfriend.healthfriend.model.mapper.RoomMapper;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class RoomServiceImpl implements RoomService {
+  @Autowired
+  private SqlSession sqlSession;
+
+  @Override
+  public boolean addRoom(RoomDto roomDto) throws Exception {
+    return sqlSession.getMapper(RoomMapper.class).insertRoom(roomDto) > 0;
+  }
+
+}
