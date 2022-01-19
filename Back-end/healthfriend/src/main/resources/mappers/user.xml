@@ -10,7 +10,7 @@
 	</insert>
 
     <update id="updateUser" parameterType="UserDto">
-    	UPDATE tbl_user
+			UPDATE tbl_user
 			SET nickname = #{nickname}, password = #{password} , active_point = #{active_point}
 			WHERE id = #{id};
     </update>
@@ -26,4 +26,16 @@
 			SET password = #{password}
 			WHERE isWithdraw = 0 AND email = #{email};
 		</update>
+
+		<select id="isExistsEmail" parameterType="string" resultType="boolean">
+			SELECT COUNT(*)
+			FROM tbl_user
+			WHERE email = #{email} AND isWithdraw = 0
+		</select>
+
+		<select id="isExistsNickname" parameterType="string" resultType="boolean">
+			SELECT COUNT(*)
+			FROM tbl_user
+			WHERE nickname = #{nickname} AND isWithdraw = 0
+		</select>
 </mapper>

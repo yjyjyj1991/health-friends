@@ -35,4 +35,14 @@ public class UserServiceImpl implements UserService {
     public boolean updateUserPassword(UserDto userDto) throws Exception {
         return sqlSession.getMapper(UserMapper.class).updateUserPassword(userDto) == 1;
     }
+
+    @Override
+    public boolean isExistsEmail(String email) throws Exception {
+        return sqlSession.getMapper(UserMapper.class).isExistsEmail(email);
+    }
+
+    @Override
+    public boolean isExistsNickname(String nickname) throws Exception {
+        return sqlSession.getMapper(UserMapper.class).isExistsNickname(nickname);
+    }
 }

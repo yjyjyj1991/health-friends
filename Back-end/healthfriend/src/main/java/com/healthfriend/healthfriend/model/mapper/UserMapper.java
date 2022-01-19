@@ -15,4 +15,8 @@ public interface UserMapper {
     public int updateDUser(UserDto userDto) throws SQLException;
 
     public int updateUserPassword(UserDto userDto) throws SQLException;
+
+    public boolean isExistsEmail(String email) throws SQLException;
+
+    public boolean isExistsNickname(String nickname) throws SQLException;
 }

@@ -10,4 +10,8 @@ public interface UserService {
     public boolean deleteUser(UserDto userDto) throws Exception;
 
     public boolean updateUserPassword(UserDto userDto) throws Exception;
+
+    public boolean isExistsEmail(String email) throws Exception;
+
+    public boolean isExistsNickname(String nickname) throws Exception;
 }

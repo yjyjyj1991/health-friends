@@ -61,12 +61,20 @@ public class UserController {
 	}
 
 	@ApiOperation(value = "이메일 인증", notes = "해당 이메일로 랜덤 인증번호를 전송. 성공 : 랜덤 값, 실패 : null")
-	@GetMapping("/email-check")
-	public String emailCheck(@RequestParam(value = "email") String email) {
+	@GetMapping("/verify")
+	public ResponseEntity<String> verifyEmail(@RequestParam(value = "email") String email) {
 		System.out.println(email);
 		RandomPassword rp = new RandomPassword();
 		String randomValue = rp.getRandomPassword(5);
-		return SendMailHelper.getInstance().SendMail(email, randomValue) ? randomValue : null;
+
+		boolean isSuccess = SendMailHelper.getInstance().SendMail(email, randomValue);
+
+		if (isSuccess) {
+			return new ResponseEntity<String>(randomValue, HttpStatus.OK);
+		} else {
+			String strNull = null;
+			return new ResponseEntity<String>(strNull, HttpStatus.NO_CONTENT);
+		}
 	}
 
 	@ApiOperation(value = "임시 비밀번호 적용", notes = "해당 이메일로 임시 비밀번호를 전송")
@@ -90,5 +98,27 @@ public class UserController {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	}
+
+	@ApiOperation(value = "이메일 중복 확인", notes = "이메일 중복 확인, 사용가능 : true, 불가능 : false - HTTP 409 conflict")
+	@GetMapping("/exists/email")
+	public ResponseEntity<Boolean> checkEmail(@RequestParam(value = "email") String email) throws Exception {
+		boolean isExists = userService.isExistsEmail(email);
+		if (isExists) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.CONFLICT);
+		} else {
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		}
+	}
+
+	@ApiOperation(value = "닉네임 중복 확인", notes = "닉네임 중복 확인, 사용가능 : true, 불가능 : false - HTTP 409 conflict")
+	@GetMapping("/exists/nickname")
+	public ResponseEntity<Boolean> checkNickname(@RequestParam(value = "nickname") String nickname) throws Exception {
+		boolean isExists = userService.isExistsNickname(nickname);
+		if (isExists) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.CONFLICT);
+		} else {
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		}
 	}
 }
