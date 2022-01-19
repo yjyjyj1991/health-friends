@@ -14,4 +14,7 @@ public interface UserService {
     public boolean isExistsEmail(String email) throws Exception;
 
     public boolean isExistsNickname(String nickname) throws Exception;
+    // public boolean findEmail(String email) throws Exception;
+    public UserDto findUser(UserDto userDto) throws Exception;
+    public UserDto findUserInfo(String email) throws Exception;
 }
