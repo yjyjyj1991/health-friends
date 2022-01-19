@@ -5,19 +5,37 @@
 <mapper namespace="com.healthfriend.healthfriend.model.mapper.UserMapper">
 
 	<insert id="insertUser" parameterType="userDto">
-		insert into tbl_user(purpose_id, email, name, nickname, password, isWithdraw,weight,active_point )
-		values (#{purpose_id}, #{email}, #{name}, #{nickname} , #{password}, #{isWithdraw},#{weight},#{active_point});
+		INSERT INTO tbl_user(purpose_id, email, name, nickname, password, isWithdraw,weight,active_point )
+		VALUES (#{purpose_id}, #{email}, #{name}, #{nickname} , #{password}, #{isWithdraw},#{weight},#{active_point});
 	</insert>
 
     <update id="updateUser" parameterType="userDto">
-        update tbl_user
-		set nickname = #{nickname}, password = #{password} , active_point = #{active_point}
-		where id = #{id};
+        UPDATE tbl_user
+		SET nickname = #{nickname}, password = #{password} , active_point = #{active_point}
+		WHERE id = #{id};
     </update>
 
-    <update id="deleteUser" parameterType="userDto">
-        update tbl_user
-		set isWithdraw = 1, withdraw_reason = #{withdraw_reason}
-		where id = #{id};
+
+    <update id="updateDUser" parameterType="userDto">
+        UPDATE tbl_user
+		SET isWithdraw = 1, withdraw_reason = #{withdraw_reason}
+		WHERE id = #{id};
     </update>
+
+    <select id="findEmail" parameterType="String">
+        SELECT * FROM tbl_user WHERE email = #{email}
+    </select>
+
+    <select id="selectUser" parameterType="userDto" resultType="userDto">
+		SELECT *
+		FROM tbl_user
+		WHERE email = #{email} and password = #{password}
+	</select>
+
+    <select id="selectUserInfo" parameterType="String" resultType="userDto">
+        SELECT name, email, password, id, nickname, weight , active_point
+        FROM tbl_user
+        WHERE email = #{email}
+    </select>
+
 </mapper>

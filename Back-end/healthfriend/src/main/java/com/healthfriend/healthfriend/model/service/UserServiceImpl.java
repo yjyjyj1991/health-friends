@@ -1,5 +1,6 @@
 package com.healthfriend.healthfriend.model.service;
 
+
 import com.healthfriend.healthfriend.model.UserDto;
 import com.healthfriend.healthfriend.model.mapper.UserMapper;
 
@@ -8,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     
     @Autowired
 	private SqlSession sqlSession;
@@ -19,7 +20,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean ModifyUser(UserDto userDto) throws Exception {
+    public boolean modifyUser(UserDto userDto) throws Exception {
         if(userDto.getPassword() == null) {
 			throw new Exception();
 		}
@@ -27,8 +28,26 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean DeleteUser(UserDto userDto) throws Exception {
+    public boolean modifyRemoveUser(UserDto userDto) throws Exception {
         return sqlSession.getMapper(UserMapper.class).updateDUser(userDto) == 1;
     }
+
+    // @Override
+    // public boolean findEmail(String email) throws Exception {
+    //     return sqlSession.getMapper(UserMapper.class).selectUser(email) == 1;
+    // }
+
+    @Override
+    public UserDto findUser(UserDto userDto) throws Exception {
+		if(userDto.getEmail() == null || userDto.getPassword() == null)
+			return null;
+		return sqlSession.getMapper(UserMapper.class).selectUser(userDto);
+    }
+
+    @Override
+    public UserDto findUserInfo(String email) throws Exception {
+		return sqlSession.getMapper(UserMapper.class).selectUserInfo(email);
+    }
+
 }
 
