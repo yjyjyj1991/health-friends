@@ -14,6 +14,6 @@ public class UserDto {
     public String password;
     public Integer isWithdraw;
     public String withdraw_reason;
-    public double weight;
-    public double active_point;
+    public Double weight;
+    public Double activePoint;
 }

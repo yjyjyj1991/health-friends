@@ -43,9 +43,6 @@ public class UserController {
 	@Autowired
 	private JwtServiceImpl jwtService;
 
-	private static final String SUCCESS = "success";
-	private static final String FAIL = "fail";
-
 	@ApiOperation(value = "로그인", notes = "Access-token과 로그인 결과 메세지를 반환한다.", response = Map.class)
 	@PostMapping("/login")
 	public ResponseEntity<Message> LoginList(
