@@ -94,7 +94,7 @@ public class BoardController {
 		}
 		message.setSuccess(false);
 		status = HttpStatus.NO_CONTENT;
-		return new ResponseEntity<Message>(message, HttpStatus.NO_CONTENT);
+		return new ResponseEntity<Message>(message, status);
 	}
 
 	@ApiOperation(value = "공지사항 글 삭제", notes = "공지글을 삭제하고 성공 여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)

@@ -7,7 +7,7 @@ import com.healthfriend.healthfriend.model.DTO.BoardParameterDto;
 import com.healthfriend.healthfriend.util.page.PageNavigation;
 
 public interface BoardService {
-  public List<com.healthfriend.healthfriend.model.DTO.BoardDto> findBoard(BoardParameterDto boardParameterDto)
+  public List<BoardDto> findBoard(BoardParameterDto boardParameterDto)
       throws Exception;
 
   public boolean modifyBoard(BoardDto boardDto) throws Exception;
