@@ -27,14 +27,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.jsonwebtoken.Jwts;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 @Api("사용자 컨트롤러  API V1")
 public class UserController {
 	public static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -53,7 +51,7 @@ public class UserController {
 	@ApiOperation(value = "로그인", notes = "Access-token과 로그인 결과 메세지를 반환한다.", response = Map.class)
 	@PostMapping("/login")
 	public ResponseEntity<Map<String, Object>> LoginList(
-			@RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(아이디, 비밀번호).", required = true) UserDto userDto) {
+			@RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(이메일, 비밀번호).", required = true) UserDto userDto) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 		try {
@@ -68,8 +66,8 @@ public class UserController {
 				jsonObj.put("name", loginUser.getName());
 				jsonObj.put("email", loginUser.getEmail());
 				jsonObj.put("nickname", loginUser.getNickname());
-				jsonObj.put("purpose_id", loginUser.getPurpose_id());
-				jsonObj.put("active_point", loginUser.getActive_point());
+				jsonObj.put("purpose_id", loginUser.getPurposeId());
+				jsonObj.put("active_point", loginUser.getActivePoint());
 				jsonObj.put("weight", loginUser.getWeight());
 
 				resultMap.put("UserInfo",jsonObj.toString());

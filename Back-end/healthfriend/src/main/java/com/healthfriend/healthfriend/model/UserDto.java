@@ -7,13 +7,13 @@ import lombok.Setter;
 @Setter
 public class UserDto {
     public int id;
-    public int purpose_id;
+    public int purposeId;
     public String email;
     public String name;
     public String nickname;
     public String password;
     public int isWithdraw;
-    public String withdraw_reason;
+    public String withdrawReason;
     public double weight;
-    public double active_point;
+    public double activePoint;
 }
