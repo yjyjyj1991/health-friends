@@ -7,4 +7,16 @@
     INSERT INTO tbl_room (type_id, user_id, title, content, is_public, password, open_time, limit_user)
     VALUES (#{typeId}, #{userId}, #{title},  #{content}, #{isPublic}, #{password}, now(), #{limitUser});
   </insert>
+
+  <select id="selectRoom" resultType="RoomResponseDto">
+    SELECT room.id, room.type_id, room.user_id, room.title, room.content, room.is_public, room.password, room.open_time, room.limit_user, rt.type AS room_type, user.nickname AS host
+    FROM tbl_room AS room, tbl_room_type AS rt, tbl_user AS user
+    WHERE room.close_time IS NULL AND room.type_id = rt.id AND room.user_id = user.id;
+  </select>
+
+  <select id="selectRoomByTitle" parameterType="string" resultType="RoomResponseDto">
+    SELECT room.id, room.type_id, room.user_id, room.title, room.content, room.is_public, room.password, room.open_time, room.limit_user, rt.type AS room_type, user.nickname AS host
+    FROM tbl_room AS room, tbl_room_type AS rt, tbl_user AS user
+    WHERE room.close_time IS NULL AND room.type_id = rt.id AND room.user_id = user.id AND room.title LIKE CONCAT('%', #{title}, '%');
+  </select>
 </mapper>
