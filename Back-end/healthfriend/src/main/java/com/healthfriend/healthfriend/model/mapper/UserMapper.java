@@ -2,7 +2,7 @@ package com.healthfriend.healthfriend.model.mapper;
 
 import java.sql.SQLException;
 
-import com.healthfriend.healthfriend.model.UserDto;
+import com.healthfriend.healthfriend.model.DTO.UserDto;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -19,7 +19,9 @@ public interface UserMapper {
     public boolean isExistsEmail(String email) throws SQLException;
 
     public boolean isExistsNickname(String nickname) throws SQLException;
+
     // public int selectUser(String email) throws SQLException;
     public UserDto selectUser(UserDto userDto) throws SQLException;
+
     public UserDto selectUserInfo(String email) throws SQLException;
 }
