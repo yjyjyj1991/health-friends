@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.healthfriend.healthfriend.exception.*;
-import com.healthfriend.healthfriend.model.service.*;
+import com.healthfriend.healthfriend.model.service.JwtService;
 
 @Component
 public class JwtInterceptor implements HandlerInterceptor {
