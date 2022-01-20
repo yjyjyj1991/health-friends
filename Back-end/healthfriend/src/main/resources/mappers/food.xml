@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.healthfriend.healthfriend.model.mapper.FoodMapper">
+
+    <select id="selectFood" parameterType="map" resultType="foodDto">
+        SELECT id, user_id, food_name, carbohydrate , protein , brand, fat, kcal
+        FROM tbl_food
+        <if test="word != null and word != ''">
+			<if test="key == 'food_name'">
+				where food_name like concat('%', #{word}, '%')
+			</if>
+			<if test="key != 'food_name'">
+				where ${key} = #{word}
+			</if>
+		</if>
+        ORDER BY id DESC
+        LIMIT #{start}, #{spp}
+    </select>
+
+    <insert id="createFood" parameterType="foodDto">
+        <!-- select key 이용해서 제일 최고 앞의 ID 값 보다 +1 한 값으로 들어가기 -->
+        <selectKey resultType="int" keyProperty="id" order="BEFORE">
+            SELECT MAX(id)+1 FROM tbl_food        
+        </selectKey>    
+        INSERT INTO tbl_food (id, user_id, food_name, carbohydrate, protein, brand, fat, kcal)
+		VALUES (#{id}, #{userId}, #{foodName}, #{carbohydrate},#{protein}, #{brand}, #{fat}, #{kcal})
+    </insert>
+
+
+</mapper>
