@@ -1,6 +1,9 @@
 package com.healthfriend.healthfriend.model.service;
 
+import java.util.List;
+
 import com.healthfriend.healthfriend.model.DTO.RoomDto;
+import com.healthfriend.healthfriend.model.DTO.RoomResponseDto;
 import com.healthfriend.healthfriend.model.mapper.RoomMapper;
 
 import org.apache.ibatis.session.SqlSession;
@@ -17,4 +20,13 @@ public class RoomServiceImpl implements RoomService {
     return sqlSession.getMapper(RoomMapper.class).insertRoom(roomDto) > 0;
   }
 
+  @Override
+  public List<RoomResponseDto> findRoom() throws Exception {
+    return sqlSession.getMapper(RoomMapper.class).selectRoom();
+  }
+
+  @Override
+  public List<RoomResponseDto> findRoom(String title) throws Exception {
+    return sqlSession.getMapper(RoomMapper.class).selectRoomByTitle(title);
+  }
 }
