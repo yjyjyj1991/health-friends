@@ -1,5 +1,6 @@
 package com.healthfriend.healthfriend.controller;
 
+import com.healthfriend.healthfriend.message.Message;
 import com.healthfriend.healthfriend.model.DTO.RoomDto;
 import com.healthfriend.healthfriend.model.service.RoomService;
 
@@ -19,10 +20,10 @@ public class RoomController {
   RoomService roomService;
 
   @PostMapping("/")
-  public ResponseEntity<String> roomAdd(@RequestBody RoomDto roomDto) throws Exception {
-    if (roomService.addRoom(roomDto))
-      return new ResponseEntity<String>("success", HttpStatus.OK);
-
-    return new ResponseEntity<String>("fail", HttpStatus.NO_CONTENT);
+  public ResponseEntity<Message> roomAdd(@RequestBody RoomDto roomDto) throws Exception {
+    boolean isSuccess = roomService.addRoom(roomDto);
+    Message message = new Message();
+    message.setSuccess(isSuccess);
+    return new ResponseEntity<Message>(message, isSuccess ? HttpStatus.OK : HttpStatus.NO_CONTENT);
   }
 }

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.healthfriend.healthfriend.message.Message;
 import com.healthfriend.healthfriend.model.UserDto;
 import com.healthfriend.healthfriend.model.service.JwtServiceImpl;
 import com.healthfriend.healthfriend.model.service.UserService;
@@ -27,147 +28,162 @@ import org.springframework.web.bind.annotation.RestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.jsonwebtoken.Jwts;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 @Api("사용자 컨트롤러  API V1")
 public class UserController {
 	public static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    @Autowired
+	@Autowired
 	private UserService userService;
 
 	@Autowired
 	private JwtServiceImpl jwtService;
 
-
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
 
-
 	@ApiOperation(value = "로그인", notes = "Access-token과 로그인 결과 메세지를 반환한다.", response = Map.class)
 	@PostMapping("/login")
-	public ResponseEntity<Map<String, Object>> LoginList(
+	public ResponseEntity<Message> LoginList(
 			@RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(아이디, 비밀번호).", required = true) UserDto userDto) {
-		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
+		Message message = new Message();
+
 		try {
 			UserDto loginUser = userService.findUser(userDto);
 			if (loginUser != null) {
 				String token = jwtService.create("UserID", loginUser.getId(), "access-token");// key, data, subject
 				logger.debug("로그인 토큰정보 : {}", token);
-				resultMap.put("access-token", token);
-				resultMap.put("message", SUCCESS);
-			
-				JSONObject jsonObj = new JSONObject();
-				jsonObj.put("name", loginUser.getName());
-				jsonObj.put("email", loginUser.getEmail());
-				jsonObj.put("nickname", loginUser.getNickname());
-				jsonObj.put("purpose_id", loginUser.getPurpose_id());
-				jsonObj.put("active_point", loginUser.getActive_point());
-				jsonObj.put("weight", loginUser.getWeight());
 
-				resultMap.put("UserInfo",jsonObj.toString());
-				status = HttpStatus.ACCEPTED;
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("access-token", token);
+				map.put("user-info", loginUser);
+
+				message.setSuccess(true);
+				message.setData(map);
+
+				status = HttpStatus.OK;
 			} else {
-				resultMap.put("message", FAIL);
+				message.setMessage("User Not Found");
 				status = HttpStatus.ACCEPTED;
 			}
 		} catch (Exception e) {
 			logger.error("로그인 실패 : {}", e);
-			resultMap.put("message", e.getMessage());
+			message.setMessage(e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+		return new ResponseEntity<Message>(message, status);
 	}
-	
-
 
 	@ApiOperation(value = "회원인증", notes = "회원 정보를 담은 Token을 반환한다.", response = Map.class)
-	@GetMapping("/info/{token}")
-	public ResponseEntity<Map<String, Object>> TokenList(
+	@GetMapping("/{token}")
+	public ResponseEntity<Message> TokenList(
 			@PathVariable("token") @ApiParam(value = "인증할 회원의 token 정보.", required = true) String token,
 			HttpServletRequest request) {
-//		logger.debug("userid : {} ", userid);
-		Map<String, Object> resultMap = new HashMap<>();
+
+		Message message = new Message();
+
 		HttpStatus status = HttpStatus.ACCEPTED;
 		if (jwtService.isUsable(token) == true) {
 			logger.info("사용 가능한 토큰!!!");
 			try {
-//				로그인 사용자 정보.
-				//UserDto userDto = userService.findUserInfo(""); //여기를 바꿔야 한다.
-				//resultMap.put("UserInfo", userDto);
-				resultMap.put("message", SUCCESS);
-				status = HttpStatus.ACCEPTED;
+				message.setSuccess(true);
+				status = HttpStatus.OK;
 			} catch (Exception e) {
 				logger.error("정보조회 실패 : {}", e);
-				resultMap.put("message", e.getMessage());
+				message.setMessage(e.getMessage());
 				status = HttpStatus.INTERNAL_SERVER_ERROR;
 			}
 		} else {
 			logger.error("사용 불가능 토큰!!!");
-			resultMap.put("message", FAIL);
+			message.setMessage("사용 불가 토큰");
 			status = HttpStatus.ACCEPTED;
 		}
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+		return new ResponseEntity<Message>(message, status);
 	}
 
-
-
-	@PostMapping("/save")
+	@PostMapping("")
 	@ApiOperation(value = "회원등록", notes = "회원 정보를 등록한다.")
-	public ResponseEntity<String> UserSave(@RequestBody UserDto userDto) throws Exception {
+	public ResponseEntity<Message> UserSave(@RequestBody UserDto userDto) throws Exception {
+		Message message = new Message();
+		HttpStatus status = HttpStatus.NO_CONTENT;
+
 		if (userService.saveUser(userDto)) {
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+			message.setSuccess(true);
+			message.setMessage("회원가입 완료");
+
+			status = HttpStatus.OK;
 		}
-		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+
+		return new ResponseEntity<Message>(message, status);
 	}
 
 	@ApiOperation(value = "회원 정보 수정", notes = "회원 정보를 수정한다.")
-	@PutMapping("/modify")
-	public ResponseEntity<String> UserModify(
+	@PutMapping("")
+	public ResponseEntity<Message> UserModify(
 			@RequestBody @ApiParam(value = "회원 정보 수정시 필요한 회원 정보", required = true) UserDto userDto) throws Exception {
+
+		Message message = new Message();
+		HttpStatus status = HttpStatus.NO_CONTENT;
 		if (userService.modifyUser(userDto)) { // 존재하면 수정
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+			message.setSuccess(true);
+			message.setMessage("회원 정보 수정 완료");
+
+			status = HttpStatus.OK;
 		}
-		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+
+		return new ResponseEntity<Message>(message, status);
 	}
 
 	@ApiOperation(value = "회원 탈퇴", notes = "DB상 회원 정보를 수정한다. (isWithdraw = 1, withraw_reason = reason")
-	@DeleteMapping("/delete")
-	public ResponseEntity<String> UserDelete(@RequestBody UserDto userDto) throws Exception {
+	@DeleteMapping("")
+	public ResponseEntity<Message> UserDelete(@RequestBody UserDto userDto) throws Exception {
+		Message message = new Message();
+		HttpStatus status = HttpStatus.NO_CONTENT;
+
 		if (userService.deleteUser(userDto)) {
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+			message.setSuccess(true);
+			message.setMessage("회원 탈퇴 처리 완료");
+
+			status = HttpStatus.OK;
 		}
-		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+
+		return new ResponseEntity<Message>(message, status);
 	}
 
 	@ApiOperation(value = "이메일 인증", notes = "해당 이메일로 랜덤 인증번호를 전송. 성공 : 랜덤 값, 실패 : null")
 	@GetMapping("/verify")
-	public ResponseEntity<String> verifyEmail(@RequestParam(value = "email") String email) {
-		System.out.println(email);
+	public ResponseEntity<Message> verifyEmail(@RequestParam(value = "email") String email) {
+
+		Message message = new Message();
+
 		RandomPassword rp = new RandomPassword();
 		String randomValue = rp.getRandomPassword(5);
 
 		boolean isSuccess = SendMailHelper.getInstance().SendMail(email, randomValue);
+		HttpStatus status = HttpStatus.NO_CONTENT;
 
 		if (isSuccess) {
-			return new ResponseEntity<String>(randomValue, HttpStatus.OK);
-		} else {
-			String strNull = null;
-			return new ResponseEntity<String>(strNull, HttpStatus.NO_CONTENT);
+			message.setSuccess(isSuccess);
+			message.setData(randomValue);
+			status = HttpStatus.OK;
 		}
+
+		return new ResponseEntity<Message>(message, status);
 	}
 
 	@ApiOperation(value = "임시 비밀번호 적용", notes = "해당 이메일로 임시 비밀번호를 전송")
 	@PutMapping(value = "reset-password/{email}")
-	public ResponseEntity<String> putMethodName(@PathVariable String email) throws Exception {
+	public ResponseEntity<Message> putMethodName(@PathVariable String email) throws Exception {
+
+		Message message = new Message();
 		boolean isSuccess = false;
+		HttpStatus status = HttpStatus.NO_CONTENT;
 
 		RandomPassword rp = new RandomPassword();
 		String randomValue = rp.getRandomPassword(10);
@@ -181,31 +197,60 @@ public class UserController {
 				isSuccess = true;
 		}
 
-		if (isSuccess)
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		if (isSuccess) {
+			message.setSuccess(true);
+			status = HttpStatus.OK;
+		}
 
-		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+		return new ResponseEntity<Message>(message, status);
 	}
 
 	@ApiOperation(value = "이메일 중복 확인", notes = "이메일 중복 확인, 사용가능 : true, 불가능 : false - HTTP 409 conflict")
 	@GetMapping("/exists/email")
-	public ResponseEntity<Boolean> checkEmail(@RequestParam(value = "email") String email) throws Exception {
-		boolean isExists = userService.isExistsEmail(email);
-		if (isExists) {
-			return new ResponseEntity<Boolean>(false, HttpStatus.CONFLICT);
-		} else {
-			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+	public ResponseEntity<Message> checkEmail(@RequestParam(value = "email") String email) throws Exception {
+		Message message = new Message();
+		HttpStatus status = HttpStatus.NO_CONTENT;
+
+		try {
+			boolean isExists = userService.isExistsEmail(email);
+
+			if (isExists) {
+				status = HttpStatus.CONFLICT;
+				message.setMessage("존재하는 이메일입니다.");
+			} else {
+				status = HttpStatus.OK;
+				message.setMessage("사용 가능한 이메일입니다.");
+			}
+			message.setSuccess(true);
+		} catch (Exception ex) {
+			message.setMessage(ex.getMessage());
 		}
+
+		return new ResponseEntity<Message>(message, status);
 	}
 
 	@ApiOperation(value = "닉네임 중복 확인", notes = "닉네임 중복 확인, 사용가능 : true, 불가능 : false - HTTP 409 conflict")
 	@GetMapping("/exists/nickname")
-	public ResponseEntity<Boolean> checkNickname(@RequestParam(value = "nickname") String nickname) throws Exception {
-		boolean isExists = userService.isExistsNickname(nickname);
-		if (isExists) {
-			return new ResponseEntity<Boolean>(false, HttpStatus.CONFLICT);
-		} else {
-			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+	public ResponseEntity<Message> checkNickname(@RequestParam(value = "nickname") String nickname) throws Exception {
+
+		Message message = new Message();
+		HttpStatus status = HttpStatus.NO_CONTENT;
+
+		try {
+			boolean isExists = userService.isExistsNickname(nickname);
+
+			if (isExists) {
+				status = HttpStatus.CONFLICT;
+				message.setMessage("존재하는 닉네임입니다.");
+			} else {
+				status = HttpStatus.OK;
+				message.setMessage("사용 가능한 닉네임입니다.");
+			}
+			message.setSuccess(true);
+		} catch (Exception ex) {
+			message.setMessage(ex.getMessage());
 		}
+
+		return new ResponseEntity<Message>(message, status);
 	}
 }

@@ -40,22 +40,22 @@
 		</select>
 
 
-        <update id="updateDUser" parameterType="userDto">
-            UPDATE tbl_user
-            SET isWithdraw = 1, withdraw_reason = #{withdraw_reason}
-            WHERE id = #{id};
-        </update>
+		<update id="updateDUser" parameterType="userDto">
+			UPDATE tbl_user
+			SET isWithdraw = 1, withdraw_reason = #{withdraw_reason}
+			WHERE id = #{id};
+		</update>
 
-        <select id="selectUser" parameterType="userDto" resultType="userDto">
-            SELECT *
-            FROM tbl_user
-            WHERE email = #{email} and password = #{password}
-        </select>
+		<select id="selectUser" parameterType="userDto" resultType="userDto">
+			SELECT name, email, nickname, purpose_id, active_point, weight
+			FROM tbl_user
+			WHERE email = #{email} and password = #{password}
+		</select>
 
-        <select id="selectUserInfo" parameterType="String" resultType="userDto">
-            SELECT name, email, password, id, nickname, weight , active_point
-            FROM tbl_user
-            WHERE email = #{email}
-        </select>
+		<select id="selectUserInfo" parameterType="String" resultType="userDto">
+			SELECT name, email, password, id, nickname, weight , active_point
+			FROM tbl_user
+			WHERE email = #{email}
+		</select>
 
 </mapper>
