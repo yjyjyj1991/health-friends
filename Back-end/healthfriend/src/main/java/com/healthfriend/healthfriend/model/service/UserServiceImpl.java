@@ -1,7 +1,6 @@
 package com.healthfriend.healthfriend.model.service;
 
-
-import com.healthfriend.healthfriend.model.UserDto;
+import com.healthfriend.healthfriend.model.DTO.UserDto;
 import com.healthfriend.healthfriend.model.mapper.UserMapper;
 
 import org.apache.ibatis.session.SqlSession;
@@ -33,19 +32,19 @@ public class UserServiceImpl implements UserService {
 
     // @Override
     // public boolean findEmail(String email) throws Exception {
-    //     return sqlSession.getMapper(UserMapper.class).selectUser(email) == 1;
+    // return sqlSession.getMapper(UserMapper.class).selectUser(email) == 1;
     // }
 
     @Override
     public UserDto findUser(UserDto userDto) throws Exception {
-		if(userDto.getEmail() == null || userDto.getPassword() == null)
-			return null;
-		return sqlSession.getMapper(UserMapper.class).selectUser(userDto);
+        if (userDto.getEmail() == null || userDto.getPassword() == null)
+            return null;
+        return sqlSession.getMapper(UserMapper.class).selectUser(userDto);
     }
 
     @Override
     public UserDto findUserInfo(String email) throws Exception {
-		return sqlSession.getMapper(UserMapper.class).selectUserInfo(email);
+        return sqlSession.getMapper(UserMapper.class).selectUserInfo(email);
     }
 
     @Override

@@ -6,14 +6,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.healthfriend.healthfriend.message.Message;
-import com.healthfriend.healthfriend.model.UserDto;
+import com.healthfriend.healthfriend.model.DTO.UserDto;
 import com.healthfriend.healthfriend.model.service.JwtServiceImpl;
 import com.healthfriend.healthfriend.model.service.UserService;
 import com.healthfriend.healthfriend.util.mail.SendMailHelper;
 import com.healthfriend.healthfriend.util.password.RandomPassword;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
