@@ -1,4 +1,5 @@
 package com.healthfriend.healthfriend.interceptor;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,8 +15,8 @@ import com.healthfriend.healthfriend.model.service.JwtService;
 @Component
 public class JwtInterceptor implements HandlerInterceptor {
 
-public static final Logger logger = LoggerFactory.getLogger(JwtInterceptor.class);
-	
+	public static final Logger logger = LoggerFactory.getLogger(JwtInterceptor.class);
+
 	private static final String HEADER_AUTH = "auth-token";
 
 	@Autowired
@@ -24,15 +25,15 @@ public static final Logger logger = LoggerFactory.getLogger(JwtInterceptor.class
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-        final String token = request.getHeader(HEADER_AUTH);
-		if(token != null && jwtService.isUsable(token)){
+		final String token = request.getHeader(HEADER_AUTH);
+		if (token != null && jwtService.isUsable(token)) {
 			logger.info("토큰 사용 가능 : {}", token);
 			return true;
-		}else{
+		} else {
 			logger.info("토큰 사용 불가능 : {}", token);
 			throw new UnAuthorizedException();
 		}
 
 	}
-	
+
 }

@@ -1,4 +1,4 @@
-package com.healthfriend.healthfriend.model;
+package com.healthfriend.healthfriend.model.DTO;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -16,7 +16,7 @@ public class BoardParameterDto {
 	private String key;
 	@ApiModelProperty(value = "검색어")
 	private String word;
-	
+
 	public BoardParameterDto() {
 		pg = 1;
 		spp = 20;
