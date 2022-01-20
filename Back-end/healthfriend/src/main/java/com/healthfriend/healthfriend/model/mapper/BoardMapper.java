@@ -3,10 +3,11 @@ package com.healthfriend.healthfriend.model.mapper;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.healthfriend.healthfriend.model.BoardDto;
-import com.healthfriend.healthfriend.model.BoardParameterDto;
+import com.healthfriend.healthfriend.model.DTO.BoardDto;
+import com.healthfriend.healthfriend.model.DTO.BoardParameterDto;
 
 import org.apache.ibatis.annotations.Mapper;
+
 @Mapper
 public interface BoardMapper {
 
