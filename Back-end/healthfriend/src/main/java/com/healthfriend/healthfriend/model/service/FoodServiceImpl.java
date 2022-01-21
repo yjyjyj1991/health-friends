@@ -2,8 +2,8 @@ package com.healthfriend.healthfriend.model.service;
 
 import java.util.List;
 
-import com.healthfriend.healthfriend.model.DTO.FoodDto;
-import com.healthfriend.healthfriend.model.DTO.FoodParameterDto;
+import com.healthfriend.healthfriend.model.DTO.Food.FoodDto;
+import com.healthfriend.healthfriend.model.DTO.Food.FoodParameterDto;
 import com.healthfriend.healthfriend.model.mapper.FoodMapper;
 
 import org.apache.ibatis.session.SqlSession;
@@ -29,5 +29,10 @@ public class FoodServiceImpl implements FoodService{
         foodParameterDto.setStart(start);
         return sqlSession.getMapper(FoodMapper.class).selectFood(foodParameterDto);
         }
+
+    @Override
+    public FoodDto findFoodDetails(int id) throws Exception {
+        return sqlSession.getMapper(FoodMapper.class).selectFoodDetails(id);
+    }
   
 }

@@ -27,6 +27,11 @@
         INSERT INTO tbl_food (id, user_id, food_name, carbohydrate, protein, brand, fat, kcal)
 		VALUES (#{id}, #{userId}, #{foodName}, #{carbohydrate},#{protein}, #{brand}, #{fat}, #{kcal})
     </insert>
-
+    
+    <select id="selectFoodDetails" parameterType="int" resultType="foodDto">
+        SELECT id, food_name, carbohydrate , protein , brand, fat, kcal
+        FROM tbl_food
+        WHERE id = #{id}
+    </select>
 
 </mapper>

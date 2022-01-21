@@ -6,19 +6,22 @@
 
 	<insert id="insertUser" parameterType="UserDto">
 		INSERT INTO tbl_user(purpose_id, email, name, nickname, password, isWithdraw,weight,active_point )
-		VALUES ( #{purpose_id}, #{email}, #{name}, #{nickname}, #{password}, #{isWithdraw}, #{weight}, #{active_point} );
+		VALUES ( #{purposeId}, #{email}, #{name}, #{nickname}, #{password}, #{isWithdraw}, #{weight}, #{activePoint} );
 	</insert>
 
     <update id="updateUser" parameterType="UserDto">
+        <!-- <selectKey resultType="int" keyProperty="id" order="BEFORE">
+            SELECT id FROM tbl_user WHERE email = #{email}      
+        </selectKey>     -->
 			UPDATE tbl_user
-			SET nickname = #{nickname}, password = #{password} , active_point = #{active_point}
+			SET nickname = #{nickname}, password = #{password} , active_point = #{activePoint}
 			WHERE id = #{id};
     </update>
 
     <update id="deleteUser" parameterType="UserDto">
-      UPDATE tbl_user
-			SET isWithdraw = 1, withdraw_reason = #{withdraw_reason}
-			WHERE id = #{id};
+		UPDATE tbl_user
+		SET isWithdraw = 1, withdraw_reason = #{withdrawReason}
+		WHERE id = #{id};
     </update>
 
 		<update id="updateUserPassword" parameterType="UserDto">
@@ -42,7 +45,7 @@
 
 		<update id="updateDUser" parameterType="userDto">
 			UPDATE tbl_user
-			SET isWithdraw = 1, withdraw_reason = #{withdraw_reason}
+			SET isWithdraw = 1, withdraw_reason = #{withdrawReason}
 			WHERE id = #{id};
 		</update>
 

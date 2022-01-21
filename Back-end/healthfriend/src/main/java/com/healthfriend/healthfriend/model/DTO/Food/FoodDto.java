@@ -1,4 +1,4 @@
-package com.healthfriend.healthfriend.model.DTO;
+package com.healthfriend.healthfriend.model.DTO.Food;
 
 import lombok.Getter;
 import lombok.Setter;
