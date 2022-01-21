@@ -6,7 +6,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.healthfriend.healthfriend.message.Message;
-import com.healthfriend.healthfriend.model.DTO.UserDto;
+import com.healthfriend.healthfriend.model.DTO.user.UserDto;
+import com.healthfriend.healthfriend.model.DTO.user.UserRequest;
+import com.healthfriend.healthfriend.model.DTO.user.UserResponse;
+import com.healthfriend.healthfriend.model.DTO.user.UserSignup;
+import com.healthfriend.healthfriend.model.DTO.user.UserWithdraw;
 import com.healthfriend.healthfriend.model.service.JwtServiceImpl;
 import com.healthfriend.healthfriend.model.service.UserService;
 import com.healthfriend.healthfriend.util.mail.SendMailHelper;
@@ -22,6 +26,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,6 +36,8 @@ import org.slf4j.LoggerFactory;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+
+import io.jsonwebtoken.Claims;
 
 @RestController
 @RequestMapping("/users")
@@ -45,15 +52,18 @@ public class UserController {
 	@Autowired
 	private JwtServiceImpl jwtService;
 
+	// ----------------------------------------------------------------------------------------//
+	//
+	// ----------------------------------------------------------------------------------------//
 	@ApiOperation(value = "로그인", notes = "Access-token과 로그인 결과 메세지를 반환한다.", response = Map.class)
 	@PostMapping("/login")
 	public ResponseEntity<Message> LoginList(
-			@RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(아이디, 비밀번호).", required = true) UserDto userDto) {
+			@RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(아이디, 비밀번호).", required = true) UserRequest userDto) {
 		HttpStatus status = null;
 		Message message = new Message();
 
 		try {
-			UserDto loginUser = userService.findUser(userDto);
+			UserResponse loginUser = userService.findUser(userDto);
 			if (loginUser != null) {
 				String token = jwtService.create("UserID", loginUser.getId(), "access-token");// key, data, subject
 				logger.debug("로그인 토큰정보 : {}", token);
@@ -78,6 +88,9 @@ public class UserController {
 		return new ResponseEntity<Message>(message, status);
 	}
 
+	// ----------------------------------------------------------------------------------------//
+	//
+	// ----------------------------------------------------------------------------------------//
 	@ApiOperation(value = "회원인증", notes = "회원 정보를 담은 Token을 반환한다.", response = Map.class)
 	@GetMapping("/{token}")
 	public ResponseEntity<Message> TokenList(
@@ -105,9 +118,12 @@ public class UserController {
 		return new ResponseEntity<Message>(message, status);
 	}
 
+	// ----------------------------------------------------------------------------------------//
+	//
+	// ----------------------------------------------------------------------------------------//
 	@PostMapping("")
 	@ApiOperation(value = "회원등록", notes = "회원 정보를 등록한다.")
-	public ResponseEntity<Message> UserSave(@RequestBody UserDto userDto) throws Exception {
+	public ResponseEntity<Message> UserSave(@RequestBody UserSignup userDto) throws Exception {
 		Message message = new Message();
 		HttpStatus status = HttpStatus.NO_CONTENT;
 
@@ -121,6 +137,9 @@ public class UserController {
 		return new ResponseEntity<Message>(message, status);
 	}
 
+	// ----------------------------------------------------------------------------------------//
+	//
+	// ----------------------------------------------------------------------------------------//
 	@ApiOperation(value = "회원 정보 수정", notes = "회원 정보를 수정한다.")
 	@PutMapping("")
 	public ResponseEntity<Message> UserModify(
@@ -138,13 +157,18 @@ public class UserController {
 		return new ResponseEntity<Message>(message, status);
 	}
 
+	// ----------------------------------------------------------------------------------------//
+	//
+	// ----------------------------------------------------------------------------------------//
 	@ApiOperation(value = "회원 탈퇴", notes = "DB상 회원 정보를 수정한다. (isWithdraw = 1, withraw_reason = reason")
 	@DeleteMapping("")
-	public ResponseEntity<Message> UserDelete(@RequestBody UserDto userDto) throws Exception {
+	public ResponseEntity<Message> UserDelete(
+			@RequestHeader(value = "Token") Claims token,
+			@RequestBody UserWithdraw userWithdraw) throws Exception {
 		Message message = new Message();
 		HttpStatus status = HttpStatus.NO_CONTENT;
 
-		if (userService.deleteUser(userDto)) {
+		if (userService.deleteUser(userWithdraw)) {
 			message.setSuccess(true);
 			message.setMessage("회원 탈퇴 처리 완료");
 
@@ -154,6 +178,9 @@ public class UserController {
 		return new ResponseEntity<Message>(message, status);
 	}
 
+	// ----------------------------------------------------------------------------------------//
+	//
+	// ----------------------------------------------------------------------------------------//
 	@ApiOperation(value = "이메일 인증", notes = "해당 이메일로 랜덤 인증번호를 전송. 성공 : 랜덤 값, 실패 : null")
 	@GetMapping("/verify")
 	public ResponseEntity<Message> verifyEmail(@RequestParam(value = "email") String email) {
@@ -175,6 +202,9 @@ public class UserController {
 		return new ResponseEntity<Message>(message, status);
 	}
 
+	// ----------------------------------------------------------------------------------------//
+	//
+	// ----------------------------------------------------------------------------------------//
 	@ApiOperation(value = "임시 비밀번호 적용", notes = "해당 이메일로 임시 비밀번호를 전송")
 	@PutMapping(value = "reset-password/{email}")
 	public ResponseEntity<Message> putMethodName(@PathVariable String email) throws Exception {
@@ -203,6 +233,9 @@ public class UserController {
 		return new ResponseEntity<Message>(message, status);
 	}
 
+	// ----------------------------------------------------------------------------------------//
+	//
+	// ----------------------------------------------------------------------------------------//
 	@ApiOperation(value = "이메일 중복 확인", notes = "이메일 중복 확인, 사용가능 : true, 불가능 : false - HTTP 409 conflict")
 	@GetMapping("/exists/email")
 	public ResponseEntity<Message> checkEmail(@RequestParam(value = "email") String email) throws Exception {
@@ -227,6 +260,9 @@ public class UserController {
 		return new ResponseEntity<Message>(message, status);
 	}
 
+	// ----------------------------------------------------------------------------------------//
+	//
+	// ----------------------------------------------------------------------------------------//
 	@ApiOperation(value = "닉네임 중복 확인", notes = "닉네임 중복 확인, 사용가능 : true, 불가능 : false - HTTP 409 conflict")
 	@GetMapping("/exists/nickname")
 	public ResponseEntity<Message> checkNickname(@RequestParam(value = "nickname") String nickname) throws Exception {
