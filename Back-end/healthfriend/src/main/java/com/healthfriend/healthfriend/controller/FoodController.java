@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,14 +25,14 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping("/foods")
+@CrossOrigin
 @Api("음식 컨트롤러  API V1")
 public class FoodController {
-    @Autowired
-    private FoodService foodService;
+	@Autowired
+	private FoodService foodService;
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 
-
-    @ApiOperation(value = "음식 목록", notes = "음식 정보를 반환한다.", response = List.class)
+	@ApiOperation(value = "음식 목록", notes = "음식 정보를 반환한다.", response = List.class)
 	@GetMapping()
 	public ResponseEntity<Message> foodList(FoodParameterDto foodParameterDto) throws Exception {
 		logger.info("foodList - 호출");
@@ -41,7 +42,8 @@ public class FoodController {
 		message.setSuccess(true);
 		return new ResponseEntity<Message>(message, status);
 	}
-    @ApiOperation(value = "음식 등록", notes = "새로운 음식 정보를 입력한다.", response = String.class)
+
+	@ApiOperation(value = "음식 등록", notes = "새로운 음식 정보를 입력한다.", response = String.class)
 	@PostMapping
 	public ResponseEntity<Message> foodAdd(
 			@RequestBody @ApiParam(value = "brand, carb, fat, foodName, kcal, protein, userId", required = true) FoodDto foodDto)
