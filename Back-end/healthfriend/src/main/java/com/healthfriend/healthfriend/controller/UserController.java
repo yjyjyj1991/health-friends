@@ -7,7 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.healthfriend.healthfriend.message.Message;
 import com.healthfriend.healthfriend.model.DTO.user.UserDto;
-import com.healthfriend.healthfriend.model.DTO.user.UserRequest;
+import com.healthfriend.healthfriend.model.DTO.user.UserModifyRequest;
+import com.healthfriend.healthfriend.model.DTO.user.UserAccountRequest;
 import com.healthfriend.healthfriend.model.DTO.user.UserResponse;
 import com.healthfriend.healthfriend.model.DTO.user.UserSignup;
 import com.healthfriend.healthfriend.model.DTO.user.UserWithdraw;
@@ -58,12 +59,12 @@ public class UserController {
 	@ApiOperation(value = "로그인", notes = "Access-token과 로그인 결과 메세지를 반환한다.", response = Map.class)
 	@PostMapping("/login")
 	public ResponseEntity<Message> LoginList(
-			@RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(아이디, 비밀번호).", required = true) UserRequest userDto) {
+			@RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(아이디, 비밀번호).", required = true) UserAccountRequest userAccountRequest) {
 		HttpStatus status = null;
 		Message message = new Message();
 
 		try {
-			UserResponse loginUser = userService.findUser(userDto);
+			UserResponse loginUser = userService.findUser(userAccountRequest);
 			if (loginUser != null) {
 				String token = jwtService.create("UserID", loginUser.getId(), "access-token");// key, data, subject
 				logger.debug("로그인 토큰정보 : {}", token);
@@ -78,7 +79,7 @@ public class UserController {
 				status = HttpStatus.OK;
 			} else {
 				message.setMessage("User Not Found");
-				status = HttpStatus.ACCEPTED;
+				status = HttpStatus.OK;
 			}
 		} catch (Exception e) {
 			logger.error("로그인 실패 : {}", e);
@@ -143,11 +144,12 @@ public class UserController {
 	@ApiOperation(value = "회원 정보 수정", notes = "회원 정보를 수정한다.")
 	@PutMapping("")
 	public ResponseEntity<Message> UserModify(
-			@RequestBody @ApiParam(value = "회원 정보 수정시 필요한 회원 정보", required = true) UserDto userDto) throws Exception {
+			@RequestBody @ApiParam(value = "회원 정보 수정시 필요한 회원 정보", required = true) UserModifyRequest userModifyRequest)
+			throws Exception {
 
 		Message message = new Message();
 		HttpStatus status = HttpStatus.NO_CONTENT;
-		if (userService.modifyUser(userDto)) { // 존재하면 수정
+		if (userService.modifyUser(userModifyRequest)) {
 			message.setSuccess(true);
 			message.setMessage("회원 정보 수정 완료");
 
@@ -163,7 +165,7 @@ public class UserController {
 	@ApiOperation(value = "회원 탈퇴", notes = "DB상 회원 정보를 수정한다. (isWithdraw = 1, withraw_reason = reason")
 	@DeleteMapping("")
 	public ResponseEntity<Message> UserDelete(
-			@RequestHeader(value = "Token") Claims token,
+			@RequestHeader(value = "Token") String token,
 			@RequestBody UserWithdraw userWithdraw) throws Exception {
 		Message message = new Message();
 		HttpStatus status = HttpStatus.NO_CONTENT;
@@ -216,11 +218,11 @@ public class UserController {
 		RandomPassword rp = new RandomPassword();
 		String randomValue = rp.getRandomPassword(10);
 
-		UserDto user = new UserDto();
-		user.setEmail(email);
-		user.setPassword(randomValue);
+		UserAccountRequest userAccount = new UserAccountRequest();
+		userAccount.setEmail(email);
+		userAccount.setPassword(randomValue);
 
-		if (userService.updateUserPassword(user)) {
+		if (userService.updateUserPassword(userAccount)) {
 			if (SendMailHelper.getInstance().SendMail(email, randomValue))
 				isSuccess = true;
 		}
