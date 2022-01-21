@@ -6,7 +6,7 @@
 
 	<insert id="insertUser" parameterType="UserDto">
 		INSERT INTO tbl_user(purpose_id, email, name, nickname, password, isWithdraw,weight,active_point )
-		VALUES ( #{purpose_id}, #{email}, #{name}, #{nickname}, #{password}, #{isWithdraw}, #{weight}, #{active_point} );
+		VALUES ( #{purposeId}, #{email}, #{name}, #{nickname}, #{password}, #{isWithdraw}, #{weight}, #{activePoint} );
 	</insert>
 
     <update id="updateUser" parameterType="UserDto">
