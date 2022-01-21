@@ -1,7 +1,8 @@
 package com.healthfriend.healthfriend.model.service;
 
 import com.healthfriend.healthfriend.model.DTO.user.UserDto;
-import com.healthfriend.healthfriend.model.DTO.user.UserRequest;
+import com.healthfriend.healthfriend.model.DTO.user.UserModifyRequest;
+import com.healthfriend.healthfriend.model.DTO.user.UserAccountRequest;
 import com.healthfriend.healthfriend.model.DTO.user.UserResponse;
 import com.healthfriend.healthfriend.model.DTO.user.UserSignup;
 import com.healthfriend.healthfriend.model.DTO.user.UserWithdraw;
@@ -17,16 +18,16 @@ public class UserServiceImpl implements UserService {
     private SqlSession sqlSession;
 
     @Override
-    public boolean saveUser(UserSignup userDto) throws Exception {
-        return sqlSession.getMapper(UserMapper.class).insertUser(userDto) == 1;
+    public boolean saveUser(UserSignup userSignup) throws Exception {
+        return sqlSession.getMapper(UserMapper.class).insertUser(userSignup) == 1;
     }
 
     @Override
-    public boolean modifyUser(UserDto userDto) throws Exception {
-        if (userDto.getPassword() == null) {
+    public boolean modifyUser(UserModifyRequest userModifyRequest) throws Exception {
+        if (userModifyRequest.getPassword() == null) {
             throw new Exception();
         }
-        return sqlSession.getMapper(UserMapper.class).updateUser(userDto) == 1;
+        return sqlSession.getMapper(UserMapper.class).updateUser(userModifyRequest) == 1;
     }
 
     @Override
@@ -34,16 +35,11 @@ public class UserServiceImpl implements UserService {
         return sqlSession.getMapper(UserMapper.class).updateDUser(userWithdraw) == 1;
     }
 
-    // @Override
-    // public boolean findEmail(String email) throws Exception {
-    // return sqlSession.getMapper(UserMapper.class).selectUser(email) == 1;
-    // }
-
     @Override
-    public UserResponse findUser(UserRequest userDto) throws Exception {
-        if (userDto.getEmail() == null || userDto.getPassword() == null)
+    public UserResponse findUser(UserAccountRequest userRequest) throws Exception {
+        if (userRequest.getEmail() == null || userRequest.getPassword() == null)
             return null;
-        return sqlSession.getMapper(UserMapper.class).selectUser(userDto);
+        return sqlSession.getMapper(UserMapper.class).selectUser(userRequest);
     }
 
     @Override
@@ -52,8 +48,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateUserPassword(UserDto userDto) throws Exception {
-        return sqlSession.getMapper(UserMapper.class).updateUserPassword(userDto) == 1;
+    public boolean updateUserPassword(UserAccountRequest userAccountRequest) throws Exception {
+        return sqlSession.getMapper(UserMapper.class).updateUserPassword(userAccountRequest) == 1;
     }
 
     @Override

@@ -6,7 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserWithdraw {
-  public String email;
-  public String password;
-  public String withdraw_reason;
+  public Integer id;
+  public String withdrawReason;
 }

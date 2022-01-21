@@ -11,7 +11,7 @@ public class UserResponse {
   public String name;
   public String nickname;
   public Integer purposeId;
-  public String purposeName;
+  public String purpose;
   public Double weight;
   public Double activePoint;
 }
