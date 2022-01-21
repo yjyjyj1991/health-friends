@@ -1,6 +1,10 @@
 package com.healthfriend.healthfriend.model.service;
 
-import com.healthfriend.healthfriend.model.DTO.UserDto;
+import com.healthfriend.healthfriend.model.DTO.user.UserDto;
+import com.healthfriend.healthfriend.model.DTO.user.UserRequest;
+import com.healthfriend.healthfriend.model.DTO.user.UserResponse;
+import com.healthfriend.healthfriend.model.DTO.user.UserSignup;
+import com.healthfriend.healthfriend.model.DTO.user.UserWithdraw;
 import com.healthfriend.healthfriend.model.mapper.UserMapper;
 
 import org.apache.ibatis.session.SqlSession;
@@ -13,7 +17,7 @@ public class UserServiceImpl implements UserService {
     private SqlSession sqlSession;
 
     @Override
-    public boolean saveUser(UserDto userDto) throws Exception {
+    public boolean saveUser(UserSignup userDto) throws Exception {
         return sqlSession.getMapper(UserMapper.class).insertUser(userDto) == 1;
     }
 
@@ -26,8 +30,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean deleteUser(UserDto userDto) throws Exception {
-        return sqlSession.getMapper(UserMapper.class).updateDUser(userDto) == 1;
+    public boolean deleteUser(UserWithdraw userWithdraw) throws Exception {
+        return sqlSession.getMapper(UserMapper.class).updateDUser(userWithdraw) == 1;
     }
 
     // @Override
@@ -36,7 +40,7 @@ public class UserServiceImpl implements UserService {
     // }
 
     @Override
-    public UserDto findUser(UserDto userDto) throws Exception {
+    public UserResponse findUser(UserRequest userDto) throws Exception {
         if (userDto.getEmail() == null || userDto.getPassword() == null)
             return null;
         return sqlSession.getMapper(UserMapper.class).selectUser(userDto);
