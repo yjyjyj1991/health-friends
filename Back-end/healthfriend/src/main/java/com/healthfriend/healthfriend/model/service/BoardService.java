@@ -6,6 +6,7 @@ import com.healthfriend.healthfriend.model.DTO.Board.BoardDetailDto;
 import com.healthfriend.healthfriend.model.DTO.Board.BoardDto;
 import com.healthfriend.healthfriend.model.DTO.Board.BoardModifyDto;
 import com.healthfriend.healthfriend.model.DTO.Board.BoardParameterDto;
+import com.healthfriend.healthfriend.model.DTO.Board.BoardRemoveDto;
 import com.healthfriend.healthfriend.util.page.PageNavigation;
 
 public interface BoardService {
@@ -20,7 +21,7 @@ public interface BoardService {
 
   public BoardDto findBoardDetail(int id) throws Exception;
 
-  public BoardDto findBoardDetailPassword(BoardDto boardDto) throws Exception;
+  public BoardDto findBoardDetailPassword(BoardRemoveDto boardRemoveDto) throws Exception;
 
   public PageNavigation makePageNavigation(BoardParameterDto boardParameterDto) throws Exception;
 

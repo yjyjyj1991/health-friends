@@ -7,6 +7,7 @@ import com.healthfriend.healthfriend.model.DTO.Board.BoardDetailDto;
 import com.healthfriend.healthfriend.model.DTO.Board.BoardDto;
 import com.healthfriend.healthfriend.model.DTO.Board.BoardModifyDto;
 import com.healthfriend.healthfriend.model.DTO.Board.BoardParameterDto;
+import com.healthfriend.healthfriend.model.DTO.Board.BoardRemoveDto;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -23,7 +24,7 @@ public interface BoardMapper {
 
     public BoardDto selectBoardDetail(int id) throws SQLException;
 
-    public BoardDto selectBoardDetailPassword(BoardDto boardDto) throws SQLException;
+    public BoardDto selectBoardDetailPassword(BoardRemoveDto boardRemoveDto) throws SQLException;
 
     public int selectTotalCount(BoardParameterDto boardParameterDto) throws SQLException;
 }

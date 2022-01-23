@@ -6,6 +6,7 @@ import com.healthfriend.healthfriend.model.DTO.Board.BoardDetailDto;
 import com.healthfriend.healthfriend.model.DTO.Board.BoardDto;
 import com.healthfriend.healthfriend.model.DTO.Board.BoardModifyDto;
 import com.healthfriend.healthfriend.model.DTO.Board.BoardParameterDto;
+import com.healthfriend.healthfriend.model.DTO.Board.BoardRemoveDto;
 import com.healthfriend.healthfriend.model.mapper.BoardMapper;
 import com.healthfriend.healthfriend.util.page.PageNavigation;
 
@@ -49,8 +50,8 @@ public class BoardServiceImpl implements BoardService {
   }
 
   @Override
-  public BoardDto findBoardDetailPassword(BoardDto boardDto) throws Exception {
-    return sqlSession.getMapper(BoardMapper.class).selectBoardDetailPassword(boardDto);
+  public BoardDto findBoardDetailPassword(BoardRemoveDto boardRemoveDto) throws Exception {
+    return sqlSession.getMapper(BoardMapper.class).selectBoardDetailPassword(boardRemoveDto);
 
   }
 

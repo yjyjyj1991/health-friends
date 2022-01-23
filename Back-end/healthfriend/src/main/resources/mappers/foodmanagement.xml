@@ -21,7 +21,11 @@
     </select>
     
     <delete id="deleteFoodManagement" parameterType="foodManagementRemoveDto">
-        DELETE FROM tbl_fm_with_food WHERE fm_id = (SELECT fm_id AS fmId FROM tbl_food_management where user_id = #{userId} and date = @{date}) and food_id = #{foodId}
+        DELETE 
+        FROM tbl_fm_with_food 
+        WHERE fm_id = 
+        (SELECT fm_id AS fmId FROM tbl_food_management where user_id = #{userId} and date = #{date})
+         and food_id = #{foodId}
     </delete>
 
 </mapper>

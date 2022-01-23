@@ -43,7 +43,7 @@
     </select>
 
     
-    <select id="selectBoardDetailPassword" parameterType="boardDto" resultType="boardDto">
+    <select id="selectBoardDetailPassword" parameterType="boardRemoveDto" resultType="boardDto">
         SELECT id, type_id, user_id, title , content, isPublic, password
         FROM tbl_board
         where id = #{id} and password = #{password}

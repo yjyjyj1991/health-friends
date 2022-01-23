@@ -7,6 +7,7 @@ import com.healthfriend.healthfriend.model.DTO.Board.BoardDetailDto;
 import com.healthfriend.healthfriend.model.DTO.Board.BoardDto;
 import com.healthfriend.healthfriend.model.DTO.Board.BoardModifyDto;
 import com.healthfriend.healthfriend.model.DTO.Board.BoardParameterDto;
+import com.healthfriend.healthfriend.model.DTO.Board.BoardRemoveDto;
 import com.healthfriend.healthfriend.model.service.BoardService;
 import com.healthfriend.healthfriend.model.service.JwtService;
 
@@ -74,12 +75,12 @@ public class BoardController {
 	@ApiOperation(value = "게시판 비밀글 상세 보기", notes = "해당 글번호에 해당하는 패스워드를 적절히 입력하면 방 내용을 출력한다.", response = BoardDto.class)
 	@GetMapping("/password")
 	public ResponseEntity<Message> boardDetailPassword(
-			@ModelAttribute @ApiParam(value = "얻어올 글의 글번호 id값을 주소창에 Get으로 얻어옴", required = true) BoardDto boardDto)
+			@ModelAttribute @ApiParam(value = "얻어올 글의 글번호 id값을 주소창에 Get으로 얻어옴", required = true) BoardRemoveDto boardRemoveDto)
 			throws Exception {
-		logger.info("boardDetailPassword - 호출 : " + boardDto);
+		logger.info("boardDetailPassword - 호출 : " + boardRemoveDto);
 		HttpStatus status = HttpStatus.OK;
 		Message message = new Message();
-		message.setData(boardService.findBoardDetailPassword(boardDto));
+		message.setData(boardService.findBoardDetailPassword(boardRemoveDto));
 		message.setSuccess(true);
 		return new ResponseEntity<Message>(message, status);
 	}
@@ -103,13 +104,14 @@ public class BoardController {
 	}
 
 	@ApiOperation(value = "공지사항 글 삭제", notes = "공지글을 삭제하고 성공 여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-	@DeleteMapping
-	public ResponseEntity<Message> boardRemove(@RequestBody @ApiParam(value = "Id 값", required = true) BoardDto boardDto)
+	@DeleteMapping("{deleteid}")
+	public ResponseEntity<Message> boardRemove(@PathVariable int deleteid)
 			throws Exception {
 		logger.info("boardRemove - 호출");
 		Message message = new Message();
 		HttpStatus status = null;
-
+		BoardDto boardDto = new BoardDto();
+		boardDto.setId(deleteid);
 		if (boardService.removeBoard(boardDto)) {
 			status = HttpStatus.OK;
 			message.setSuccess(true);

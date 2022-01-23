@@ -3,6 +3,7 @@ package com.healthfriend.healthfriend.controller;
 import java.util.List;
 
 import com.healthfriend.healthfriend.message.Message;
+import com.healthfriend.healthfriend.model.DTO.Food.FoodAddDto;
 import com.healthfriend.healthfriend.model.DTO.Food.FoodDto;
 import com.healthfriend.healthfriend.model.DTO.Food.FoodParameterDto;
 import com.healthfriend.healthfriend.model.service.FoodService;
@@ -46,12 +47,12 @@ public class FoodController {
     @ApiOperation(value = "음식 등록", notes = "새로운 음식 정보를 입력한다.", response = String.class)
     @PostMapping
     public ResponseEntity<Message> foodAdd(
-            @RequestBody @ApiParam(value = "brand, carb, fat, foodName, kcal, protein, userId", required = true) FoodDto foodDto)
+            @RequestBody @ApiParam(value = "brand, carb, fat, foodName, kcal, protein, userId", required = true) FoodAddDto foodAddDto)
             throws Exception {
         logger.info("foodAdd - 호출");
         Message message = new Message();
         HttpStatus status = null;
-        if (foodService.addFood(foodDto)) {
+        if (foodService.addFood(foodAddDto)) {
             status = HttpStatus.OK;
             message.setSuccess(true);
             return new ResponseEntity<Message>(message, status);
