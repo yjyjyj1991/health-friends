@@ -1,6 +1,8 @@
 package com.healthfriend.healthfriend.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.healthfriend.healthfriend.message.Message;
 import com.healthfriend.healthfriend.model.DTO.Board.BoardDetailDto;
@@ -8,6 +10,10 @@ import com.healthfriend.healthfriend.model.DTO.Board.BoardDto;
 import com.healthfriend.healthfriend.model.DTO.Board.BoardModifyDto;
 import com.healthfriend.healthfriend.model.DTO.Board.BoardParameterDto;
 import com.healthfriend.healthfriend.model.DTO.Board.BoardRemoveDto;
+import com.healthfriend.healthfriend.model.DTO.Comment.CommentAddDto;
+import com.healthfriend.healthfriend.model.DTO.Comment.CommentDto;
+import com.healthfriend.healthfriend.model.DTO.Comment.CommentModifyDto;
+import com.healthfriend.healthfriend.model.DTO.Comment.CommentRemoveDto;
 import com.healthfriend.healthfriend.model.service.BoardService;
 import com.healthfriend.healthfriend.model.service.JwtService;
 
@@ -24,8 +30,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
@@ -124,7 +130,7 @@ public class BoardController {
 		return new ResponseEntity<Message>(message, status);
 	}
 
-	@ApiOperation(value = "공지사항 글 수정", notes = "공지글을 스장하고 성공 여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@ApiOperation(value = "공지사항 글 수정", notes = "공지글을 수정하고 성공 여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PutMapping
 	public ResponseEntity<Message> boardModify(
 			@RequestBody @ApiParam(value = "Id 값 필수, title 값과 content 값 변경이 있으면 변경", required = true) BoardModifyDto boardModifyDto)
@@ -141,7 +147,82 @@ public class BoardController {
 			message.setSuccess(false);
 			return new ResponseEntity<Message>(message, status);
 		}
-	
+	}
+
+	@ApiOperation(value = "공지사항 댓글 등록", notes = "댓글을 등록하고 성공 여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@PostMapping("{id}/write")
+	public ResponseEntity<Message> commentAdd(
+			@RequestBody  CommentAddDto commentAddDto)
+			throws Exception {
+		logger.info("commentAdd - 호출");
+		Message message = new Message();
+		HttpStatus status = null;
+		if (boardService.addComment(commentAddDto)) {
+			status = HttpStatus.OK;
+			message.setSuccess(true);
+			return new ResponseEntity<Message>(message, status);
+		}else{
+			status = HttpStatus.NO_CONTENT;
+			message.setSuccess(false);
+			return new ResponseEntity<Message>(message, status);
+		}
+	}
+
+	@ApiOperation(value = "게시판 댓글 보기", notes = "해당 글번호에 해당하는 댓글의 정보를 반환한다.", response = BoardDto.class)
+	@GetMapping("{id}/comment")
+	public ResponseEntity<Message> commentList(
+			@PathVariable("id") @ApiParam(value = "얻어올 글의 글번호 id값을 주소창에 Get으로 얻어옴", required = true) int id)
+			throws Exception {
+		logger.info("commentList - 호출 : " + id);
+		HttpStatus status = HttpStatus.OK;
+		Message message = new Message();
+		if(boardService.findCommentDetail(id) == null){
+			message.setData(boardService.findCommentDetail(id));
+			status = HttpStatus.NOT_FOUND;
+			message.setSuccess(true);
+			return new ResponseEntity<Message>(message, status);
+		}
+		message.setData(boardService.findCommentDetail(id));
+		message.setSuccess(true);
+		return new ResponseEntity<Message>(message, status);
+	}
+
+
+	@ApiOperation(value = "댓글 삭제", notes = "댓글을 삭제하고 성공 여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@DeleteMapping("/{id}/comment")
+	public ResponseEntity<Message> commentRemove(@RequestBody CommentRemoveDto commentRemoveDto)
+			throws Exception {
+		logger.info("commentRemove - 호출");
+		Message message = new Message();
+		HttpStatus status = null;
+		if (boardService.removeComment(commentRemoveDto)) {
+			status = HttpStatus.OK;
+			message.setSuccess(true);
+			return new ResponseEntity<Message>(message, status);
+		}
+		status = HttpStatus.NO_CONTENT;
+		message.setSuccess(false);
+		return new ResponseEntity<Message>(message, status);
+	}
+
+
+	@ApiOperation(value = "댓글 수정", notes = "댓글을 수정하고 성공 여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@PutMapping("{id}/comment")
+	public ResponseEntity<Message> commentModify(
+			@RequestBody CommentModifyDto commentModifyDto)
+			throws Exception {
+		logger.info("boardModify - 호출");
+		Message message = new Message();
+		HttpStatus status = null;
+		if (boardService.modifyComment(commentModifyDto)) {
+			status = HttpStatus.OK;
+			message.setSuccess(true);
+			return new ResponseEntity<Message>(message, status);
+		}else{
+			status = HttpStatus.NO_CONTENT;
+			message.setSuccess(false);
+			return new ResponseEntity<Message>(message, status);
+		}
 	}
 
 }
