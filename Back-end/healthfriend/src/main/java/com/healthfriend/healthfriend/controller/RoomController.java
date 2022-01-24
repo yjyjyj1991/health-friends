@@ -3,6 +3,7 @@ package com.healthfriend.healthfriend.controller;
 import java.util.List;
 
 import com.healthfriend.healthfriend.message.Message;
+import com.healthfriend.healthfriend.model.DTO.Room.RoomDetailResponseDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomModifyRequestDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomResponseDto;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -57,7 +59,23 @@ public class RoomController {
     return new ResponseEntity<Message>(message, status);
   }
 
-  @GetMapping("/title")
+  @GetMapping("/{id}")
+  public ResponseEntity<Message> roomDetail(@PathVariable("id") int roomId) throws Exception {
+    Message message = new Message();
+    HttpStatus status = HttpStatus.NO_CONTENT;
+
+    RoomDetailResponseDto roomDetailResponseDto = roomService.findRoom(roomId);
+    if (roomDetailResponseDto != null) {
+      message.setSuccess(true);
+      message.setData(roomDetailResponseDto);
+
+      status = HttpStatus.OK;
+    }
+
+    return new ResponseEntity<Message>(message, status);
+  }
+
+  @GetMapping("/search/title")
   public ResponseEntity<Message> roomList(@RequestParam(value = "title") String title) throws Exception {
     Message message = new Message();
     HttpStatus status = HttpStatus.NO_CONTENT;

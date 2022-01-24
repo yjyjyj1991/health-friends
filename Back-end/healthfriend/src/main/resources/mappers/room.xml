@@ -25,4 +25,10 @@
     SET user_id = #{userId}, title = #{title}, content = #{content}, is_public = #{isPublic}, password = #{password}, limit_user = #{limitUser}
     WHERE id = #{id}
   </update>
+
+  <select id="selectRoomById" parameterType="int" resultType="RoomDetailResponseDto">
+    SELECT room.id, room.type_id, room.user_id, room_type.`type`, `user`.nickname AS `host`, room.title, room.content, room.is_public, room.password, room.open_time, room.limit_user
+    FROM tbl_room AS room, tbl_room_type AS room_type, tbl_user AS `user`
+    WHERE room.type_id = room_type.id AND room.user_id = `user`.id AND room.id = #{id}
+  </select> 
 </mapper>
