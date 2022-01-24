@@ -3,8 +3,8 @@ package com.healthfriend.healthfriend.controller;
 import java.util.List;
 
 import com.healthfriend.healthfriend.message.Message;
-import com.healthfriend.healthfriend.model.DTO.RoomDto;
-import com.healthfriend.healthfriend.model.DTO.RoomResponseDto;
+import com.healthfriend.healthfriend.model.DTO.Room.RoomDto;
+import com.healthfriend.healthfriend.model.DTO.Room.RoomResponseDto;
 import com.healthfriend.healthfriend.model.service.RoomService;
 
 import org.springframework.beans.factory.annotation.Autowired;

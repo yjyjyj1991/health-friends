@@ -2,8 +2,8 @@ package com.healthfriend.healthfriend.model.service;
 
 import java.util.List;
 
-import com.healthfriend.healthfriend.model.DTO.RoomDto;
-import com.healthfriend.healthfriend.model.DTO.RoomResponseDto;
+import com.healthfriend.healthfriend.model.DTO.Room.RoomDto;
+import com.healthfriend.healthfriend.model.DTO.Room.RoomResponseDto;
 
 public interface RoomService {
   public boolean addRoom(RoomDto room) throws Exception;
