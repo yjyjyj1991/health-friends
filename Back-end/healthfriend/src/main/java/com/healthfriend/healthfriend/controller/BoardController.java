@@ -3,9 +3,13 @@ package com.healthfriend.healthfriend.controller;
 import java.util.List;
 
 import com.healthfriend.healthfriend.message.Message;
-import com.healthfriend.healthfriend.model.DTO.BoardDto;
-import com.healthfriend.healthfriend.model.DTO.BoardParameterDto;
+import com.healthfriend.healthfriend.model.DTO.Board.BoardDetailDto;
+import com.healthfriend.healthfriend.model.DTO.Board.BoardDto;
+import com.healthfriend.healthfriend.model.DTO.Board.BoardModifyDto;
+import com.healthfriend.healthfriend.model.DTO.Board.BoardParameterDto;
+import com.healthfriend.healthfriend.model.DTO.Board.BoardRemoveDto;
 import com.healthfriend.healthfriend.model.service.BoardService;
+import com.healthfriend.healthfriend.model.service.JwtService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,6 +42,7 @@ public class BoardController {
 
 	@Autowired
 	private BoardService boardService;
+
 
 	@ApiOperation(value = "공지사항 전체 글목록", notes = "모든 공지글의 정보를 반환한다.", response = List.class)
 	@GetMapping()
@@ -71,12 +77,12 @@ public class BoardController {
 	@ApiOperation(value = "게시판 비밀글 상세 보기", notes = "해당 글번호에 해당하는 패스워드를 적절히 입력하면 방 내용을 출력한다.", response = BoardDto.class)
 	@GetMapping("/password")
 	public ResponseEntity<Message> boardDetailPassword(
-			@ModelAttribute @ApiParam(value = "얻어올 글의 글번호 id값을 주소창에 Get으로 얻어옴", required = true) BoardDto boardDto)
+			@ModelAttribute @ApiParam(value = "얻어올 글의 글번호 id값을 주소창에 Get으로 얻어옴", required = true) BoardRemoveDto boardRemoveDto)
 			throws Exception {
-		logger.info("boardDetailPassword - 호출 : " + boardDto);
+		logger.info("boardDetailPassword - 호출 : " + boardRemoveDto);
 		HttpStatus status = HttpStatus.OK;
 		Message message = new Message();
-		message.setData(boardService.findBoardDetailPassword(boardDto));
+		message.setData(boardService.findBoardDetailPassword(boardRemoveDto));
 		message.setSuccess(true);
 		return new ResponseEntity<Message>(message, status);
 	}
@@ -84,12 +90,12 @@ public class BoardController {
 	@ApiOperation(value = "공지사항 글작성", notes = "새로운 공지글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
 	public ResponseEntity<Message> boardAdd(
-			@RequestBody @ApiParam(value = "password , title , typeId, userId", required = true) BoardDto boardDto)
+			@RequestBody @ApiParam(value = "", required = true) BoardDetailDto boardDetailDto)
 			throws Exception {
 		logger.info("boardAdd - 호출");
 		Message message = new Message();
 		HttpStatus status = null;
-		if (boardService.addBoard(boardDto)) {
+		if (boardService.addBoard(boardDetailDto)) {
 			status = HttpStatus.OK;
 			message.setSuccess(true);
 			return new ResponseEntity<Message>(message, status);
@@ -100,12 +106,14 @@ public class BoardController {
 	}
 
 	@ApiOperation(value = "공지사항 글 삭제", notes = "공지글을 삭제하고 성공 여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-	@DeleteMapping
-	public ResponseEntity<Message> boardRemove(@RequestBody @ApiParam(value = "Id 값", required = true) BoardDto boardDto)
+	@DeleteMapping("{deleteid}")
+	public ResponseEntity<Message> boardRemove(@PathVariable int deleteid)
 			throws Exception {
 		logger.info("boardRemove - 호출");
 		Message message = new Message();
 		HttpStatus status = null;
+		BoardDto boardDto = new BoardDto();
+		boardDto.setId(deleteid);
 		if (boardService.removeBoard(boardDto)) {
 			status = HttpStatus.OK;
 			message.setSuccess(true);
@@ -119,20 +127,21 @@ public class BoardController {
 	@ApiOperation(value = "공지사항 글 수정", notes = "공지글을 스장하고 성공 여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PutMapping
 	public ResponseEntity<Message> boardModify(
-			@RequestBody @ApiParam(value = "Id 값 필수, title 값과 content 값 변경이 있으면 변경", required = true) BoardDto boardDto)
+			@RequestBody @ApiParam(value = "Id 값 필수, title 값과 content 값 변경이 있으면 변경", required = true) BoardModifyDto boardModifyDto)
 			throws Exception {
 		logger.info("boardModify - 호출");
 		Message message = new Message();
 		HttpStatus status = null;
-		if (boardService.modifyBoard(boardDto)) {
+		if (boardService.modifyBoard(boardModifyDto)) {
 			status = HttpStatus.OK;
 			message.setSuccess(true);
-
+			return new ResponseEntity<Message>(message, status);
+		}else{
+			status = HttpStatus.NO_CONTENT;
+			message.setSuccess(false);
 			return new ResponseEntity<Message>(message, status);
 		}
-		status = HttpStatus.NO_CONTENT;
-		message.setSuccess(false);
-		return new ResponseEntity<Message>(message, status);
+	
 	}
 
 }

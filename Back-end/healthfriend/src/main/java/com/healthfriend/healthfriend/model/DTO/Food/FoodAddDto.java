@@ -1,12 +1,11 @@
-package com.healthfriend.healthfriend.model.DTO;
+package com.healthfriend.healthfriend.model.DTO.Food;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class FoodDto {
-    Integer id;
+public class FoodAddDto {
     Integer userId;
     String foodName;
     Integer carbohydrate;

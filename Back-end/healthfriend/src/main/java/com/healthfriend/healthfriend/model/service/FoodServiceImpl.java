@@ -2,8 +2,9 @@ package com.healthfriend.healthfriend.model.service;
 
 import java.util.List;
 
-import com.healthfriend.healthfriend.model.DTO.FoodDto;
-import com.healthfriend.healthfriend.model.DTO.FoodParameterDto;
+import com.healthfriend.healthfriend.model.DTO.Food.FoodAddDto;
+import com.healthfriend.healthfriend.model.DTO.Food.FoodDto;
+import com.healthfriend.healthfriend.model.DTO.Food.FoodParameterDto;
 import com.healthfriend.healthfriend.model.mapper.FoodMapper;
 
 import org.apache.ibatis.session.SqlSession;
@@ -16,11 +17,11 @@ public class FoodServiceImpl implements FoodService{
     private SqlSession sqlSession;
 
     @Override
-    public boolean addFood(FoodDto foodDto) throws Exception {
-        if (foodDto.getCarbohydrate() == null || foodDto.getProtein() == null || foodDto.getFat() == null || foodDto.getFoodName() == null) {
+    public boolean addFood(FoodAddDto foodAddDto) throws Exception {
+        if (foodAddDto.getCarbohydrate() == null || foodAddDto.getProtein() == null || foodAddDto.getFat() == null || foodAddDto.getFoodName() == null) {
             throw new Exception();
           }
-          return sqlSession.getMapper(FoodMapper.class).createFood(foodDto) == 1;
+          return sqlSession.getMapper(FoodMapper.class).createFood(foodAddDto) == 1;
           }
 
     @Override
@@ -29,5 +30,10 @@ public class FoodServiceImpl implements FoodService{
         foodParameterDto.setStart(start);
         return sqlSession.getMapper(FoodMapper.class).selectFood(foodParameterDto);
         }
+
+    @Override
+    public FoodDto findFoodDetails(int id) throws Exception {
+        return sqlSession.getMapper(FoodMapper.class).selectFoodDetails(id);
+    }
   
 }
