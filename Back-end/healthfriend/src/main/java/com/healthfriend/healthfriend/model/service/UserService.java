@@ -1,6 +1,5 @@
 package com.healthfriend.healthfriend.model.service;
 
-import com.healthfriend.healthfriend.model.DTO.user.UserDto;
 import com.healthfriend.healthfriend.model.DTO.user.UserModifyRequest;
 import com.healthfriend.healthfriend.model.DTO.user.UserAccountRequest;
 import com.healthfriend.healthfriend.model.DTO.user.UserResponse;
@@ -23,5 +22,5 @@ public interface UserService {
     // public boolean findEmail(String email) throws Exception;
     public UserResponse findUser(UserAccountRequest userDto) throws Exception;
 
-    public UserDto findUserInfo(String email) throws Exception;
+    public UserResponse findUserInfo(String email) throws Exception;
 }

@@ -6,7 +6,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.healthfriend.healthfriend.message.Message;
-import com.healthfriend.healthfriend.model.DTO.user.UserDto;
 import com.healthfriend.healthfriend.model.DTO.user.UserModifyRequest;
 import com.healthfriend.healthfriend.model.DTO.user.UserAccountRequest;
 import com.healthfriend.healthfriend.model.DTO.user.UserResponse;
