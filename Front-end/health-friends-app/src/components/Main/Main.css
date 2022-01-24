@@ -1,0 +1,97 @@
+.container_main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.first_main {
+  width: 100%;
+  min-width: 1250px;
+}
+.main_sentence {
+  font-size: 9em;
+  padding-top: 15rem;
+  font-weight: bold;
+  /* padding-left: 30rem; */
+}
+
+.start_btn {
+  background-color: #D3E4CD;
+  justify-content: center;
+  border: 0ch;
+  border-radius: 34px;
+  height: 6rem;
+  width: 25rem;
+  font-size: large;
+  font-weight: bold;
+  margin-top: 12rem;
+  margin-bottom: 15rem;
+}
+a {
+  text-decoration: none;
+}
+
+.second_main {
+  width: 100%;
+  min-width: 1250px;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.second_sentence {
+  font-size: 13rem;
+  padding-top: 15rem;
+  padding-left: 30rem;
+  font-weight: bold;
+}
+
+.service{
+  background: #ffffff;
+  margin-top: 15rem;
+  margin-bottom: 15rem;
+  justify-content: center;
+}
+/* .main_service_area{}
+.main_service_area .signle_service_left{} */
+.main_service_area .signle_service_left h2{
+  font-size: 15rem;
+  line-height: 20rem;
+  color: #e1e1e1;
+  max-width: 70%;
+  font-weight: 1000;
+}
+
+
+.main_service_area .single_service_right .single_service{
+  overflow: hidden; 
+  margin-bottom: 45px;
+  
+}
+
+.main_service_area .single_service_right .single_service:hover .single_service_icon i, 
+.main_service_area .single_service_right .single_service:hover .single_service_content h3{
+  color:#99A799;   
+}
+.main_service_area .single_service_right .single_service .single_service_icon{
+  width:15%;
+  float: left;
+}
+.main_service_area .single_service_right .single_service .single_service_icon i{
+  font-size:2.8125rem;
+  /* font-size:20rem; */
+}
+.main_service_area .single_service_right .single_service .single_service_content{
+  width:85%;
+  float: right;
+}
+.main_service_area .single_service_right .single_service .single_service_content h3{
+  color:#333333;
+  font-size: 4rem;
+  font-weight: 900;
+}
+.main_service_area .single_service_right .single_service .single_service_content p{
+  color:#333333;
+  font-size: 1.5rem;
+}
