@@ -19,4 +19,10 @@
     FROM tbl_room AS room, tbl_room_type AS rt, tbl_user AS user
     WHERE room.close_time IS NULL AND room.type_id = rt.id AND room.user_id = user.id AND room.title LIKE CONCAT('%', #{title}, '%');
   </select>
+
+  <update id="updateRoom" parameterType="RoomModifyRequestDto">
+    UPDATE tbl_room
+    SET user_id = #{userId}, title = #{title}, content = #{content}, is_public = #{isPublic}, password = #{password}, limit_user = #{limitUser}
+    WHERE id = #{id}
+  </update>
 </mapper>
