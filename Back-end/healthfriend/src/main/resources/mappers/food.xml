@@ -19,14 +19,16 @@
         LIMIT #{start}, #{spp}
     </select>
 
-    <insert id="createFood" parameterType="foodDto">
+    <insert id="createFood" parameterType="foodAddDto">
         <!-- select key 이용해서 제일 최고 앞의 ID 값 보다 +1 한 값으로 들어가기 -->
-        <selectKey resultType="int" keyProperty="id" order="BEFORE">
-            SELECT MAX(id)+1 FROM tbl_food        
-        </selectKey>    
-        INSERT INTO tbl_food (id, user_id, food_name, carbohydrate, protein, brand, fat, kcal)
-		VALUES (#{id}, #{userId}, #{foodName}, #{carbohydrate},#{protein}, #{brand}, #{fat}, #{kcal})
+        INSERT INTO tbl_food ( user_id, food_name, carbohydrate, protein, brand, fat, kcal)
+		VALUES (#{userId}, #{foodName}, #{carbohydrate},#{protein}, #{brand}, #{fat}, #{kcal})
     </insert>
-
+    
+    <select id="selectFoodDetails" parameterType="int" resultType="foodDto">
+        SELECT id, food_name, carbohydrate , protein , brand, fat, kcal
+        FROM tbl_food
+        WHERE id = #{id}
+    </select>
 
 </mapper>

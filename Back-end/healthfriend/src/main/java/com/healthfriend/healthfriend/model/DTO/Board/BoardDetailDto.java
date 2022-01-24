@@ -1,12 +1,11 @@
-package com.healthfriend.healthfriend.model.DTO;
+package com.healthfriend.healthfriend.model.DTO.Board;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class BoardDto {
-    Integer id;
+public class BoardDetailDto {
     Integer typeId;
     Integer userId;
     String title;

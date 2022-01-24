@@ -2,8 +2,11 @@ package com.healthfriend.healthfriend.model.service;
 
 import java.util.List;
 
-import com.healthfriend.healthfriend.model.DTO.BoardDto;
-import com.healthfriend.healthfriend.model.DTO.BoardParameterDto;
+import com.healthfriend.healthfriend.model.DTO.Board.BoardDetailDto;
+import com.healthfriend.healthfriend.model.DTO.Board.BoardDto;
+import com.healthfriend.healthfriend.model.DTO.Board.BoardModifyDto;
+import com.healthfriend.healthfriend.model.DTO.Board.BoardParameterDto;
+import com.healthfriend.healthfriend.model.DTO.Board.BoardRemoveDto;
 import com.healthfriend.healthfriend.model.mapper.BoardMapper;
 import com.healthfriend.healthfriend.util.page.PageNavigation;
 
@@ -24,8 +27,8 @@ public class BoardServiceImpl implements BoardService {
   }
 
   @Override
-  public boolean modifyBoard(BoardDto boardDto) throws Exception {
-    return sqlSession.getMapper(BoardMapper.class).updateBoard(boardDto) == 1;
+  public boolean modifyBoard(BoardModifyDto boardModifyDto) throws Exception {
+    return sqlSession.getMapper(BoardMapper.class).updateBoard(boardModifyDto) == 1;
   }
 
   @Override
@@ -34,11 +37,11 @@ public class BoardServiceImpl implements BoardService {
   }
 
   @Override
-  public boolean addBoard(BoardDto boardDto) throws Exception {
-    if (boardDto.getTitle() == null || boardDto.getContent() == null) {
+  public boolean addBoard(BoardDetailDto boardDetailDto) throws Exception {
+    if (boardDetailDto.getTitle() == null || boardDetailDto.getContent() == null) {
       throw new Exception();
     }
-    return sqlSession.getMapper(BoardMapper.class).createBoard(boardDto) == 1;
+    return sqlSession.getMapper(BoardMapper.class).createBoard(boardDetailDto) == 1;
   }
 
   @Override
@@ -47,8 +50,8 @@ public class BoardServiceImpl implements BoardService {
   }
 
   @Override
-  public BoardDto findBoardDetailPassword(BoardDto boardDto) throws Exception {
-    return sqlSession.getMapper(BoardMapper.class).selectBoardDetailPassword(boardDto);
+  public BoardDto findBoardDetailPassword(BoardRemoveDto boardRemoveDto) throws Exception {
+    return sqlSession.getMapper(BoardMapper.class).selectBoardDetailPassword(boardRemoveDto);
 
   }
 
