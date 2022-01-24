@@ -168,6 +168,7 @@ public class UserController {
 			@RequestHeader(value = "Token") String token,
 			@RequestBody UserWithdraw userWithdraw) throws Exception {
 		Message message = new Message();
+		System.out.println(token);
 		HttpStatus status = HttpStatus.NO_CONTENT;
 
 		if (userService.deleteUser(userWithdraw)) {

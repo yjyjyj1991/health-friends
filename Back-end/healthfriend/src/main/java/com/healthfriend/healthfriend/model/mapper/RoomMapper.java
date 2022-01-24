@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.healthfriend.healthfriend.model.DTO.Room.RoomDto;
+import com.healthfriend.healthfriend.model.DTO.Room.RoomModifyRequestDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomResponseDto;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -15,4 +16,6 @@ public interface RoomMapper {
   public List<RoomResponseDto> selectRoom() throws SQLException;
 
   public List<RoomResponseDto> selectRoomByTitle(String title) throws SQLException;
+
+  public boolean updateRoom(RoomModifyRequestDto roomModifyRequestDto) throws SQLException;
 }
