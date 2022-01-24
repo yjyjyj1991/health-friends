@@ -1,6 +1,5 @@
 package com.healthfriend.healthfriend.model.service;
 
-import com.healthfriend.healthfriend.model.DTO.user.UserDto;
 import com.healthfriend.healthfriend.model.DTO.user.UserModifyRequest;
 import com.healthfriend.healthfriend.model.DTO.user.UserAccountRequest;
 import com.healthfriend.healthfriend.model.DTO.user.UserResponse;
@@ -43,7 +42,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto findUserInfo(String email) throws Exception {
+    public UserResponse findUserInfo(String email) throws Exception {
         return sqlSession.getMapper(UserMapper.class).selectUserInfo(email);
     }
 
