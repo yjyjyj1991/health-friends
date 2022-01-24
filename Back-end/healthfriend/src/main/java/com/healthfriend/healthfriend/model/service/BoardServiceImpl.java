@@ -1,13 +1,19 @@
 package com.healthfriend.healthfriend.model.service;
 
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import com.healthfriend.healthfriend.model.DTO.Board.BoardDetailDto;
 import com.healthfriend.healthfriend.model.DTO.Board.BoardDto;
 import com.healthfriend.healthfriend.model.DTO.Board.BoardModifyDto;
 import com.healthfriend.healthfriend.model.DTO.Board.BoardParameterDto;
 import com.healthfriend.healthfriend.model.DTO.Board.BoardRemoveDto;
+import com.healthfriend.healthfriend.model.DTO.Comment.CommentAddDto;
+import com.healthfriend.healthfriend.model.DTO.Comment.CommentModifyDto;
+import com.healthfriend.healthfriend.model.DTO.Comment.CommentRemoveDto;
 import com.healthfriend.healthfriend.model.mapper.BoardMapper;
+import com.healthfriend.healthfriend.model.mapper.CommentMapper;
 import com.healthfriend.healthfriend.util.page.PageNavigation;
 
 import org.apache.ibatis.session.SqlSession;
@@ -71,6 +77,28 @@ public class BoardServiceImpl implements BoardService {
     pageNavigation.setEndRange(endRange);
     pageNavigation.makeNavigator();
     return pageNavigation;
+  }
+
+  @Override
+  public boolean addComment(CommentAddDto commentAddDto) throws Exception {
+      // TODO Auto-generated method stub
+      return sqlSession.getMapper(CommentMapper.class).createComment(commentAddDto) == 1;
+  }
+
+  @Override
+  public List<CommentAddDto> findCommentDetail(int boardid) throws Exception {
+    // TODO Auto-generated method stub
+    return sqlSession.getMapper(CommentMapper.class).selectComment(boardid);
+  }
+
+  @Override
+  public boolean removeComment(CommentRemoveDto commentRemoveDto) throws Exception {
+    return sqlSession.getMapper(CommentMapper.class).deleteCommet(commentRemoveDto) == 1;
+  }
+
+  @Override
+  public boolean modifyComment(CommentModifyDto commentModifyDto) throws Exception {
+    return sqlSession.getMapper(CommentMapper.class).updateComment(commentModifyDto) == 1;
   }
 
 }
