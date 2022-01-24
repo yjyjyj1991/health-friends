@@ -23,7 +23,7 @@
         <!-- select key 이용해서 제일 최고 앞의 ID 값 보다 +1 한 값으로 들어가기 -->
 
         INSERT INTO tbl_board ( type_id, user_id, title, content, isPublic, password)
-		VALUES ( #{typeId}, #{userId}, #{title}, #{content},#{isPublic}, #{password})
+		VALUES (#{typeId}, #{userId}, #{title}, #{content},#{isPublic}, #{password})
     </insert>
 
     <delete id="deleteBoard" parameterType="int">

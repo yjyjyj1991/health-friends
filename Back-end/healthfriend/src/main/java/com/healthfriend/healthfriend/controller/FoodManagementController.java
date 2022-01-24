@@ -73,7 +73,7 @@ public class FoodManagementController {
        
     }
 
-    @ApiOperation(value = "식단 정보 저장", notes = "나만의 개인 식품을  DB로 부터 추가한다.", response = String.class)
+    @ApiOperation(value = "식단 정보 저장", notes = "나만의 개인 식품을  DB로 추가한다.", response = String.class)
     @PostMapping
     public ResponseEntity<Message> foodManagementAdd(
             @RequestBody FoodDto foodDto)
@@ -92,7 +92,7 @@ public class FoodManagementController {
         return new ResponseEntity<Message>(message, status);
     }
    
-    @ApiOperation(value = "식단 정보 삭제", notes = "나만의 개인 식품을  DB로 부터 추가한다.", response = String.class)
+    @ApiOperation(value = "식단 정보 삭제", notes = "나만의 개인 식품을 삭제한다.", response = String.class)
     @DeleteMapping
     public ResponseEntity<Message> foodManagementRemove(
         @RequestBody FoodManagementRemoveDto foodManagementRemoveDto)
