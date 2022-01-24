@@ -1,0 +1,28 @@
+.footer{
+  background: #D3E4CD;
+}
+.copyright_text p{
+  color:#aaa79e;
+  font-size:0.8125rem;
+  line-height: 25px;
+  padding:40px;
+  max-width: 100%;
+}
+.copyright_text p i{
+  padding:0px 10px;
+  color:#ff0000;
+}
+.copyright_text p a{
+  padding:0px 10px;
+  color:#fff;
+}
+
+.footer_socail{
+  padding:40px; 
+  text-align: right;
+}
+.footer_socail a i{
+  font-size:0.8125rem;
+  color:#fff;
+  padding: 0px 10px;
+}
