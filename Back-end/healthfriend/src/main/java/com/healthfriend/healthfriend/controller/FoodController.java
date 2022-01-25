@@ -37,7 +37,7 @@ public class FoodController {
     @ApiOperation(value = "음식 목록", notes = "음식 정보를 반환한다.", response = List.class)
     @GetMapping()
     public ResponseEntity<Message> foodList(FoodParameterDto foodParameterDto) throws Exception {
-        
+
         logger.info("foodList - 호출");
         HttpStatus status = HttpStatus.OK;
         Message message = new Message();
@@ -72,8 +72,7 @@ public class FoodController {
         logger.info("foodDetails - 호출");
         Message message = new Message();
         HttpStatus status = null;
-        if(foodService.findFoodDetails(id) != null)
-        {
+        if (foodService.findFoodDetails(id) != null) {
             message.setData(foodService.findFoodDetails(id));
             status = HttpStatus.OK;
             message.setSuccess(true);
@@ -83,5 +82,5 @@ public class FoodController {
         status = HttpStatus.NO_CONTENT;
         return new ResponseEntity<Message>(message, status);
     }
-    
+
 }

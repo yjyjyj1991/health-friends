@@ -17,4 +17,6 @@ public interface RoomService {
   public boolean modifyRoom(RoomModifyRequestDto roomModifyRequestDto) throws Exception;
 
   public RoomDetailResponseDto findRoom(int id) throws Exception;
+
+  public boolean removeRoom(int id) throws Exception;
 }

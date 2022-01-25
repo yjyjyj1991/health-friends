@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -106,6 +107,27 @@ public class RoomController {
       message.setSuccess(false);
       message.setMessage("정상적으로 수정되지 않았습니다.");
       status = HttpStatus.BAD_REQUEST;
+    }
+
+    return new ResponseEntity<Message>(message, status);
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Message> roomRemove(@PathVariable("id") int roomId) throws Exception {
+    Message message = new Message();
+    HttpStatus status = HttpStatus.NO_CONTENT;
+
+    RoomDetailResponseDto room = roomService.findRoom(roomId);
+
+    if (room.getCloseTime() != null || room.getCloseTime().isEmpty()) {
+      message.setMessage("already closed");
+      status = HttpStatus.OK;
+    } else if (roomService.removeRoom(roomId)) {
+      message.setSuccess(true);
+      status = HttpStatus.OK;
+    } else {
+      message.setMessage("unknown");
+      status = HttpStatus.OK;
     }
 
     return new ResponseEntity<Message>(message, status);
