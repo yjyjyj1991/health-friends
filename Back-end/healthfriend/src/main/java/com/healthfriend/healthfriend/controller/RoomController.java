@@ -5,6 +5,7 @@ import java.util.List;
 import com.healthfriend.healthfriend.message.Message;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomDetailResponseDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomDto;
+import com.healthfriend.healthfriend.model.DTO.Room.RoomJoinUserDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomModifyRequestDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomResponseDto;
 import com.healthfriend.healthfriend.model.service.RoomService;
@@ -119,7 +120,7 @@ public class RoomController {
 
     RoomDetailResponseDto room = roomService.findRoom(roomId);
 
-    if (room.getCloseTime() != null || room.getCloseTime().isEmpty()) {
+    if (room.getCloseTime() != null && !room.getCloseTime().isEmpty()) {
       message.setMessage("already closed");
       status = HttpStatus.OK;
     } else if (roomService.removeRoom(roomId)) {
@@ -128,6 +129,29 @@ public class RoomController {
     } else {
       message.setMessage("unknown");
       status = HttpStatus.OK;
+    }
+
+    return new ResponseEntity<Message>(message, status);
+  }
+
+  @PostMapping("/{roomId}")
+  public ResponseEntity<Message> joinUser(@PathVariable("roomId") int roomId,
+      @RequestBody RoomJoinUserDto roomJoinUserDto)
+      throws Exception {
+    Message message = new Message();
+    HttpStatus status = HttpStatus.NO_CONTENT;
+    System.out.println(roomJoinUserDto);
+    RoomDetailResponseDto room = roomService.findRoom(roomId);
+    if (room.getCloseTime() != null && !room.getCloseTime().isEmpty()) {
+      message.setMessage("already closed");
+      status = HttpStatus.OK;
+    } else {
+      roomJoinUserDto.setRoomId(roomId);
+
+      if (roomService.joinUser(roomJoinUserDto)) {
+        message.setSuccess(true);
+        status = HttpStatus.OK;
+      }
     }
 
     return new ResponseEntity<Message>(message, status);

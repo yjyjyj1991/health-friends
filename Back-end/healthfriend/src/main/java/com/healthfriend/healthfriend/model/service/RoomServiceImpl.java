@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.healthfriend.healthfriend.model.DTO.Room.RoomDetailResponseDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomDto;
+import com.healthfriend.healthfriend.model.DTO.Room.RoomJoinUserDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomModifyRequestDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomResponseDto;
 import com.healthfriend.healthfriend.model.mapper.RoomMapper;
@@ -45,5 +46,10 @@ public class RoomServiceImpl implements RoomService {
   @Override
   public boolean removeRoom(int id) throws Exception {
     return sqlSession.getMapper(RoomMapper.class).deleteRoom(id);
+  }
+
+  @Override
+  public boolean joinUser(RoomJoinUserDto roomJoinUserDto) throws Exception {
+    return sqlSession.getMapper(RoomMapper.class).joinUser(roomJoinUserDto);
   }
 }

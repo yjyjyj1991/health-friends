@@ -37,4 +37,9 @@
     SET close_time = NOW()
     WHERE id = #{id}
   </update>
+
+  <insert id="joinUser" parameterType="RoomJoinUserDto">
+    INSERT INTO tbl_room_join_user (user_id, room_id)
+    VALUES (#{userId}, #{roomId});
+  </insert>
 </mapper>
