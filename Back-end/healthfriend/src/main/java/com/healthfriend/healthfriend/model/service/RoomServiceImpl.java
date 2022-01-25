@@ -41,4 +41,9 @@ public class RoomServiceImpl implements RoomService {
   public RoomDetailResponseDto findRoom(int id) throws Exception {
     return sqlSession.getMapper(RoomMapper.class).selectRoomById(id);
   }
+
+  @Override
+  public boolean removeRoom(int id) throws Exception {
+    return sqlSession.getMapper(RoomMapper.class).deleteRoom(id);
+  }
 }
