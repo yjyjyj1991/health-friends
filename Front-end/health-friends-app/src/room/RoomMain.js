@@ -6,6 +6,8 @@ import Rank from './Rank';
 import RoomListCard from './RoomListCard';
 import RoomCreate from './RoomCreate';
 import Category from './Category';
+import Header from '../components/Header/Header';
+import Footer from '../components/Footer/Footer';
 
 const RoomMain = () => {
 
@@ -13,6 +15,7 @@ const RoomMain = () => {
 
     return (
        <>
+            <Header/>
             <Container>
             <Grid container>
                 <Grid item xs='8' className='myProfile'>
@@ -40,7 +43,8 @@ const RoomMain = () => {
             <Container>
                 <RoomListCard/>
             </Container>
-            
+        
+            <Footer/>
            
         </>
        
