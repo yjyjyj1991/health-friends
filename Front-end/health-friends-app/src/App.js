@@ -1,14 +1,24 @@
 /*eslint-disable*/
 import Main from "./components/Main/Main";
-import RoomMain from "./room/RoomMain";
 import './App.css';
+import { Route, Switch } from 'react-router-dom';
+import RoomMain from "./room/RoomMain";
 
 function App() {
   return (
     <div>
       {/* <Header/> */}
-      <Main/>
-      <RoomMain/>
+      <Switch>  
+
+        <Route exact path='/'>
+          <Main/>
+        </Route>
+
+        <Route path='/rooms'>
+          <RoomMain/>
+        </Route>
+
+      </Switch>
     </div>
   );
 }

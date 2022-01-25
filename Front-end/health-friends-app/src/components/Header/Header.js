@@ -5,20 +5,25 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 
-
-
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
   <nav className="navbar navbar-expand-lg navgar-fixed-top">
     <div className="container">
       <div className="col-2">
-        <a className="navbar-brand navbar-left m-0 p-0 mb-4" href="#home">
-          <img src={logo} alt="logo" style={{height: '7rem'}}/> </a>
+        <Link to='/'>
+        <p className="navbar-brand navbar-left m-0 p-0 mb-4" >
+          <img src={logo} alt="logo" style={{height: '7rem'}}/> </p>
+          </Link>
       </div>
       <div className="col-10">
         <div className="d-flex justify-content-evenly">
-          <a className="room nav-link" href="#health" style={{color:'black'}}>헬스장</a>
+          
+          <Link to='/rooms'>
+            <p className="room nav-link" style={{color:'black'} }>헬스장</p>
+          </Link>
+          
           <a className="room nav-link" href="#exercise" style={{color:'black'}}>운동기록</a>
           <a className="room nav-link" href="#diet" style={{color:'black'}}>식단</a>
           <div></div>
@@ -39,7 +44,12 @@ const Header = () => {
         </Dropdown>  
       </div>
     </div>
+
+  
+    
+
   </nav>
+  
   );
 };
 
