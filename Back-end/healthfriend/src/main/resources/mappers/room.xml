@@ -27,8 +27,19 @@
   </update>
 
   <select id="selectRoomById" parameterType="int" resultType="RoomDetailResponseDto">
-    SELECT room.id, room.type_id, room.user_id, room_type.`type`, `user`.nickname AS `host`, room.title, room.content, room.is_public, room.password, room.open_time, room.limit_user
+    SELECT room.id, room.type_id, room.user_id, room_type.`type`, `user`.nickname AS `host`, room.title, room.content, room.is_public, room.password, room.open_time, room.close_time, room.limit_user
     FROM tbl_room AS room, tbl_room_type AS room_type, tbl_user AS `user`
     WHERE room.type_id = room_type.id AND room.user_id = `user`.id AND room.id = #{id}
   </select> 
+
+  <update id="deleteRoom" parameterType="int">
+    UPDATE tbl_room
+    SET close_time = NOW()
+    WHERE id = #{id}
+  </update>
+
+  <insert id="joinUser" parameterType="RoomJoinUserDto">
+    INSERT INTO tbl_room_join_user (user_id, room_id)
+    VALUES (#{userId}, #{roomId});
+  </insert>
 </mapper>

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.healthfriend.healthfriend.model.DTO.Room.RoomDetailResponseDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomDto;
+import com.healthfriend.healthfriend.model.DTO.Room.RoomJoinUserDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomModifyRequestDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomResponseDto;
 
@@ -21,4 +22,8 @@ public interface RoomMapper {
   public boolean updateRoom(RoomModifyRequestDto roomModifyRequestDto) throws SQLException;
 
   public RoomDetailResponseDto selectRoomById(int id) throws SQLException;
+
+  public boolean deleteRoom(int id) throws SQLException;
+
+  public boolean joinUser(RoomJoinUserDto roomJoinUserDto) throws SQLException;
 }

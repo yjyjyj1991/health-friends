@@ -4,6 +4,7 @@ import com.healthfriend.healthfriend.model.DTO.user.UserModifyRequest;
 import com.healthfriend.healthfriend.model.DTO.user.UserAccountRequest;
 import com.healthfriend.healthfriend.model.DTO.user.UserResponse;
 import com.healthfriend.healthfriend.model.DTO.user.UserSignup;
+import com.healthfriend.healthfriend.model.DTO.user.UserTokenDto;
 import com.healthfriend.healthfriend.model.DTO.user.UserWithdraw;
 import com.healthfriend.healthfriend.model.mapper.UserMapper;
 
@@ -59,5 +60,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isExistsNickname(String nickname) throws Exception {
         return sqlSession.getMapper(UserMapper.class).isExistsNickname(nickname);
+    }
+
+    @Override
+    public boolean modifyLogin(UserTokenDto userTokenDto) throws Exception {
+        // TODO Auto-generated method stub
+        return sqlSession.getMapper(UserMapper.class).updateLogin(userTokenDto) == 1;
     }
 }
