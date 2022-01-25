@@ -2,6 +2,7 @@ package com.healthfriend.healthfriend.model.service;
 
 import java.util.List;
 
+import com.healthfriend.healthfriend.model.DTO.Room.RoomDetailResponseDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomModifyRequestDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomResponseDto;
@@ -34,5 +35,10 @@ public class RoomServiceImpl implements RoomService {
   @Override
   public boolean modifyRoom(RoomModifyRequestDto roomModifyRequestDto) throws Exception {
     return sqlSession.getMapper(RoomMapper.class).updateRoom(roomModifyRequestDto);
+  }
+
+  @Override
+  public RoomDetailResponseDto findRoom(int id) throws Exception {
+    return sqlSession.getMapper(RoomMapper.class).selectRoomById(id);
   }
 }
