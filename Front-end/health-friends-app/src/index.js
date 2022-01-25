@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './index.css';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -20,6 +21,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 //   {category: "Electronics", price: "$199.99", stocked: true, name: "Nexus 7"}
 // ];
 
+
 ReactDOM.render(
   <React.StrictMode>
     {/* <BrowserRouter>
@@ -34,6 +36,8 @@ ReactDOM.render(
         </Routes>
       </BrowserRouter>   */}
       <App/>
+    
+    
   </React.StrictMode>,
   document.getElementById('root')
 );
