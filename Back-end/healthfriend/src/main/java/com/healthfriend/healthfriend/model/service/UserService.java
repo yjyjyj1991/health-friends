@@ -4,6 +4,7 @@ import com.healthfriend.healthfriend.model.DTO.user.UserModifyRequest;
 import com.healthfriend.healthfriend.model.DTO.user.UserAccountRequest;
 import com.healthfriend.healthfriend.model.DTO.user.UserResponse;
 import com.healthfriend.healthfriend.model.DTO.user.UserSignup;
+import com.healthfriend.healthfriend.model.DTO.user.UserTokenDto;
 import com.healthfriend.healthfriend.model.DTO.user.UserWithdraw;
 
 public interface UserService {
@@ -23,4 +24,6 @@ public interface UserService {
     public UserResponse findUser(UserAccountRequest userDto) throws Exception;
 
     public UserResponse findUserInfo(String email) throws Exception;
+
+    public boolean modifyLogin(UserTokenDto userTokenDto) throws Exception;
 }

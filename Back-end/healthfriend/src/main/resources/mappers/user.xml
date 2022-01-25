@@ -58,4 +58,9 @@
 			WHERE email = #{email} AND isWithdraw = 0;
 		</select>
 
+		<update id="updateLogin" parameterType="UserTokenDto">
+			UPDATE tbl_user
+			SET token = #{token}
+			WHERE id = #{id}
+		</update>
 </mapper>
