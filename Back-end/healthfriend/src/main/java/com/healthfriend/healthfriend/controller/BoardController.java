@@ -1,7 +1,6 @@
 package com.healthfriend.healthfriend.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import com.healthfriend.healthfriend.message.Message;
 import com.healthfriend.healthfriend.model.DTO.Board.BoardDetailDto;
@@ -10,11 +9,9 @@ import com.healthfriend.healthfriend.model.DTO.Board.BoardModifyDto;
 import com.healthfriend.healthfriend.model.DTO.Board.BoardParameterDto;
 import com.healthfriend.healthfriend.model.DTO.Board.BoardRemoveDto;
 import com.healthfriend.healthfriend.model.DTO.Comment.CommentAddDto;
-import com.healthfriend.healthfriend.model.DTO.Comment.CommentDto;
 import com.healthfriend.healthfriend.model.DTO.Comment.CommentModifyDto;
 import com.healthfriend.healthfriend.model.DTO.Comment.CommentRemoveDto;
 import com.healthfriend.healthfriend.model.service.BoardService;
-import com.healthfriend.healthfriend.model.service.JwtService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +27,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
@@ -47,7 +43,6 @@ public class BoardController {
 
 	@Autowired
 	private BoardService boardService;
-
 
 	@ApiOperation(value = "공지사항 전체 글목록", notes = "모든 공지글의 정보를 반환한다.", response = List.class)
 	@GetMapping()
@@ -141,7 +136,7 @@ public class BoardController {
 			status = HttpStatus.OK;
 			message.setSuccess(true);
 			return new ResponseEntity<Message>(message, status);
-		}else{
+		} else {
 			status = HttpStatus.NO_CONTENT;
 			message.setSuccess(false);
 			return new ResponseEntity<Message>(message, status);
@@ -151,7 +146,7 @@ public class BoardController {
 	@ApiOperation(value = "공지사항 댓글 등록", notes = "댓글을 등록하고 성공 여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping("{id}/write")
 	public ResponseEntity<Message> commentAdd(
-			@RequestBody  CommentAddDto commentAddDto)
+			@RequestBody CommentAddDto commentAddDto)
 			throws Exception {
 		logger.info("commentAdd - 호출");
 		Message message = new Message();
@@ -160,7 +155,7 @@ public class BoardController {
 			status = HttpStatus.OK;
 			message.setSuccess(true);
 			return new ResponseEntity<Message>(message, status);
-		}else{
+		} else {
 			status = HttpStatus.NO_CONTENT;
 			message.setSuccess(false);
 			return new ResponseEntity<Message>(message, status);
@@ -175,7 +170,7 @@ public class BoardController {
 		logger.info("commentList - 호출 : " + id);
 		HttpStatus status = HttpStatus.OK;
 		Message message = new Message();
-		if(boardService.findCommentDetail(id) == null){
+		if (boardService.findCommentDetail(id) == null) {
 			message.setData(boardService.findCommentDetail(id));
 			status = HttpStatus.NOT_FOUND;
 			message.setSuccess(true);
@@ -185,7 +180,6 @@ public class BoardController {
 		message.setSuccess(true);
 		return new ResponseEntity<Message>(message, status);
 	}
-
 
 	@ApiOperation(value = "댓글 삭제", notes = "댓글을 삭제하고 성공 여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@DeleteMapping("/{id}/comment")
@@ -204,7 +198,6 @@ public class BoardController {
 		return new ResponseEntity<Message>(message, status);
 	}
 
-
 	@ApiOperation(value = "댓글 수정", notes = "댓글을 수정하고 성공 여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PutMapping("{id}/comment")
 	public ResponseEntity<Message> commentModify(
@@ -217,7 +210,7 @@ public class BoardController {
 			status = HttpStatus.OK;
 			message.setSuccess(true);
 			return new ResponseEntity<Message>(message, status);
-		}else{
+		} else {
 			status = HttpStatus.NO_CONTENT;
 			message.setSuccess(false);
 			return new ResponseEntity<Message>(message, status);
