@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.healthfriend.healthfriend.message.Message;
 import com.healthfriend.healthfriend.model.DTO.Food.FoodAddDto;
-import com.healthfriend.healthfriend.model.DTO.Food.FoodDto;
 import com.healthfriend.healthfriend.model.DTO.Food.FoodParameterDto;
 import com.healthfriend.healthfriend.model.service.FoodService;
 

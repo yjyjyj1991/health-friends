@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.healthfriend.healthfriend.message.Message;
 import com.healthfriend.healthfriend.model.DTO.Food.FoodDto;
-import com.healthfriend.healthfriend.model.DTO.Food.FoodManagementDto;
 import com.healthfriend.healthfriend.model.DTO.Food.FoodManagementListDto;
 import com.healthfriend.healthfriend.model.DTO.Food.FoodManagementRemoveDto;
 import com.healthfriend.healthfriend.model.DTO.Food.FoodManagementActivity.FoodManagementActivityDto;
@@ -62,17 +61,17 @@ public class FoodManagementController {
         Message message = new Message();
         HttpStatus status = null;
         List<FoodDto> list = foodManagementService.findFoodManagement(foodManagementListDto);
-        if(list.isEmpty()){
+        if (list.isEmpty()) {
             message.setSuccess(false);
             status = HttpStatus.NO_CONTENT;
             return new ResponseEntity<Message>(message, status);
-        }else{
-            message.setData(list); 
+        } else {
+            message.setData(list);
             status = HttpStatus.OK;
             message.setSuccess(true);
             return new ResponseEntity<Message>(message, status);
         }
-       
+
     }
 
     @ApiOperation(value = "식단 정보 저장", notes = "나만의 개인 식품을  DB로 추가한다.", response = String.class)
@@ -83,7 +82,7 @@ public class FoodManagementController {
         logger.info("foodManagementAdd - 호출");
         Message message = new Message();
         HttpStatus status = null;
-        
+
         if (foodManagementService.addFoodManagement(foodDto)) {
             status = HttpStatus.OK;
             message.setSuccess(true);
@@ -93,24 +92,24 @@ public class FoodManagementController {
         status = HttpStatus.NO_CONTENT;
         return new ResponseEntity<Message>(message, status);
     }
-   
+
     @ApiOperation(value = "식단 정보 삭제", notes = "나만의 개인 식품을 삭제한다.", response = String.class)
     @DeleteMapping
     public ResponseEntity<Message> foodManagementRemove(
-        @RequestBody FoodManagementRemoveDto foodManagementRemoveDto)
-        throws Exception {
-    logger.info("foodManagementAdd - 호출");
-    Message message = new Message();
-    HttpStatus status = null;
-    
-    if (foodManagementService.removeFoodManagement(foodManagementRemoveDto)) {
-        status = HttpStatus.OK;
-        message.setSuccess(true);
+            @RequestBody FoodManagementRemoveDto foodManagementRemoveDto)
+            throws Exception {
+        logger.info("foodManagementAdd - 호출");
+        Message message = new Message();
+        HttpStatus status = null;
+
+        if (foodManagementService.removeFoodManagement(foodManagementRemoveDto)) {
+            status = HttpStatus.OK;
+            message.setSuccess(true);
+            return new ResponseEntity<Message>(message, status);
+        }
+        message.setSuccess(false);
+        status = HttpStatus.NO_CONTENT;
         return new ResponseEntity<Message>(message, status);
     }
-    message.setSuccess(false);
-    status = HttpStatus.NO_CONTENT;
-    return new ResponseEntity<Message>(message, status);
-}
 
 }
