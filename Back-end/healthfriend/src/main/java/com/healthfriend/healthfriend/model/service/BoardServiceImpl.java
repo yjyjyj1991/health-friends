@@ -1,8 +1,6 @@
 package com.healthfriend.healthfriend.model.service;
 
-import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 import com.healthfriend.healthfriend.model.DTO.Board.BoardDetailDto;
 import com.healthfriend.healthfriend.model.DTO.Board.BoardDto;
@@ -81,8 +79,8 @@ public class BoardServiceImpl implements BoardService {
 
   @Override
   public boolean addComment(CommentAddDto commentAddDto) throws Exception {
-      // TODO Auto-generated method stub
-      return sqlSession.getMapper(CommentMapper.class).createComment(commentAddDto) == 1;
+    // TODO Auto-generated method stub
+    return sqlSession.getMapper(CommentMapper.class).createComment(commentAddDto) == 1;
   }
 
   @Override

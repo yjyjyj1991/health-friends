@@ -3,7 +3,6 @@ package com.healthfriend.healthfriend.model.service;
 import java.util.List;
 
 import com.healthfriend.healthfriend.model.DTO.RoomType.RoomTypeResponseDto;
-import com.healthfriend.healthfriend.model.mapper.RoomMapper;
 import com.healthfriend.healthfriend.model.mapper.RoomTypeMapper;
 
 import org.apache.ibatis.session.SqlSession;

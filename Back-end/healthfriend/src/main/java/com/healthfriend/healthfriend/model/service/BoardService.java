@@ -1,7 +1,6 @@
 package com.healthfriend.healthfriend.model.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.healthfriend.healthfriend.model.DTO.Board.BoardDetailDto;
 import com.healthfriend.healthfriend.model.DTO.Board.BoardDto;
