@@ -77,7 +77,7 @@ public class BoardController {
 	@ApiOperation(value = "게시판 비밀글 상세 보기", notes = "해당 글번호에 해당하는 패스워드를 적절히 입력하면 방 내용을 출력한다.", response = BoardDto.class)
 	@GetMapping("/password")
 	public ResponseEntity<Message> boardDetailPassword(
-			@ModelAttribute @ApiParam(value = "얻어올 글의 글번호 id값을 주소창에 Get으로 얻어옴.", required = true) BoardRemoveDto boardRemoveDto)
+			@ModelAttribute @ApiParam(value = "얻어올 글의 글번호 id값을 주소창에 Get으로 얻어옴", required = true) BoardRemoveDto boardRemoveDto)
 			throws Exception {
 		logger.info("boardDetailPassword - 호출 : " + boardRemoveDto);
 		HttpStatus status = HttpStatus.OK;
