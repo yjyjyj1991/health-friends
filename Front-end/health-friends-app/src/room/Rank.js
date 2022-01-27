@@ -13,11 +13,11 @@ function createData( rank, title, type) {
 }
 
 const rows = [
-  createData(1, 'Frozen yoghurt', '요가'),
-  createData(2, 'Ice cream sandwich', '헬스'),
-  createData(3, 'Eclair','필라테스' ),
-  createData(4,'Cupcake', '요가'),
-  createData(5,'Gingerbread', '헬스'),
+  createData(1, 'Frozen yoghurt', '플레티넘'),
+  createData(2, 'Ice cream sandwich', '골드'),
+  createData(3, 'Eclair','골드' ),
+  createData(4,'Cupcake', '실버'),
+  createData(5,'Gingerbread', '브론즈'),
 ];
 
 export default function BasicTable() {
@@ -25,17 +25,17 @@ export default function BasicTable() {
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 250 }} aria-label="simple table">
         <TableHead>
-          <TableRow>
+          <TableRow sx={{backgroundColor:"beige", fontSize: "20"}}>
             <TableCell align="center">순위</TableCell>
-            <TableCell align="center">방 이름</TableCell>
-            <TableCell align="center">운동 종류</TableCell>
+            <TableCell align="center">닉네임</TableCell>
+            <TableCell align="center">레벨</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
             <TableRow
               key={row.title}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 }, backgroundColor: "#FEF5ED", fontSize:"20"}}
             >
               <TableCell align="center">{row.rank} </TableCell>
               <TableCell align="center">{row.title}</TableCell>
