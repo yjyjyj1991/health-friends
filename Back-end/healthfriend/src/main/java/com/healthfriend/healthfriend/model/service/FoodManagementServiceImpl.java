@@ -2,10 +2,8 @@ package com.healthfriend.healthfriend.model.service;
 
 import java.util.List;
 
-import javax.sound.midi.Sequence;
 
 import com.healthfriend.healthfriend.model.DTO.Food.FoodDto;
-import com.healthfriend.healthfriend.model.DTO.Food.FoodManagementDto;
 import com.healthfriend.healthfriend.model.DTO.Food.FoodManagementListDto;
 import com.healthfriend.healthfriend.model.DTO.Food.FoodManagementRemoveDto;
 import com.healthfriend.healthfriend.model.DTO.Food.FoodManagementActivity.FoodManagementActivityDto;

@@ -23,4 +23,6 @@ public interface UserMapper {
     public UserResponse selectUser(UserAccountRequest userAccountRequest) throws SQLException;
 
     public UserResponse selectUserInfo(String email) throws SQLException;
+
+    public int updateLogin(UserTokenDto userTokenDto) throws SQLException;
 }

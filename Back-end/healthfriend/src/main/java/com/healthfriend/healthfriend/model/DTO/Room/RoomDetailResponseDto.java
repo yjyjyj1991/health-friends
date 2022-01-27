@@ -16,5 +16,6 @@ public class RoomDetailResponseDto {
   private Integer isPublic;
   private String password;
   private String openTime;
+  private String closeTime;
   private Integer limitUser;
 }

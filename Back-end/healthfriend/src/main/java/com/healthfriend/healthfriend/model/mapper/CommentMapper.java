@@ -2,14 +2,14 @@ package com.healthfriend.healthfriend.model.mapper;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 import com.healthfriend.healthfriend.model.DTO.Comment.CommentAddDto;
 import com.healthfriend.healthfriend.model.DTO.Comment.CommentModifyDto;
 import com.healthfriend.healthfriend.model.DTO.Comment.CommentRemoveDto;
 
 import org.apache.ibatis.annotations.Mapper;
-@Mapper 
+
+@Mapper
 public interface CommentMapper {
 
     public int createComment(CommentAddDto commentAddDto) throws SQLException;

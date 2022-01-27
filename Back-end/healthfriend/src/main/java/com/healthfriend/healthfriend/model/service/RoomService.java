@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.healthfriend.healthfriend.model.DTO.Room.RoomDetailResponseDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomDto;
+import com.healthfriend.healthfriend.model.DTO.Room.RoomJoinUserDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomModifyRequestDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomResponseDto;
 
@@ -17,4 +18,8 @@ public interface RoomService {
   public boolean modifyRoom(RoomModifyRequestDto roomModifyRequestDto) throws Exception;
 
   public RoomDetailResponseDto findRoom(int id) throws Exception;
+
+  public boolean removeRoom(int id) throws Exception;
+
+  public boolean joinUser(RoomJoinUserDto roomJoinUserDto) throws Exception;
 }

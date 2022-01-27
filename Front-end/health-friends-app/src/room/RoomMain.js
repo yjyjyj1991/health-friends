@@ -1,11 +1,13 @@
 /*eslint-disable*/
 import React, { useState } from 'react';
-import {Button, ButtonGroup, Container} from '@material-ui/core';
+import Header from '../components/Header/Header';
+import Footer from '../components/Footer/Footer';
+import {Button, Container} from '@material-ui/core';
 import Grid from '@mui/material/Grid';
 import Rank from './Rank';
 import RoomListCard from './RoomListCard';
 import RoomCreate from './RoomCreate';
-import Category from './Category';
+
 
 const RoomMain = () => {
 
@@ -13,6 +15,8 @@ const RoomMain = () => {
 
     return (
        <>
+            <Header/>
+            <div className='top'>
             <Container>
             <Grid container>
                 <Grid item xs='8' className='myProfile'>
@@ -26,21 +30,19 @@ const RoomMain = () => {
                 </Grid>
             </Grid>
             </Container>
+            </div>
             
 
             <div className = 'roomCreate' >
-                <Button variant='contained' color='primary' onClick={ ()=>{ setOpen(true) }} >방 생성하기</Button> 
+                <Button variant='outlined' color='primary' size='large' style={{fontSize: '15px'}} onClick={ ()=>{ setOpen(true) }} >방 생성하기</Button> 
                 <RoomCreate open={open}/> 
             </div> 
 
             <Container>
-                <Category/>
-            </Container>
-
-            <Container>
                 <RoomListCard/>
             </Container>
-            
+        
+            <Footer/>
            
         </>
        

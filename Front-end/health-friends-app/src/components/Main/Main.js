@@ -2,13 +2,18 @@ import React from "react";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import './Main.css'; 
-// import { Link } from 'react-router-dom';
+
 // import Button from 'react-bootstrap/Button'
+
+
 
 function Main() {
   return (
     <div>
+      
       <Header/>
+
+      
       <div className="container_main">
         <div className="first_main">
           <div className="main_sentence d-flex justify-content-center">
@@ -105,6 +110,8 @@ function Main() {
         </div>
 
       </div>
+      
+
       <Footer/>
     </div>
   );

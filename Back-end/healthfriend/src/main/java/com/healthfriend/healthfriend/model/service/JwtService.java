@@ -9,4 +9,5 @@ public interface JwtService {
 	String getUserId();
 	boolean isUsable(String jwt);
     public void checkValid(String token);
+	public int getUserId(String token);
 }

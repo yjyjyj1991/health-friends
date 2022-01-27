@@ -10,8 +10,9 @@ import com.healthfriend.healthfriend.model.DTO.user.UserModifyRequest;
 import com.healthfriend.healthfriend.model.DTO.user.UserAccountRequest;
 import com.healthfriend.healthfriend.model.DTO.user.UserResponse;
 import com.healthfriend.healthfriend.model.DTO.user.UserSignup;
+import com.healthfriend.healthfriend.model.DTO.user.UserTokenDto;
 import com.healthfriend.healthfriend.model.DTO.user.UserWithdraw;
-import com.healthfriend.healthfriend.model.service.JwtServiceImpl;
+import com.healthfriend.healthfriend.model.service.JwtService;
 import com.healthfriend.healthfriend.model.service.UserService;
 import com.healthfriend.healthfriend.util.mail.SendMailHelper;
 import com.healthfriend.healthfriend.util.password.RandomPassword;
@@ -37,7 +38,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-import io.jsonwebtoken.Claims;
 
 @RestController
 @RequestMapping("/users")
@@ -50,7 +50,7 @@ public class UserController {
 	private UserService userService;
 
 	@Autowired
-	private JwtServiceImpl jwtService;
+	private JwtService jwtService;
 
 	// ----------------------------------------------------------------------------------------//
 	//
@@ -71,7 +71,10 @@ public class UserController {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("access-token", token);
 				map.put("user-info", loginUser);
-
+				UserTokenDto userTokenDto = new UserTokenDto();
+				userTokenDto.setId(loginUser.getId());
+				userTokenDto.setToken(token);
+				userService.modifyLogin(userTokenDto);
 				message.setSuccess(true);
 				message.setData(map);
 
@@ -117,6 +120,36 @@ public class UserController {
 		}
 		return new ResponseEntity<Message>(message, status);
 	}
+
+	// ----------------------------------------------------------------------------------------//
+	//
+	// ----------------------------------------------------------------------------------------//
+
+	@ApiOperation(value = "logout", notes = "logout", response = Map.class)
+	@GetMapping("/logout/{token}")
+	public ResponseEntity<Message> TokenRemove(@PathVariable("token") String token) {
+        // 1. Access Token 검증
+        Message message = new Message();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		if (!jwtService.isUsable(token)) {
+			message.setMessage("토큰 값이 잘 못 되었습니다.");
+			status = HttpStatus.NOT_ACCEPTABLE;
+            return new ResponseEntity<Message>(message,status);
+        }
+		UserTokenDto dto = new UserTokenDto();
+		dto.setId(jwtService.getUserId(token));
+		token = null;
+		dto.setToken(token);
+		try {
+			userService.modifyLogin(dto);
+		} catch (Exception e) {
+			message.setMessage("로그아웃 실패");
+			status = HttpStatus.NOT_ACCEPTABLE;
+			return new ResponseEntity<Message>(message,status);
+		}
+		message.setMessage("로그아웃 완료");
+		return new ResponseEntity<Message>(message,status);
+    }
 
 	// ----------------------------------------------------------------------------------------//
 	//
