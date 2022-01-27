@@ -5,9 +5,7 @@ import './Main.css';
 
 // import Button from 'react-bootstrap/Button'
 
-
-
-function Main() {
+const Main = () => {
   return (
     <div>
       

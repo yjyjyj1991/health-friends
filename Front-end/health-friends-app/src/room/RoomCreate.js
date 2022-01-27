@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import { DialogActions, DialogTitle, DialogContent, DialogContentText } from '@material-ui/core';
 import { Button } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 
 const RoomCreate = (props) => {
 
@@ -12,7 +12,7 @@ const RoomCreate = (props) => {
     let [roomTitle, setRoomTitle] = useState('');
     let [roomType, setRoomType] = useState('');
     let [roomDesc, setRoomDesc] = useState('');
-    let history = useHistory();
+    // let history = useHistory();
 
     return (
         <>
@@ -30,7 +30,7 @@ const RoomCreate = (props) => {
                 </DialogContent>
                 <DialogActions>
                     <Button variant='outlined' type='submit'>생성</Button>
-                    <Button variant='outlined' onClick={ ()=>{ history.go('/rooms') } }>취소</Button>
+                    {/* <Button variant='outlined' onClick={ ()=>{ history.go('/rooms') } }>취소</Button> */}
                 </DialogActions>
             </Dialog>
         </>

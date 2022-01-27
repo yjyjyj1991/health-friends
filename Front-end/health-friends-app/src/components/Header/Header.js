@@ -9,23 +9,31 @@ import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
-  <nav className="navbar navbar-expand-lg navgar-fixed-top">
+  <nav className="navbar navbar-expand-lg sticky-top">
     <div className="container">
       <div className="col-2">
         <Link to='/'>
-        <p className="navbar-brand navbar-left m-0 p-0 mb-4" >
+          <p className="navbar-brand navbar-left m-0 p-0 mb-4" >
           <img src={logo} alt="logo" style={{height: '7rem'}}/> </p>
-          </Link>
+        </Link>
       </div>
       <div className="col-10">
         <div className="d-flex justify-content-evenly">
-          
           <Link to='/rooms'>
             <p className="room nav-link" style={{color:'black'} }>헬스장</p>
           </Link>
-          
           <a className="room nav-link" href="#exercise" style={{color:'black'}}>운동기록</a>
           <a className="room nav-link" href="#diet" style={{color:'black'}}>식단</a>
+          {/* <a className="room nav-link" href="#diet" style={{color:'black'}}>HELP DESK</a> */}
+          <Link to='/boards'>
+            <p className="room nav-link" style={{color:'black'} }>HELP DESK</p>
+          </Link>
+          <Link to='/users/login'>
+            <p className="room nav-link" style={{color:'black'} }>로그인</p>
+          </Link>
+          <Link to='/users'>
+            <p className="room nav-link" style={{color:'black'} }>회원가입</p>
+          </Link>
           <div></div>
           <div></div>
         </div>
@@ -36,6 +44,7 @@ const Header = () => {
             <FontAwesomeIcon icon={faUserCircle} size="4x" color="black"/>
           </Dropdown.Toggle>
           <Dropdown.Menu className="text-center" align="end">
+
             <Dropdown.Item href="#/action-1" className="mt-3">내 프로필</Dropdown.Item>
             {/* <Dropdown.Item href="#/action-2">Another action</Dropdown.Item> */}
 
