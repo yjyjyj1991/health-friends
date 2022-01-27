@@ -2,14 +2,10 @@ import React from "react";
 import logo from './logo.png';
 // import logo from './public/logo.png';
 import './Footer.css'
-// import Dropdown from 'react-bootstrap/Dropdown'
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 
 
-
-
-const Header = () => {
+const Footer = () => {
   return (
     <footer id="footer" className="footer">
       <div className="container">
@@ -34,4 +30,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Footer;
