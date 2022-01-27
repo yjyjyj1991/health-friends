@@ -33,16 +33,9 @@ function Copyright(props) {
 
 
 export default function SignIn() {
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   // eslint-disable-next-line no-console
-  //   console.log({
-  //     email: data.get('email'),
-  //     password: data.get('password'),
-  //   });
-  // };
 
+  const BASE_URL = 'http://i6d204.p.ssafy.io:8888/'
+  
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -59,11 +52,12 @@ export default function SignIn() {
         .matches(/\W/,'특수문자를 포함해야합니다'),
     }),
     onSubmit: values => {
-      
-      console.log(JSON.stringify(values, null, 2))
-      
-      axios.post('http://suho.asuscomm.com/users',values)
-      .then(e=>console.log(e))
+      const newURL = 'users/login'+BASE_URL
+      axios.post(newURL, values)
+      .then((response) => {
+        console.log(response)
+        window.location.assign('http://localhost:3000');
+      })
     },
   });
 
