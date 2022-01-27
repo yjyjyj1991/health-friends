@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-// import { Route, BrowserRouter, Routes } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 // import SignUp from './routes/account/SignUp'
 // import WithMaterialUI from './routes/account/Both'
 // // import FilterableProductTable from './routes/practice.jsx'
@@ -35,7 +35,9 @@ ReactDOM.render(
         <Route path='login' element={<Login />}/>
         </Routes>
       </BrowserRouter>   */}
-      <App/>
+      <BrowserRouter>
+        <App/>
+      </BrowserRouter>
     
     
   </React.StrictMode>,
