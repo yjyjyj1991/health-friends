@@ -6,11 +6,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -61,15 +60,9 @@ public class JwtServiceImpl implements JwtService {
 		Jwts.parser().setSigningKey(SALT.getBytes()).parseClaimsJws(token).toString();
 	}
 
-	// public boolean isUsable(String token) {
-	// Jws<Claims> claims =
-	// Jwts.parser().setSigningKey(this.generateKey()).parseClaimsJws(token);
-	// return !claims.getBody().getExpiration().before(new Date());
-	// }
-	// 전달 받은 토큰이 제대로 생성된것인지 확인 하고 문제가 있다면 UnauthorizedException을 발생.
 	public boolean isUsable(String jwt) {
 		Jws<Claims> claims = Jwts.parser().setSigningKey(this.generateKey()).parseClaimsJws(jwt);
-		
+
 		try {
 			System.out.println(claims.toString());
 			String json = "{" + claims.toString() + "}";
@@ -80,7 +73,6 @@ public class JwtServiceImpl implements JwtService {
 				jObject = new JSONObject(jObject.getString("body"));
 				jObject.get("UserID").toString(); // 1
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} catch (ExpiredJwtException e) {
@@ -99,7 +91,7 @@ public class JwtServiceImpl implements JwtService {
 			logger.error("JWT claims string is empty: {}", e.getMessage());
 			return false;
 		}
-	
+
 		return true;
 	}
 
@@ -112,16 +104,8 @@ public class JwtServiceImpl implements JwtService {
 		try {
 			claims = Jwts.parser().setSigningKey(SALT.getBytes("UTF-8")).parseClaimsJws(jwt);
 		} catch (Exception e) {
-			// if (logger.isInfoEnabled()) {
-			// e.printStackTrace();
-			// } else {
 			logger.error(e.getMessage());
-			// }
 			throw new UnAuthorizedException();
-			// 개발환경
-			// Map<String,Object> testMap = new HashMap<>();
-			// testMap.put("userid", userid);
-			// return testMap;
 		}
 		Map<String, Object> value = claims.getBody();
 		logger.info("value : {}", value);
@@ -167,5 +151,4 @@ public class JwtServiceImpl implements JwtService {
 			return false;
 		}
 	}
-
 }
