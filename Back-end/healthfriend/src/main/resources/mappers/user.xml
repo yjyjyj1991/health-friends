@@ -5,8 +5,8 @@
 <mapper namespace="com.healthfriend.healthfriend.model.mapper.UserMapper">
 
 	<insert id="insertUser" parameterType="UserSignup">
-		INSERT INTO tbl_user(purpose_id, email, name, nickname, password, weight, active_point )
-		VALUES ( #{purposeId}, #{email}, #{name}, #{nickname}, #{password}, #{weight}, #{activePoint} );
+		INSERT INTO tbl_user(email, name, nickname, password )
+		VALUES ( #{email}, #{name}, #{nickname}, #{password} );
 	</insert>
 
     <update id="updateUser" parameterType="UserModifyRequest">
