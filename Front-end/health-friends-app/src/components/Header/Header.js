@@ -28,6 +28,12 @@ const Header = () => {
           <Link to='/boards'>
             <p className="room nav-link" style={{color:'black'} }>HELP DESK</p>
           </Link>
+          <Link to='/users/login'>
+            <p className="room nav-link" style={{color:'black'} }>로그인</p>
+          </Link>
+          <Link to='/users'>
+            <p className="room nav-link" style={{color:'black'} }>회원가입</p>
+          </Link>
           <div></div>
           <div></div>
         </div>
@@ -38,6 +44,7 @@ const Header = () => {
             <FontAwesomeIcon icon={faUserCircle} size="4x" color="black"/>
           </Dropdown.Toggle>
           <Dropdown.Menu className="text-center" align="end">
+
             <Dropdown.Item href="#/action-1" className="mt-3">내 프로필</Dropdown.Item>
             {/* <Dropdown.Item href="#/action-2">Another action</Dropdown.Item> */}
 

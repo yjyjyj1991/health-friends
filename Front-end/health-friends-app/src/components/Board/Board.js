@@ -75,34 +75,6 @@ const Board = () => {
                 <td>3</td>
                 <td>Larry the Bird</td>
                 <td>Thornton</td>
-              </tr><tr>
-                <td>3</td>
-                <td>Larry the Bird</td>
-                <td>Thornton</td>
-              </tr><tr>
-                <td>3</td>
-                <td>Larry the Bird</td>
-                <td>Thornton</td>
-              </tr><tr>
-                <td>3</td>
-                <td>Larry the Bird</td>
-                <td>Thornton</td>
-              </tr><tr>
-                <td>3</td>
-                <td>Larry the Bird</td>
-                <td>Thornton</td>
-              </tr><tr>
-                <td>3</td>
-                <td>Larry the Bird</td>
-                <td>Thornton</td>
-              </tr><tr>
-                <td>3</td>
-                <td>Larry the Bird</td>
-                <td>Thornton</td>
-              </tr><tr>
-                <td>3</td>
-                <td>Larry the Bird</td>
-                <td>Thornton</td>
               </tr>
 
             </tbody>
