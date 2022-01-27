@@ -52,11 +52,12 @@ export default function SignIn() {
         .matches(/\W/,'특수문자를 포함해야합니다'),
     }),
     onSubmit: values => {
-      const newURL = 'users/login'+BASE_URL
+      const newURL = BASE_URL+'users/login'
       axios.post(newURL, values)
       .then((response) => {
-        console.log(response)
-        window.location.assign('http://localhost:3000');
+        console.log(response.data.data)
+        localStorage.setItem('JWT','xxx')
+        // window.location.assign('http://localhost:3000');
       })
     },
   });
