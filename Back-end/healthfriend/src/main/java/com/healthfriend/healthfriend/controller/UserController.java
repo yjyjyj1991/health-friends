@@ -68,8 +68,8 @@ public class UserController {
 				logger.debug("로그인 토큰정보 : {}", token);
 
 				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("access-token", token);
-				map.put("user-info", loginUser);
+				map.put("accessToken", token);
+				map.put("userInfo", loginUser);
 				UserTokenDto userTokenDto = new UserTokenDto();
 				userTokenDto.setId(loginUser.getId());
 				userTokenDto.setToken(token);
