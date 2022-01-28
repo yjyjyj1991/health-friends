@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.healthfriend.healthfriend.model.mapper.UserMapper">
+
+	<insert id="insertUser" parameterType="UserSignup">
+		INSERT INTO tbl_user(email, name, nickname, password )
+		VALUES ( #{email}, #{name}, #{nickname}, #{password} );
+	</insert>
+
+    <update id="updateUser" parameterType="UserModifyRequest">
+			UPDATE tbl_user
+			SET nickname = #{nickname}, password = #{password}, active_point = #{activePoint}, purpose_id = #{purposeId}
+			WHERE id = #{id};
+    </update>
+
+    <update id="deleteUser" parameterType="UserWithdraw">
+      UPDATE tbl_user
+			SET isWithdraw = 1, withdraw_reason = #{withdraw_reason}
+			WHERE id = #{id};
+    </update>
+
+		<update id="updateUserPassword" parameterType="UserAccountRequest">
+			UPDATE tbl_user
+			SET password = #{password}
+			WHERE id = #{id};
+		</update>
+
+		<select id="isExistsEmail" parameterType="string" resultType="boolean">
+			SELECT COUNT(*)
+			FROM tbl_user
+			WHERE email = #{email} AND isWithdraw = 0
+		</select>
+
+		<select id="isExistsNickname" parameterType="string" resultType="boolean">
+			SELECT COUNT(*)
+			FROM tbl_user
+			WHERE nickname = #{nickname} AND isWithdraw = 0
+		</select>
+
+
+		<update id="updateDUser" parameterType="UserWithdraw">
+			UPDATE tbl_user
+			SET isWithdraw = 1, withdraw_reason = #{withdrawReason}
+			WHERE id = #{id};
+		</update>
+
+		<select id="selectUser" parameterType="UserAccountRequest" resultType="UserResponse">
+			SELECT user.id, user.name, user.email, user.nickname, user.purpose_id, user.active_point, user.weight, purpose.purpose
+			FROM tbl_user AS user LEFT OUTER JOIN tbl_purpose AS purpose ON purpose.id = user.purpose_id
+			WHERE user.email = #{email} AND user.password = #{password} AND user.isWithdraw = 0;
+		</select>
+
+		<select id="selectUserInfo" parameterType="String" resultType="UserResponse">
+			SELECT name, email, password, id, nickname, weight, active_point
+			FROM tbl_user
+			WHERE email = #{email} AND isWithdraw = 0;
+		</select>
+
+		<update id="updateLogin" parameterType="UserTokenDto">
+			UPDATE tbl_user
+			SET token = #{token}
+			WHERE id = #{id}
+		</update>
+</mapper>

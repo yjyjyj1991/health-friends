@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.healthfriend.healthfriend.model.mapper.RoomMapper">
+  <insert id="insertRoom" parameterType="RoomDto">
+    INSERT INTO tbl_room (type_id, user_id, title, content, is_public, password, open_time, limit_user)
+    VALUES (#{typeId}, #{userId}, #{title},  #{content}, #{isPublic}, #{password}, now(), #{limitUser});
+  </insert>
+
+  <select id="selectRoom" resultType="RoomResponseDto">
+    SELECT room.id, room.type_id, room.user_id, room.title, room.content, room.is_public, room.password, room.open_time, room.limit_user, rt.type AS room_type, user.nickname AS host
+    FROM tbl_room AS room, tbl_room_type AS rt, tbl_user AS user
+    WHERE room.close_time IS NULL AND room.type_id = rt.id AND room.user_id = user.id;
+  </select>
+
+  <select id="selectRoomByTitle" parameterType="string" resultType="RoomResponseDto">
+    SELECT room.id, room.type_id, room.user_id, room.title, room.content, room.is_public, room.password, room.open_time, room.limit_user, rt.type AS room_type, user.nickname AS host
+    FROM tbl_room AS room, tbl_room_type AS rt, tbl_user AS user
+    WHERE room.close_time IS NULL AND room.type_id = rt.id AND room.user_id = user.id AND room.title LIKE CONCAT('%', #{title}, '%');
+  </select>
+
+  <update id="updateRoom" parameterType="RoomModifyRequestDto">
+    UPDATE tbl_room
+    SET user_id = #{userId}, title = #{title}, content = #{content}, is_public = #{isPublic}, password = #{password}, limit_user = #{limitUser}
+    WHERE id = #{id}
+  </update>
+
+  <select id="selectRoomById" parameterType="int" resultType="RoomDetailResponseDto">
+    SELECT room.id, room.type_id, room.user_id, room_type.`type`, `user`.nickname AS `host`, room.title, room.content, room.is_public, room.password, room.open_time, room.close_time, room.limit_user
+    FROM tbl_room AS room, tbl_room_type AS room_type, tbl_user AS `user`
+    WHERE room.type_id = room_type.id AND room.user_id = `user`.id AND room.id = #{id}
+  </select> 
+
+  <update id="deleteRoom" parameterType="int">
+    UPDATE tbl_room
+    SET close_time = NOW()
+    WHERE id = #{id}
+  </update>
+
+  <insert id="joinUser" parameterType="RoomJoinUserDto">
+    INSERT INTO tbl_room_join_user (user_id, room_id)
+    VALUES (#{userId}, #{roomId});
+  </insert>
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.healthfriend.healthfriend.model.mapper.FoodManagementMapper">
+    <insert id="createFoodManagementActivity" parameterType="foodManagementActivityDto">
+      INSERT INTO tbl_food_management (user_id, purpose_id, date, weight, active_point)
+      VALUES (#{userId}, #{purposeId}, now(),#{weight}, #{activePoint})
+    </insert>
+
+    <insert id="createFoodManagement" parameterType="foodDto">
+      INSERT INTO tbl_fm_with_food (fm_id,food_id)
+      VALUES ((SELECT id AS fm_id FROM tbl_food_management WHERE user_id = #{userId}),#{id})
+    </insert>
+
+
+    <select id="selectFoodManagenent" parameterType="foodManagementDto" resultType="foodDto">
+      SELECT * FROM tbl_food WHERE id = (
+      SELECT food_id FROM tbl_fm_with_food 
+      WHERE fm_id = (SELECT id FROM tbl_food_management WHERE DATE = #{date} AND user_id = #{userId}));
+    </select>
+    
+    <delete id="deleteFoodManagement" parameterType="foodManagementRemoveDto">
+      DELETE 
+      FROM tbl_fm_with_food 
+      WHERE fm_id = 
+      (SELECT fm_id AS fmId FROM tbl_food_management WHERE user_id = #{userId} AND date = #{date})
+      AND food_id = #{foodId}
+    </delete>
+
+</mapper>

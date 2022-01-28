@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.healthfriend.healthfriend.model.mapper.ExerciseMapper">
+    <select id="selectExercise" parameterType="exerciseSelectRequestDto" resultType="exerciseSelectResponseDto">
+			SELECT t.type ,r.open_time, r.close_time
+			FROM tbl_room_type t 
+			JOIN tbl_room r 
+			ON (t.id = r.type_id) 
+			WHERE user_id = #{userId} AND r.open_time &lt; #{closeTime} AND r.close_time &gt; #{openTime}
+       
+        <!-- SELECT type 
+        FROM tbl_room_type
+        WHERE id = (
+            SELECT type_id 
+            FROM tbl_room 
+            WHERE id = 
+            (
+                SELECT room_id 
+                FROM tbl_room_join_user 
+                WHERE user_id = 1
+                )
+             ) 
+             
+        SELECT open_time 
+        FROM tbl_room
+        WHERE open_time = (
+            SELECT open_time 
+            FROM tbl_room 
+            WHERE id = 
+            (
+                SELECT room_id 
+                FROM tbl_room_join_user 
+                WHERE user_id = 1
+                )
+             )       
+             
+         SELECT close_time 
+        FROM tbl_room
+        WHERE close_time = (
+            SELECT close_time 
+            FROM tbl_room 
+            WHERE id = 
+            (
+                SELECT room_id 
+                FROM tbl_room_join_user 
+                WHERE user_id = 1
+                )
+             )        -->
+             
+        
+    </select>
+</mapper>
