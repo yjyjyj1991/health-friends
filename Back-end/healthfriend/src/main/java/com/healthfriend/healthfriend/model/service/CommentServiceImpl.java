@@ -8,14 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CommentServiceImpl implements CommentService{
+public class CommentServiceImpl implements CommentService {
 
-    @Autowired
-    private SqlSession sqlSession;
-    @Override
-    public boolean addComment(CommentAddDto commentAddDto) throws Exception {
-        // TODO Auto-generated method stub
-        return sqlSession.getMapper(CommentMapper.class).createComment(commentAddDto) == 1;
-    }
-    
+  @Autowired
+  private SqlSession sqlSession;
+
+  @Override
+  public boolean addComment(CommentAddDto commentAddDto) throws Exception {
+    return sqlSession.getMapper(CommentMapper.class).createComment(commentAddDto) == 1;
+  }
+
 }

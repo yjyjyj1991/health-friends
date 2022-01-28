@@ -7,9 +7,11 @@ import com.healthfriend.healthfriend.model.DTO.Exercise.ExerciseSelectRequestDto
 import com.healthfriend.healthfriend.model.DTO.Exercise.ExerciseSelectResponseDto;
 
 import org.apache.ibatis.annotations.Mapper;
+
 @Mapper
 public interface ExerciseMapper {
 
-    public List<ExerciseSelectResponseDto> selectExercise(ExerciseSelectRequestDto exerciseSelectRequestDto) throws SQLException;
+    public List<ExerciseSelectResponseDto> selectExercise(ExerciseSelectRequestDto exerciseSelectRequestDto)
+            throws SQLException;
 
 }

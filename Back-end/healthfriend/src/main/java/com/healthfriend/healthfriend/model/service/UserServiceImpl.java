@@ -14,57 +14,56 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
-    private SqlSession sqlSession;
+  @Autowired
+  private SqlSession sqlSession;
 
-    @Override
-    public boolean saveUser(UserSignup userSignup) throws Exception {
-        return sqlSession.getMapper(UserMapper.class).insertUser(userSignup) == 1;
-    }
+  @Override
+  public boolean saveUser(UserSignup userSignup) throws Exception {
+    return sqlSession.getMapper(UserMapper.class).insertUser(userSignup) == 1;
+  }
 
-    @Override
-    public boolean modifyUser(UserModifyRequest userModifyRequest) throws Exception {
-        if (userModifyRequest.getPassword() == null) {
-            throw new Exception();
-        }
-        return sqlSession.getMapper(UserMapper.class).updateUser(userModifyRequest) == 1;
+  @Override
+  public boolean modifyUser(UserModifyRequest userModifyRequest) throws Exception {
+    if (userModifyRequest.getPassword() == null) {
+      throw new Exception();
     }
+    return sqlSession.getMapper(UserMapper.class).updateUser(userModifyRequest) == 1;
+  }
 
-    @Override
-    public boolean deleteUser(UserWithdraw userWithdraw) throws Exception {
-        return sqlSession.getMapper(UserMapper.class).updateDUser(userWithdraw) == 1;
-    }
+  @Override
+  public boolean deleteUser(UserWithdraw userWithdraw) throws Exception {
+    return sqlSession.getMapper(UserMapper.class).updateDUser(userWithdraw) == 1;
+  }
 
-    @Override
-    public UserResponse findUser(UserAccountRequest userRequest) throws Exception {
-        if (userRequest.getEmail() == null || userRequest.getPassword() == null)
-            return null;
-        return sqlSession.getMapper(UserMapper.class).selectUser(userRequest);
-    }
+  @Override
+  public UserResponse findUser(UserAccountRequest userRequest) throws Exception {
+    if (userRequest.getEmail() == null || userRequest.getPassword() == null)
+      return null;
+    return sqlSession.getMapper(UserMapper.class).selectUser(userRequest);
+  }
 
-    @Override
-    public UserResponse findUserInfo(String email) throws Exception {
-        return sqlSession.getMapper(UserMapper.class).selectUserInfo(email);
-    }
+  @Override
+  public UserResponse findUserInfo(String email) throws Exception {
+    return sqlSession.getMapper(UserMapper.class).selectUserInfo(email);
+  }
 
-    @Override
-    public boolean updateUserPassword(UserAccountRequest userAccountRequest) throws Exception {
-        return sqlSession.getMapper(UserMapper.class).updateUserPassword(userAccountRequest) == 1;
-    }
+  @Override
+  public boolean updateUserPassword(UserAccountRequest userAccountRequest) throws Exception {
+    return sqlSession.getMapper(UserMapper.class).updateUserPassword(userAccountRequest) == 1;
+  }
 
-    @Override
-    public boolean isExistsEmail(String email) throws Exception {
-        return sqlSession.getMapper(UserMapper.class).isExistsEmail(email);
-    }
+  @Override
+  public boolean isExistsEmail(String email) throws Exception {
+    return sqlSession.getMapper(UserMapper.class).isExistsEmail(email);
+  }
 
-    @Override
-    public boolean isExistsNickname(String nickname) throws Exception {
-        return sqlSession.getMapper(UserMapper.class).isExistsNickname(nickname);
-    }
+  @Override
+  public boolean isExistsNickname(String nickname) throws Exception {
+    return sqlSession.getMapper(UserMapper.class).isExistsNickname(nickname);
+  }
 
-    @Override
-    public boolean modifyLogin(UserTokenDto userTokenDto) throws Exception {
-        // TODO Auto-generated method stub
-        return sqlSession.getMapper(UserMapper.class).updateLogin(userTokenDto) == 1;
-    }
+  @Override
+  public boolean modifyLogin(UserTokenDto userTokenDto) throws Exception {
+    return sqlSession.getMapper(UserMapper.class).updateLogin(userTokenDto) == 1;
+  }
 }
