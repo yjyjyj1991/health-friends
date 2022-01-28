@@ -5,30 +5,30 @@
 <mapper namespace="com.healthfriend.healthfriend.model.mapper.FoodMapper">
 
     <select id="selectFood" parameterType="map" resultType="foodDto">
-        SELECT id, user_id, food_name, carbohydrate , protein , brand, fat, kcal
-        FROM tbl_food
-        <if test="word != null and word != ''">
-			<if test="key == 'food_name'">
-				where food_name like concat('%', #{word}, '%')
-			</if>
-			<if test="key != 'food_name'">
-				where ${key} = #{word}
-			</if>
-		</if>
-        ORDER BY id DESC
-        LIMIT #{start}, #{spp}
+      SELECT id, user_id, food_name, carbohydrate , protein , brand, fat, kcal
+      FROM tbl_food
+      <if test="word != null and word != ''">
+        <if test="key == 'food_name'">
+          where food_name like concat('%', #{word}, '%')
+        </if>
+        <if test="key != 'food_name'">
+          where ${key} = #{word}
+        </if>
+      </if>
+      ORDER BY id DESC
+      LIMIT #{start}, #{spp}
     </select>
 
     <insert id="createFood" parameterType="foodAddDto">
-        <!-- select key 이용해서 제일 최고 앞의 ID 값 보다 +1 한 값으로 들어가기 -->
-        INSERT INTO tbl_food ( user_id, food_name, carbohydrate, protein, brand, fat, kcal)
-		VALUES (#{userId}, #{foodName}, #{carbohydrate},#{protein}, #{brand}, #{fat}, #{kcal})
+      <!-- select key 이용해서 제일 최고 앞의 ID 값 보다 +1 한 값으로 들어가기 -->
+      INSERT INTO tbl_food ( user_id, food_name, carbohydrate, protein, brand, fat, kcal)
+      VALUES (#{userId}, #{foodName}, #{carbohydrate},#{protein}, #{brand}, #{fat}, #{kcal})
     </insert>
     
     <select id="selectFoodDetails" parameterType="int" resultType="foodDto">
-        SELECT id, food_name, carbohydrate , protein , brand, fat, kcal
-        FROM tbl_food
-        WHERE id = #{id}
+      SELECT id, food_name, carbohydrate , protein , brand, fat, kcal
+      FROM tbl_food
+      WHERE id = #{id}
     </select>
 
 </mapper>

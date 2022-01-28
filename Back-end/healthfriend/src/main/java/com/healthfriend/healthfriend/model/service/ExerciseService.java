@@ -7,6 +7,7 @@ import com.healthfriend.healthfriend.model.DTO.Exercise.ExerciseSelectResponseDt
 
 public interface ExerciseService {
 
-    public List<ExerciseSelectResponseDto> findExercise(ExerciseSelectRequestDto exerciseSelectRequestDto) throws Exception;
+  public List<ExerciseSelectResponseDto> findExercise(ExerciseSelectRequestDto exerciseSelectRequestDto)
+      throws Exception;
 
 }

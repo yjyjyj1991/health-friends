@@ -9,6 +9,7 @@ import com.healthfriend.healthfriend.model.DTO.Food.FoodManagementRemoveDto;
 import com.healthfriend.healthfriend.model.DTO.Food.FoodManagementActivity.FoodManagementActivityDto;
 
 import org.apache.ibatis.annotations.Mapper;
+
 @Mapper
 public interface FoodManagementMapper {
 
