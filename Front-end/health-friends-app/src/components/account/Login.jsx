@@ -56,8 +56,8 @@ export default function SignIn() {
       axios.post(newURL, values)
       .then((response) => {
         console.log(response.data.data)
-        localStorage.setItem('JWT','xxx')
-        // window.location.assign('http://localhost:3000');
+        localStorage.setItem('JWT',response.data.data.accessToken)
+        window.location.assign('http://localhost:3000');
       })
     },
   });

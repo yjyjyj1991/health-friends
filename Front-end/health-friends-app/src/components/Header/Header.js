@@ -6,8 +6,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 
 import { Link } from 'react-router-dom';
+import { Button } from "@mui/material";
 
 const Header = () => {
+  function logout() {
+    localStorage.removeItem('JWT')
+    window.location.assign('http://localhost:3000')
+  }
+
   return (
   <nav className="navbar navbar-expand-lg sticky-top">
     <div className="container">
@@ -34,6 +40,7 @@ const Header = () => {
           <Link to='/users'>
             <p className="room nav-link" style={{color:'black'} }>회원가입</p>
           </Link>
+          <Button onClick={logout}>로그아웃</Button>
           <div></div>
           <div></div>
         </div>
