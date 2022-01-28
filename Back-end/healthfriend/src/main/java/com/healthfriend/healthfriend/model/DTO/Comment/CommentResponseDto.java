@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CommentResponseDto {
-    Integer userId;
-    String comment;
-    Integer Id;
+  Integer userId;
+  String comment;
+  Integer Id;
 }

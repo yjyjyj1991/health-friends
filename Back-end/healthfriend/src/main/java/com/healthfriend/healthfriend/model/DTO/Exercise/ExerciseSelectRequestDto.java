@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ExerciseSelectRequestDto {
-    Integer userId;
-    String openTime;
-    String closeTime;
+  Integer userId;
+  String openTime;
+  String closeTime;
 }
