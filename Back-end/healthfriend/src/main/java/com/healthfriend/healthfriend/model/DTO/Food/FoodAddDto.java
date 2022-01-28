@@ -6,11 +6,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class FoodAddDto {
-    Integer userId;
-    String foodName;
-    Integer carbohydrate;
-    Integer protein;
-    String brand;
-    Integer fat;
-    Integer kcal;
+  Integer userId;
+  String foodName;
+  Integer carbohydrate;
+  Integer protein;
+  String brand;
+  Integer fat;
+  Integer kcal;
 }
