@@ -38,7 +38,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-
 @RestController
 @RequestMapping("/users")
 @CrossOrigin
@@ -69,8 +68,8 @@ public class UserController {
 				logger.debug("로그인 토큰정보 : {}", token);
 
 				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("access-token", token);
-				map.put("user-info", loginUser);
+				map.put("accessToken", token);
+				map.put("userInfo", loginUser);
 				UserTokenDto userTokenDto = new UserTokenDto();
 				userTokenDto.setId(loginUser.getId());
 				userTokenDto.setToken(token);
@@ -128,14 +127,14 @@ public class UserController {
 	@ApiOperation(value = "logout", notes = "logout", response = Map.class)
 	@GetMapping("/logout/{token}")
 	public ResponseEntity<Message> TokenRemove(@PathVariable("token") String token) {
-        // 1. Access Token 검증
-        Message message = new Message();
+		// 1. Access Token 검증
+		Message message = new Message();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		if (!jwtService.isUsable(token)) {
 			message.setMessage("토큰 값이 잘 못 되었습니다.");
 			status = HttpStatus.NOT_ACCEPTABLE;
-            return new ResponseEntity<Message>(message,status);
-        }
+			return new ResponseEntity<Message>(message, status);
+		}
 		UserTokenDto dto = new UserTokenDto();
 		dto.setId(jwtService.getUserId(token));
 		token = null;
@@ -145,11 +144,11 @@ public class UserController {
 		} catch (Exception e) {
 			message.setMessage("로그아웃 실패");
 			status = HttpStatus.NOT_ACCEPTABLE;
-			return new ResponseEntity<Message>(message,status);
+			return new ResponseEntity<Message>(message, status);
 		}
 		message.setMessage("로그아웃 완료");
-		return new ResponseEntity<Message>(message,status);
-    }
+		return new ResponseEntity<Message>(message, status);
+	}
 
 	// ----------------------------------------------------------------------------------------//
 	//

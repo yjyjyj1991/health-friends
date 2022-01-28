@@ -5,8 +5,8 @@
 <mapper namespace="com.healthfriend.healthfriend.model.mapper.UserMapper">
 
 	<insert id="insertUser" parameterType="UserSignup">
-		INSERT INTO tbl_user(purpose_id, email, name, nickname, password, weight, active_point )
-		VALUES ( #{purposeId}, #{email}, #{name}, #{nickname}, #{password}, #{weight}, #{activePoint} );
+		INSERT INTO tbl_user(email, name, nickname, password )
+		VALUES ( #{email}, #{name}, #{nickname}, #{password} );
 	</insert>
 
     <update id="updateUser" parameterType="UserModifyRequest">
@@ -48,8 +48,8 @@
 
 		<select id="selectUser" parameterType="UserAccountRequest" resultType="UserResponse">
 			SELECT user.id, user.name, user.email, user.nickname, user.purpose_id, user.active_point, user.weight, purpose.purpose
-			FROM tbl_user AS user, tbl_purpose AS purpose
-			WHERE user.email = #{email} AND user.password = #{password} AND user.isWithdraw = 0 AND user.purpose_id = purpose.id;
+			FROM tbl_user AS user LEFT OUTER JOIN tbl_purpose AS purpose ON purpose.id = user.purpose_id
+			WHERE user.email = #{email} AND user.password = #{password} AND user.isWithdraw = 0;
 		</select>
 
 		<select id="selectUserInfo" parameterType="String" resultType="UserResponse">

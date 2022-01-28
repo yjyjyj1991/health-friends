@@ -15,7 +15,7 @@ import Container from '@mui/material/Container';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-// import { useState } from 'react';
+import { useState } from 'react';
 
 
 function Copyright(props) {
@@ -31,45 +31,63 @@ function Copyright(props) {
   );
 }
 
-// const validate = values => {
-//   const errors = {};
-//   if (!values.name) {
-//     errors.name = 'Required';
-//   } else if (values.name.length > 15) {
-//     errors.name = 'Must be 15 characters or less';
-//   }
-
-//   if (!values.nickName) {
-//     errors.nickName = 'Required';
-//   } else if (values.nickName.length > 15) {
-//     errors.nickName = 'Must be 15 characters or less';
-//   }
-
-//   if (!values.email) {
-//     errors.email = 'Required';
-//   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-//     errors.email = 'Invalid email address';
-//   }
-
-//   if (!values.password) {
-//     errors.password = 'Required';
-//   } else if (values.password.length > 15) {
-//     errors.password = 'Must be 15 characters or less';
-//   }
-
-//   if (!values.passwordRe) {
-//     errors.passwordRe = 'Required';
-//   } else if (values.passwordRe.length > 15) {
-//     errors.passwordRe = 'Must be 15 characters or less';
-//   }
-
-//   return errors;
-// };
-
 
 
 export default function SignUp() {
-  // const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(false)
+  const [isNicknameValid, setIsNicknameValid] = useState(false)
+  const [validationCode, setValidationCode] = useState('')
+  const BASE_URL = 'http://i6d204.p.ssafy.io:8888/'
+
+  const handleNicknameChange = (e) => {
+    setIsNicknameValid(false)
+    formik.handleChange(e)
+  }
+  
+  const checkNickname= () => {
+    const nickname=formik.values.nickname
+    if (!nickname) {return}
+    const newURL = BASE_URL+'users/exists/nickname'
+    axios.get(newURL, {params:{nickname:nickname} })
+    .then((response) => response.status===200 ? setIsNicknameValid(true) : null )
+    .catch(() => {setIsNicknameValid('exist');})
+  }
+
+  const sendEmail= () => {
+    const email=formik.values.email
+    if (!email) {return}
+    const newURL = BASE_URL+'users/exists/email'
+    axios.get(newURL, {params:{email:formik.values.email} })
+    .then((response) => {
+      if (response.status===200) {
+        setIsEmailValid(true)
+        const newURL = BASE_URL+'users/verify'
+        axios.get(newURL, {params:{email:email} })
+        .then(res => {setValidationCode(res.data.data)})
+      }
+    })
+    .catch(() => {setIsEmailValid('exist');})
+  }
+
+  const checkCode = (e) =>{
+    if (e.target.value===validationCode){
+      const newURL = BASE_URL+'users'
+      axios.post(newURL, 
+        {
+          "activePoint": 0,
+          "email": "string",
+          "name": "string",
+          "nickname": "string",
+          "password": "string",
+          "purposeId": 0,
+          "weight": 0
+        })
+      .then((response) => {
+        console.log(response)
+        window.location.assign('http://localhost:3000');
+      })
+    }
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -97,15 +115,9 @@ export default function SignUp() {
       passwordConfirm: Yup.string()
         .oneOf([Yup.ref('password'), null], 'Passwords must match')
     }),
-    onSubmit: values => {
-      //닉네임중복확인
-      //email중복확인
-      //이메일인증
+    onSubmit: () => {
+      sendEmail()
       
-      console.log(JSON.stringify(values, null, 2))
-      
-      axios.post('http://suho.asuscomm.com/users',values)
-      .then(e=>console.log(e))
     },
   });
 
@@ -129,7 +141,7 @@ export default function SignUp() {
         </Typography>
         <Box component='form' onSubmit={formik.handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
                 name="name"
                 required
@@ -145,24 +157,30 @@ export default function SignUp() {
               {formik.touched.name &&formik.errors.name ? <div>{formik.errors.name}</div> : null}
             </Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
                 name="nickname"
                 required
-                fullWidth
+                
                 id="nickname"
                 label="닉네임"
-                onChange={formik.handleChange}
+                onChange={handleNicknameChange}
                 value={formik.values.nickname}
                 onBlur={formik.handleBlur}
               />
+              <Button onClick={checkNickname}>중복확인</Button>
+              {isNicknameValid===true ? <p>사용가능한 닉네임입니다</p> : null }
+              {isNicknameValid==='exist' ? <p>중복된 닉네임입니다</p> : null }
+              
+          
               {formik.touched.nickname &&formik.errors.nickname ? <div>{formik.errors.nickname}</div> : null}
             </Grid>
+            
             
             <Grid item xs={12}>
               <TextField 
                 required
-                fullWidth
+                // fullWidth
                 id="email"
                 label="이메일"
                 name="email"
@@ -170,7 +188,7 @@ export default function SignUp() {
                 onChange={formik.handleChange}
                 value={formik.values.email}
                 onBlur={formik.handleBlur}
-              />
+              />              
               {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
             </Grid>
             
@@ -216,9 +234,12 @@ export default function SignUp() {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            onClick={formik.onSubmit}
           >
-            Sign Up
+            메일로 인증코드보내기
           </Button>
+          {isEmailValid===true ? <TextField onChange={checkCode} /> : null}
+          {isEmailValid==='exist' ? <p>이미 사용된 이메일입니다</p> : null}
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link href="#" variant="body2">

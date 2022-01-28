@@ -90,7 +90,7 @@ public class BoardController {
 	@ApiOperation(value = "공지사항 글작성", notes = "새로운 공지글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
 	public ResponseEntity<Message> boardAdd(
-			@RequestBody @ApiParam(value = "", required = true) BoardDetailDto boardDetailDto)
+			@RequestBody @ApiParam(value = "아래는 예시로 들어간 값입니다. 새로운 중복되지 않는 값으로 집어 넣으셔야 합니다.", required = true) BoardDetailDto boardDetailDto)
 			throws Exception {
 		logger.info("boardAdd - 호출");
 		Message message = new Message();
@@ -107,7 +107,8 @@ public class BoardController {
 
 	@ApiOperation(value = "공지사항 글 삭제", notes = "공지글을 삭제하고 성공 여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@DeleteMapping("{deleteid}")
-	public ResponseEntity<Message> boardRemove(@PathVariable int deleteid)
+	public ResponseEntity<Message> boardRemove(
+			@PathVariable("deleteid") @ApiParam(value = "boardId 값", required = true) int deleteid)
 			throws Exception {
 		logger.info("boardRemove - 호출");
 		Message message = new Message();

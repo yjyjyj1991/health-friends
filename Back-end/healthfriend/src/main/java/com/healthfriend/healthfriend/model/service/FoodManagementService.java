@@ -9,12 +9,12 @@ import com.healthfriend.healthfriend.model.DTO.Food.FoodManagementActivity.FoodM
 
 public interface FoodManagementService {
 
-    public boolean addFoodManagementActivity(FoodManagementActivityDto foodManagementActivityDto)throws Exception;
+  public boolean addFoodManagementActivity(FoodManagementActivityDto foodManagementActivityDto) throws Exception;
 
-    public boolean addFoodManagement(FoodDto foodDto) throws Exception;
+  public boolean addFoodManagement(FoodDto foodDto) throws Exception;
 
-    public List<FoodDto> findFoodManagement(FoodManagementListDto foodManagementListDto) throws Exception;
+  public List<FoodDto> findFoodManagement(FoodManagementListDto foodManagementListDto) throws Exception;
 
-    public boolean removeFoodManagement(FoodManagementRemoveDto foodManagementRemoveDto) throws Exception;
+  public boolean removeFoodManagement(FoodManagementRemoveDto foodManagementRemoveDto) throws Exception;
 
 }

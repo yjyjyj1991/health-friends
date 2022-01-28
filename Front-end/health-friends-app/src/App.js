@@ -14,26 +14,12 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Main />} />
-      <Route path="/rooms" element={<RoomMain/ >} />
+      <Route path="/rooms" element={<RoomMain />} />
       <Route path="/boards" element={<Board />} />
       <Route path="/users" element={<SignUp />} />
       <Route path="/users/login" element={<Login />} />
 
     </Routes>
-
-    // <div>
-    //   <Switch>  
-    //     <Route exact path='/'>
-    //       <Main/>
-    //     </Route>
-    //     <Route path='/rooms'>
-    //       <RoomMain/>
-    //     </Route>
-    //     <Route path='/boards'>
-    //       <Board/>
-    //     </Route>
-    //   </Switch>
-    // </div>
   
   );
 }

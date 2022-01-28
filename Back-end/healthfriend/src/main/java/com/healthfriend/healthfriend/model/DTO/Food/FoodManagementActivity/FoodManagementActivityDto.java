@@ -6,8 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class FoodManagementActivityDto {
-    Integer userId;
-    Integer purposeId;
-    Double weight;
-    Double activePoint;
+  Integer userId;
+  Integer purposeId;
+  Double weight;
+  Double activePoint;
 }

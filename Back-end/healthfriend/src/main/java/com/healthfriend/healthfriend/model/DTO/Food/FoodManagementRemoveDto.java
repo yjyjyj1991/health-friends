@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class FoodManagementRemoveDto {
-    Integer userId;
-    String date;
-    Integer foodId;
+  Integer userId;
+  String date;
+  Integer foodId;
 }

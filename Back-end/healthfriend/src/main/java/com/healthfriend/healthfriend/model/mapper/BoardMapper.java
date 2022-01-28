@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface BoardMapper {
-    
+
     public int createBoard(BoardDetailDto boardDetailDto) throws SQLException;
 
     public List<BoardDto> selectBoard(BoardParameterDto boardParameterDto) throws SQLException;
