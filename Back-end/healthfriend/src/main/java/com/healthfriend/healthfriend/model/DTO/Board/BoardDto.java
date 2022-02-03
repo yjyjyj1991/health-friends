@@ -13,4 +13,5 @@ public class BoardDto {
   String content;
   Integer isPublic;
   String password;
+  String date;
 }
