@@ -1,5 +1,9 @@
 .footer{
   background: #D3E4CD;
+  height: 14rem;
+  /* position: absolute; */
+  /* bottom: 0; */
+  width: 100%;
 }
 .copyright_text p{
   color:#aaa79e;

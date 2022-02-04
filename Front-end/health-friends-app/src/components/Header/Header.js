@@ -6,9 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 
 import { Link,useNavigate } from 'react-router-dom';
-import { Button } from "@mui/material";
 import {AuthContext,} from '../account/AuthProvider'
-import {useContext,useState} from 'react'
+import {useContext,} from 'react'
 
 const Header = (props) => {
   const auth = useContext(AuthContext)
@@ -40,8 +39,10 @@ const Header = (props) => {
             <p className="room nav-link" style={{color:'black'} }>헬스장</p>
           </Link>
           <a className="room nav-link" href="#exercise" style={{color:'black'}}>운동기록</a>
-          <Link to='diet'><p className="room nav-link" style={{color:'black'} }>식단</p></Link>
-          {/* <a className="room nav-link" href="#diet" style={{color:'black'}}>HELP DESK</a> */}
+          {/* <a className="room nav-link" href="#diet" style={{color:'black'}}>식단</a> */}
+          <Link to='/foods'>
+            <p className="room nav-link" style={{color:'black'} }>식단</p>
+          </Link>
           <Link to='/boards'>
             <p className="room nav-link" style={{color:'black'} }>HELP DESK</p>
           </Link>

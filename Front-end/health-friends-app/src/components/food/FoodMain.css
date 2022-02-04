@@ -1,0 +1,14 @@
+.container_food {
+  position: relative;
+  min-height: 100vh;
+}
+.container_food {
+  padding-bottom: 150px;
+}
+.food_content {
+  flex: 1;
+}
+
+/* .footer {
+  bottom: 0;
+} */
