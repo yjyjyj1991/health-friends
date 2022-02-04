@@ -24,7 +24,7 @@
 		<update id="updateUserPassword" parameterType="UserAccountRequest">
 			UPDATE tbl_user
 			SET password = #{password}
-			WHERE id = #{id};
+			WHERE email = #{email} AND isWithdraw = 0;
 		</update>
 
 		<select id="isExistsEmail" parameterType="string" resultType="boolean">

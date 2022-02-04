@@ -9,10 +9,10 @@
       FROM tbl_food
       <if test="word != null and word != ''">
         <if test="key == 'food_name'">
-          where food_name like concat('%', #{word}, '%')
+          WHERE food_name like concat('%', #{word}, '%')
         </if>
         <if test="key != 'food_name'">
-          where ${key} = #{word}
+          WHERE ${key} = #{word}
         </if>
       </if>
       ORDER BY id DESC
