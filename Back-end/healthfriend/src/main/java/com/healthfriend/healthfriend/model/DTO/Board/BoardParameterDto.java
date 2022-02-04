@@ -16,6 +16,8 @@ public class BoardParameterDto {
 	private String key;
 	@ApiModelProperty(value = "검색어")
 	private String word;
+	@ApiModelProperty(value = "날짜")
+	private String date;
 
 	public BoardParameterDto() {
 		pg = 1;
@@ -61,6 +63,13 @@ public class BoardParameterDto {
 
 	public void setWord(String word) {
 		this.word = word;
+	}
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 }

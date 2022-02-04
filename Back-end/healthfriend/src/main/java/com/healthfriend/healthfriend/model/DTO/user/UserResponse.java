@@ -10,7 +10,7 @@ import lombok.Setter;
 @ApiModel(value = "UserResponse : 사용자의 전체 정보 객체")
 public class UserResponse {
   @ApiModelProperty(value = "사용자 고유 값")
-  public Integer Id;
+  public Integer id;
   @ApiModelProperty(value = "사용자 이메일")
   public String email;
   @ApiModelProperty(value = "사용자 이름")

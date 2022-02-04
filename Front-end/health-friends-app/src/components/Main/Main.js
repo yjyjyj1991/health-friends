@@ -8,14 +8,11 @@ import './Main.css';
 const Main = () => {
   return (
     <div>
-      
-      <Header/>
 
-      
       <div className="container_main">
         <div className="first_main">
           <div className="main_sentence d-flex justify-content-center">
-            <p>HEALTH, WORK OUT,<br/>WITH&nbsp;
+            <p>HEALTH, WORK OUT, <br/>WITH&nbsp;
               <span style={{color: '#99A799'}}>HEALTH FRIENDS</span></p>
 
           </div>

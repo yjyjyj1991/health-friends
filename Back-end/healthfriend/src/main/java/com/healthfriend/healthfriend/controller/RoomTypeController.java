@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping("/room-type")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @Api("방의 운동 종목 컨트롤러  API V1")
 public class RoomTypeController {
 

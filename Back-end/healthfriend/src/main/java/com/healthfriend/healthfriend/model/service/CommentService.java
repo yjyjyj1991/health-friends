@@ -4,6 +4,6 @@ import com.healthfriend.healthfriend.model.DTO.Comment.CommentAddDto;
 
 public interface CommentService {
 
-    public boolean addComment(CommentAddDto commentAddDto) throws Exception;
+  public boolean addComment(CommentAddDto commentAddDto) throws Exception;
 
 }

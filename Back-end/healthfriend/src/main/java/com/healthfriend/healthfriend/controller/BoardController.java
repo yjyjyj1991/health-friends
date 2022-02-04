@@ -35,7 +35,7 @@ import io.swagger.annotations.ApiParam;
 
 @RestController
 @RequestMapping("/boards")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @Api("게시판 컨트롤러  API V1")
 public class BoardController {
 
@@ -107,7 +107,8 @@ public class BoardController {
 
 	@ApiOperation(value = "공지사항 글 삭제", notes = "공지글을 삭제하고 성공 여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@DeleteMapping("{deleteid}")
-	public ResponseEntity<Message> boardRemove(@PathVariable("deleteid") @ApiParam(value = "boardId 값", required = true) int deleteid)
+	public ResponseEntity<Message> boardRemove(
+			@PathVariable("deleteid") @ApiParam(value = "boardId 값", required = true) int deleteid)
 			throws Exception {
 		logger.info("boardRemove - 호출");
 		Message message = new Message();

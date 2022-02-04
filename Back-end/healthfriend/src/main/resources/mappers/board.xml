@@ -5,56 +5,9 @@
 <mapper namespace="com.healthfriend.healthfriend.model.mapper.BoardMapper">
 
     <select id="selectBoard" parameterType="map" resultType="boardDto">
-        SELECT id, type_id, user_id, title , isPublic
+        SELECT id, type_id, user_id, title , isPublic, date, content
         FROM tbl_board
         <if test="word != null and word != ''">
-			<if test="key == 'title'">
-				where title like concat('%', #{word}, '%')
-			</if>
-			<if test="key != 'title'">
-				where ${key} = #{word}
-			</if>
-		</if>
-        ORDER BY id DESC
-        LIMIT #{start}, #{spp}
-    </select>
-
-    <insert id="createBoard" parameterType="boardDto">
-        <!-- select key 이용해서 제일 최고 앞의 ID 값 보다 +1 한 값으로 들어가기 -->
-        <selectKey resultType="int" keyProperty="id" order="BEFORE">
-            SELECT MAX(id)+1 FROM tbl_board        
-        </selectKey>    
-        INSERT INTO tbl_board (id, type_id, user_id, title, content, isPublic, password)
-		VALUES (#{id}, #{typeId}, #{userId}, #{title}, #{content},#{isPublic}, #{password})
-    </insert>
-
-    <delete id="deleteBoard" parameterType="int">
-        DELETE FROM tbl_board WHERE id = #{id}
-    </delete>
-
-    <update id="updateBoard" parameterType="boardDto">
-        UPDATE tbl_board
-		SET title = #{title}, content = #{content}, isPublic = #{isPublic}, password = #{password}
-		WHERE id = #{id}
-    </update>
-
-    <select id="selectBoardDetail" parameterType="int" resultType="boardDto">
-        SELECT id, type_id, user_id, title , content, isPublic
-        FROM tbl_board
-        where id = #{id}
-    </select>
-
-    
-    <select id="selectBoardDetailPassword" parameterType="boardDto" resultType="boardDto">
-        SELECT id, type_id, user_id, title , content, isPublic, password
-        FROM tbl_board
-        WHERE id = #{id} and password = #{password}
-    </select>
-
-    <select id="selectTotalCount" parameterType="map" resultType="int">
-		SELECT count(id)
-		FROM tbl_board
-		<if test="word != null and word != ''">
 			<if test="key == 'title'">
 				WHERE title like concat('%', #{word}, '%')
 			</if>
@@ -62,6 +15,53 @@
 				WHERE ${key} = #{word}
 			</if>
 		</if>
+        ORDER BY id DESC
+        LIMIT #{start}, #{spp} 
+    </select>
+
+    <insert id="createBoard" parameterType="boardDto">
+        <!-- select key 이용해서 제일 최고 앞의 ID 값 보다 +1 한 값으로 들어가기 -->
+        <!-- <selectKey resultType="int" keyProperty="id" order="BEFORE">
+            SELECT MAX(id)+1 FROM tbl_board        
+        </selectKey>     -->
+        INSERT INTO tbl_board ( type_id, user_id, title, content, isPublic, password, date)
+		VALUES ( #{typeId}, #{userId}, #{title}, #{content},#{isPublic}, #{password}, now())
+    </insert>
+
+    <delete id="deleteBoard" parameterType="int">
+      DELETE FROM tbl_board WHERE id = #{id}
+    </delete>
+
+    <update id="updateBoard" parameterType="boardDto">
+      UPDATE tbl_board
+      SET title = #{title}, content = #{content}, isPublic = #{isPublic}, password = #{password}
+      WHERE id = #{id}
+    </update>
+
+    <select id="selectBoardDetail" parameterType="int" resultType="boardDto">
+      SELECT id, type_id, user_id, title , content, isPublic
+      FROM tbl_board
+      where id = #{id}
+    </select>
+
+    
+    <select id="selectBoardDetailPassword" parameterType="boardDto" resultType="boardDto">
+      SELECT id, type_id, user_id, title , content, isPublic, password
+      FROM tbl_board
+      WHERE id = #{id} and password = #{password}
+    </select>
+
+    <select id="selectTotalCount" parameterType="map" resultType="int">
+      SELECT count(id)
+      FROM tbl_board
+      <if test="word != null and word != ''">
+        <if test="key == 'title'">
+          WHERE title like concat('%', #{word}, '%')
+        </if>
+        <if test="key != 'title'">
+          WHERE ${key} = #{word}
+        </if>
+      </if>
 	</select>
 
 

@@ -5,9 +5,26 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
+import { Button } from "@mui/material";
+import {AuthContext,} from '../account/AuthProvider'
+import {useContext,useState} from 'react'
 
-const Header = () => {
+const Header = (props) => {
+  const auth = useContext(AuthContext)
+  const {dialog, setDialog}=props
+  const navigate=useNavigate()
+  function handleLogin(){
+    setDialog('login')
+  }
+  function handleSignup(){
+    setDialog('signup')
+  }
+  function logout(){
+    navigate('/')
+    localStorage.removeItem('user')
+    auth.signout()
+  }
   return (
   <nav className="navbar navbar-expand-lg sticky-top">
     <div className="container">
@@ -23,33 +40,28 @@ const Header = () => {
             <p className="room nav-link" style={{color:'black'} }>헬스장</p>
           </Link>
           <a className="room nav-link" href="#exercise" style={{color:'black'}}>운동기록</a>
-          <a className="room nav-link" href="#diet" style={{color:'black'}}>식단</a>
-          {/* <a className="room nav-link" href="#diet" style={{color:'black'}}>HELP DESK</a> */}
+          {/* <a className="room nav-link" href="#diet" style={{color:'black'}}>식단</a> */}
+          <Link to='/foods'>
+            <p className="room nav-link" style={{color:'black'} }>식단</p>
+          </Link>
           <Link to='/boards'>
             <p className="room nav-link" style={{color:'black'} }>HELP DESK</p>
           </Link>
-          <Link to='/users/login'>
-            <p className="room nav-link" style={{color:'black'} }>로그인</p>
-          </Link>
-          <Link to='/users'>
-            <p className="room nav-link" style={{color:'black'} }>회원가입</p>
-          </Link>
-          <div></div>
-          <div></div>
         </div>
       </div>
       <div className="col-1">
         <Dropdown className="mt-4">
           <Dropdown.Toggle className='user_img' variant="white">
-            <FontAwesomeIcon icon={faUserCircle} size="4x" color="black"/>
+            <FontAwesomeIcon icon={faUserCircle} size="4x" color="black" />
           </Dropdown.Toggle>
-          <Dropdown.Menu className="text-center" align="end">
-
-            <Dropdown.Item href="#/action-1" className="mt-3">내 프로필</Dropdown.Item>
-            {/* <Dropdown.Item href="#/action-2">Another action</Dropdown.Item> */}
-
-            <Dropdown.Item href="#/action-3" className="mt-3">로그아웃</Dropdown.Item>
-          </Dropdown.Menu>
+          {auth.user && <Dropdown.Menu className="text-center" align="end">
+            <Dropdown.Item className="mt-3">내 프로필</Dropdown.Item>
+            <Dropdown.Item onClick={logout} className="mt-3">로그아웃</Dropdown.Item>
+          </Dropdown.Menu>}
+          {!auth.user && <Dropdown.Menu className="text-center" align="end">
+            <Dropdown.Item  className="mt-3" onClick={handleLogin}>로그인</Dropdown.Item>
+            <Dropdown.Item  className="mt-3" onClick={handleSignup}>회원가입</Dropdown.Item>
+          </Dropdown.Menu>}
         </Dropdown>  
       </div>
     </div>

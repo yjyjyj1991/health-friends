@@ -6,11 +6,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BoardDto {
-    Integer id;
-    Integer typeId;
-    Integer userId;
-    String title;
-    String content;
-    Integer isPublic;
-    String password;
+  Integer id;
+  Integer typeId;
+  Integer userId;
+  String title;
+  String content;
+  Integer isPublic;
+  String password;
+  String date;
 }
