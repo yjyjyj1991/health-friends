@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface FoodManagementMapper {
 
-    int createFoodManagementActivity(FoodManagementActivityDto foodManagementActivityDto) throws SQLException;
+    int updateFoodManagementActivity(FoodManagementActivityDto foodManagementActivityDto) throws SQLException;
 
     int createFoodManagement(FoodDto foodDto) throws SQLException;
 

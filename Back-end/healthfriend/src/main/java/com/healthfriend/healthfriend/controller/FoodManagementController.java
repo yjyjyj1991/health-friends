@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,15 +35,15 @@ public class FoodManagementController {
 	private FoodManagementService foodManagementService;
 	private static final Logger logger = LoggerFactory.getLogger(FoodManagementController.class);
 
-	@ApiOperation(value = "활동량 기입", notes = "새로운 활동량 정보를 입력한다.", response = String.class)
-	@PostMapping("/activity")
-	public ResponseEntity<Message> foodManagementActivityAdd(
+	@ApiOperation(value = "활동량 수정", notes = "기존 활동량 정보를 수정한다.", response = String.class)
+	@PutMapping("/activity")
+	public ResponseEntity<Message> foodManagementActivityModify(
 			@RequestBody FoodManagementActivityDto foodManagementActivityDto)
 			throws Exception {
 		logger.info("foodManagementActivityAdd - 호출");
 		Message message = new Message();
 		HttpStatus status = null;
-		if (foodManagementService.addFoodManagementActivity(foodManagementActivityDto)) {
+		if (foodManagementService.modifyFoodManagementActivity(foodManagementActivityDto)) {
 			status = HttpStatus.OK;
 			message.setSuccess(true);
 			return new ResponseEntity<Message>(message, status);
