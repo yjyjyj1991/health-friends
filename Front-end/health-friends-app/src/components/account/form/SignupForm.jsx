@@ -19,7 +19,7 @@ export default function SignupForm(props){
   const [data,setData]=useState(null)
 
   var isAllValid = isEmailValid==='verified'&&isNicknameValid==='verified'&&!isPwValid&&!isPw2Valid &&pw&&pw2
-  const BASE_URL='http://i6d204.p.ssafy.io:8888/'
+  const BASE_URL='https://i6d204.p.ssafy.io/api/'
 
   function validate(e){
     const value=e.target.value
