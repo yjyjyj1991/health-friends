@@ -11,7 +11,7 @@ import {useContext,} from 'react'
 
 const Header = (props) => {
   const auth = useContext(AuthContext)
-  const {dialog, setDialog}=props
+  const {setDialog}=props
   const navigate=useNavigate()
   function handleLogin(){
     setDialog('login')
