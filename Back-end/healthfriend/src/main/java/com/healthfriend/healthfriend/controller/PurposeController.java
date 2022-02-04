@@ -18,7 +18,7 @@ import io.swagger.annotations.Api;
 
 @RestController
 @RequestMapping("/purposes")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @Api("운동 목적 컨트롤러  API V1")
 public class PurposeController {
 

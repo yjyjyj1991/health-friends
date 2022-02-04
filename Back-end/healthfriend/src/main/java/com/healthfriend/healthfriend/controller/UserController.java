@@ -40,7 +40,7 @@ import io.swagger.annotations.ApiParam;
 
 @RestController
 @RequestMapping("/users")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @Api("사용자 컨트롤러  API V1")
 public class UserController {
 	public static final Logger logger = LoggerFactory.getLogger(UserController.class);
