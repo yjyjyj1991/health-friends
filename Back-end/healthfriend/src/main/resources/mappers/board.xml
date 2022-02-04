@@ -5,7 +5,7 @@
 <mapper namespace="com.healthfriend.healthfriend.model.mapper.BoardMapper">
 
     <select id="selectBoard" parameterType="map" resultType="boardDto">
-        SELECT id, type_id, user_id, title , isPublic, date
+        SELECT id, type_id, user_id, title , isPublic, date, content
         FROM tbl_board
         <if test="word != null and word != ''">
 			<if test="key == 'title'">
