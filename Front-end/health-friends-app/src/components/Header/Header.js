@@ -29,8 +29,10 @@ const Header = () => {
             <p className="room nav-link" style={{color:'black'} }>헬스장</p>
           </Link>
           <a className="room nav-link" href="#exercise" style={{color:'black'}}>운동기록</a>
-          <a className="room nav-link" href="#diet" style={{color:'black'}}>식단</a>
-          {/* <a className="room nav-link" href="#diet" style={{color:'black'}}>HELP DESK</a> */}
+          {/* <a className="room nav-link" href="#diet" style={{color:'black'}}>식단</a> */}
+          <Link to='/foods'>
+            <p className="room nav-link" style={{color:'black'} }>식단</p>
+          </Link>
           <Link to='/boards'>
             <p className="room nav-link" style={{color:'black'} }>HELP DESK</p>
           </Link>
