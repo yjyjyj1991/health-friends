@@ -1,14 +1,13 @@
 /*eslint-disable*/
 import Main from "./components/Main/Main";
 import Board from "./components/Board/Board";
-// import Login from "./components/account/Login";
-// import SignUp from "./components/account/SignUp";
+import FoodMain from "./components/food/FoodMain";
 import RoomMain from "./room/RoomMain";
-import { useState } from "react";
 import './App.css';
 import { Routes, Route } from "react-router-dom";
 import {AuthProvider,RequireAuth} from "./components/account/AuthProvider";
 import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
 import React from "react";
 import Dialog from './components/account/Dialog'
 
@@ -25,8 +24,9 @@ function App() {
       <Route path="/" element={<Main />} />
       <Route path="/rooms" element={<RequireAuth setDialog={setDialog}><RoomMain /></RequireAuth>} />
       <Route path="/boards" element={<Board />} />
-
+      <Route path="/foods" element={<FoodMain />} />
     </Routes>
+    <Footer dialog={dialog} setDialog={setDialog}/>
   </AuthProvider>
   );
 }
