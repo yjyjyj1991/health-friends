@@ -1,4 +1,4 @@
-import { Grid,InputAdornment ,TextField, Button, Typography, } from "@mui/material";
+import { Grid,InputAdornment ,TextField, Button, } from "@mui/material";
 import { useState } from "react";
 import axios from 'axios';
 
@@ -85,7 +85,7 @@ export default function SignupForm(props){
       nickname:nickname,
       password:pw,
     })
-    axios.get(BASE_URL+'users/verify', {params:{email:email}})
+    axios.get(BASE_URL+'users/verify', {params:{email:data.email}})
     .then((res) => {console.log(res); setCode(res.data.data)})
     .catch((err)=>console.log(err) )
   }
