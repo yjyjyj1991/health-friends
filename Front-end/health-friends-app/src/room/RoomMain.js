@@ -15,7 +15,6 @@ const RoomMain = () => {
 
     return (
        <>
-            <Header/>
             <div className='top'>
             <Container>
             <Grid container>
