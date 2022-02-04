@@ -14,7 +14,7 @@ export default function ResetForm(props){
   function sendEmail(e){  
     axios.put(BASE_URL+'users/reset-password/', {params:{email:email}})
     .then((res) => {console.log(res)
-    setMsg=('성공적으로 보냈습니다')
+    setMsg('성공적으로 보냈습니다')
     setTimeout(() => {setDialog('login')}, 1000)})
     .catch(err=>{console.log(err);setMsg('실패')})
   }
