@@ -27,7 +27,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping("/foodmanagement")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @Api("식단 관리 컨트롤러  API V1")
 public class FoodManagementController {
 	@Autowired
