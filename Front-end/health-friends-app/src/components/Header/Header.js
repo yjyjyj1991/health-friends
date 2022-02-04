@@ -5,22 +5,26 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import { Button } from "@mui/material";
-import {AuthContext} from '../account/AuthProvider'
+import {AuthContext,} from '../account/AuthProvider'
 import {useContext,useState} from 'react'
 
 const Header = (props) => {
   const auth = useContext(AuthContext)
   const {dialog, setDialog}=props
-
+  const navigate=useNavigate()
   function handleLogin(){
     setDialog('login')
   }
   function handleSignup(){
     setDialog('signup')
   }
-
+  function logout(){
+    navigate('/')
+    localStorage.removeItem('user')
+    auth.signout()
+  }
   return (
   <nav className="navbar navbar-expand-lg sticky-top">
     <div className="container">
@@ -49,8 +53,8 @@ const Header = (props) => {
             <FontAwesomeIcon icon={faUserCircle} size="4x" color="black" />
           </Dropdown.Toggle>
           {auth.user && <Dropdown.Menu className="text-center" align="end">
-            <Dropdown.Item href="#/action-1" className="mt-3">내 프로필</Dropdown.Item>
-            <Dropdown.Item href="#/action-2" className="mt-3">로그아웃</Dropdown.Item>
+            <Dropdown.Item className="mt-3">내 프로필</Dropdown.Item>
+            <Dropdown.Item onClick={logout} className="mt-3">로그아웃</Dropdown.Item>
           </Dropdown.Menu>}
           {!auth.user && <Dropdown.Menu className="text-center" align="end">
             <Dropdown.Item  className="mt-3" onClick={handleLogin}>로그인</Dropdown.Item>

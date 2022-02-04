@@ -3,26 +3,33 @@ import { TextField, Button, Typography, } from "@mui/material";
 import { Grid } from "@mui/material";
 import axios from "axios";
 import { useState,useContext } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import {AuthContext} from '../AuthProvider'
 
 export default function LoginForm(props){
   const [msg,setMsg]=useState(null)
   const {setDialog} = props 
   const BASE_URL='https://i6d204.p.ssafy.io/api/'
+  const navigate=useNavigate()
+  let location = useLocation()
   let auth = useContext(AuthContext)
+
 
   function handleSubmit(e){
     e.preventDefault();
+    
     const data = new FormData(e.currentTarget);
     axios.post(BASE_URL+'users/login',{email: data.get('email'),password: data.get('password'),})
     .then((res)=>{
     if (res.data.success) {
-      localStorage.setItem('jwt',res.data.data.accessToken)
-      // setDialog(false)
-      auth.signin(data.get('email'))
-      // 유저가 가려했던 url 이동
+      localStorage.setItem("user", JSON.stringify(res.data.data))
+      auth.login(data.get('email'))
+      navigate(location)
+      setDialog(null)
       } else {setMsg('check email or password')}})
+      .then(err=>console.log(err))
     }
+
   function renderResetForm(){
     setDialog('reset')
   }

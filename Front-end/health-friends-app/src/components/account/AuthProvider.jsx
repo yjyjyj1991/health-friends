@@ -1,9 +1,5 @@
 import * as React from "react";
-import {
-  useNavigate,
-  useLocation,
-  Navigate,
-} from "react-router-dom";
+import {useNavigate,} from "react-router-dom";
 
 export let AuthContext = React.createContext(null);
 
@@ -11,14 +7,14 @@ export let AuthContext = React.createContext(null);
 // 하위 컴포넌트들이 user, signin, signout을 사용하게 해준다.
 export function AuthProvider({ children }) {
   let [user, setUser] = React.useState(null);
-  let login = (newUser, callback) => {
+  let login = (newUser) => {
     // fakeAuthProvider.signin
     setUser(newUser);
-    callback();
+
   };
-  let signout = (callback) => {
+
+  let signout = () => {
     setUser(null);
-    callback();
   };
   let value = { user, login, signout };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
@@ -44,8 +40,10 @@ export function AuthStatus() {
   );
 }
 
-export function RequireAuth({ children }) {
+export function RequireAuth(props) {
+  
   let auth = React.useContext(AuthContext);
+  
   // let location = useLocation();
   if (!auth.user) {
     // Redirect them to the /login page, but save the current location they were
@@ -53,8 +51,9 @@ export function RequireAuth({ children }) {
     // along to that page after they login, which is a nicer user experience
     // than dropping them off on the home page.
     // return <Navigate to="/login" state={{ from: location }} replace />;
-    return 
+    props.setDialog('login')
+    return <h1>Protected</h1>
   }
-  return children;
+  return props.children;
 }
 

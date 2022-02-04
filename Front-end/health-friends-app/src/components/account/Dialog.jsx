@@ -11,8 +11,9 @@ import ResetForm from './form/ResetForm'
 
 export default function FormDialog(props) {
   const {dialog, setDialog} = props
-
+  const navigate=useNavigate()
   const handleClose = () => {
+    navigate('/')
     setDialog(false);
   };
 
