@@ -3,10 +3,12 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.healthfriend.healthfriend.model.mapper.FoodManagementMapper">
-    <insert id="createFoodManagementActivity" parameterType="foodManagementActivityDto">
-      INSERT INTO tbl_food_management (user_id, purpose_id, date, weight, active_point)
-      VALUES (#{userId}, #{purposeId}, now(),#{weight}, #{activePoint})
-    </insert>
+    
+  <update id="updateFoodManagementActivity" parameterType="foodManagementActivityDto">
+    UPDATE tbl_user
+    SET weight = #{weight} , purpose_id = #{purposeId} , active_point = #{activePoint}
+    WHERE id = #{userId}
+  </update>
 
     <insert id="createFoodManagement" parameterType="foodDto">
       INSERT INTO tbl_fm_with_food (fm_id,food_id)
