@@ -6,9 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 
 import { Link,useNavigate } from 'react-router-dom';
-import { Button } from "@mui/material";
 import {AuthContext,} from '../account/AuthProvider'
-import {useContext,useState} from 'react'
+import {useContext,} from 'react'
 
 const Header = (props) => {
   const auth = useContext(AuthContext)

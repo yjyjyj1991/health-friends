@@ -23,7 +23,7 @@ export default function LoginForm(props){
     .then((res)=>{
     if (res.data.success) {
       localStorage.setItem("user", JSON.stringify(res.data.data))
-      auth.login(data.get('email'))
+      auth.login(res.data.data)
       navigate(location)
       setDialog(null)
       } else {setMsg('check email or password')}})
