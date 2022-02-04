@@ -250,18 +250,30 @@ public class UserController {
 		RandomPassword rp = new RandomPassword();
 		String randomValue = rp.getRandomPassword(10);
 
-		UserAccountRequest userAccount = new UserAccountRequest();
-		userAccount.setEmail(email);
-		userAccount.setPassword(randomValue);
-
-		if (userService.updateUserPassword(userAccount)) {
-			if (SendMailHelper.getInstance().SendMail(email, randomValue))
-				isSuccess = true;
-		}
-
-		if (isSuccess) {
-			message.setSuccess(true);
+		UserResponse user = userService.findUserInfo(email);
+		if (user == null) {
 			status = HttpStatus.OK;
+			message.setSuccess(false);
+			message.setMessage("존재하지 않는 사용자입니다.");
+		} else {
+			status = HttpStatus.OK;
+			UserAccountRequest userAccount = new UserAccountRequest();
+			userAccount.setEmail(email);
+			userAccount.setPassword(randomValue);
+
+			if (userService.updateUserPassword(userAccount)) {
+				if (SendMailHelper.getInstance().SendMail(email, randomValue)) {
+					isSuccess = true;
+				} else {
+					message.setSuccess(false);
+					message.setMessage("메일 전송 실패.");
+				}
+			}
+
+			if (isSuccess) {
+				message.setSuccess(true);
+				message.setMessage("메일 전송 완료.");
+			}
 		}
 
 		return new ResponseEntity<Message>(message, status);
