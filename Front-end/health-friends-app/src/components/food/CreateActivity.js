@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 // import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 // import {Modal, Button, ModalDialog , ModalHeader ,ModalTitle, ModalBody, ModalFooter} from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal'
-import ModalDialog from 'react-bootstrap/ModalDialog'
-import ModalHeader from 'react-bootstrap/ModalHeader'
-import ModalBody from 'react-bootstrap/ModalBody'
-import ModalTitle from 'react-bootstrap/ModalTitle'
-import ModalFooter from 'react-bootstrap/ModalFooter'
+// import ModalDialog from 'react-bootstrap/ModalDialog'
+// import ModalHeader from 'react-bootstrap/ModalHeader'
+// import ModalBody from 'react-bootstrap/ModalBody'
+// import ModalTitle from 'react-bootstrap/ModalTitle'
+// import ModalFooter from 'react-bootstrap/ModalFooter'
 
 const CreateActivity = () => {
   const [show, setShow] = useState(false);

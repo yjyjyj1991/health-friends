@@ -3,7 +3,7 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import Activity from "../food/Activity";
 import './FoodMain.css'; 
-import axios from 'axios'
+// import axios from 'axios'
 
 const Food = () => {
   return (
