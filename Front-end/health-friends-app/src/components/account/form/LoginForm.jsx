@@ -22,14 +22,15 @@ export default function LoginForm(props){
     .then((res)=>{
     if (res.data.success) {
       localStorage.setItem("user", JSON.stringify(res.data.data))
-      auth.login(res.data.data)
+      auth.login(res.data.data.userInfo)
       navigate(location)
       setDialog(null)
       } else {setMsg('이메일 또는 비밀번호를 확인해주세요')}})
-    .catch(err=>console.log(err))
+    .catch((err)=>console.log(err))
     }
 
   function renderResetForm(){
+    navigate('/')
     setDialog('reset')
   }
 
