@@ -44,7 +44,7 @@ const Header = (props) => {
           </Link>
           <a className="room nav-link" href="#exercise" style={{color:'black'}}>운동기록</a>
           {/* <a className="room nav-link" href="#diet" style={{color:'black'}}>식단</a> */}
-          <Link to='/foods'>
+          <Link to='/diet'>
             <p className="room nav-link" style={{color:'black'} }>식단</p>
           </Link>
           <Link to='/boards'>

@@ -43,7 +43,7 @@ export function RequireAuth(props) {
 
   if (!auth.user) {
     props.setDialog('login')
-    return <h1>Protected</h1>
+    return <h1>로그인이 필요합니다</h1>
   }
   return props.children;
 }

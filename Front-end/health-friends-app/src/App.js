@@ -9,7 +9,8 @@ import {AuthProvider,RequireAuth} from "./components/account/AuthProvider";
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import React from "react";
-import Dialog from './components/account/Dialog'
+import Dialog from './components/common/Dialog'
+import Diet from './apps/diet/Diet'
 
 // 접근제한 거는법: RequireAuth로 감싸주면 됩니다. rooms 보세요.
 function App() {
@@ -22,9 +23,10 @@ function App() {
 
     <Routes>
       <Route path="/" element={<Main />} />
-      <Route path="/rooms" element={<RequireAuth setDialog={setDialog}><RoomMain /></RequireAuth>} />
+      <Route path="/rooms" element={<RequireAuth dialog={dialog} setDialog={setDialog}><RoomMain /></RequireAuth>} />
       <Route path="/boards" element={<Board />} />
       <Route path="/foods" element={<FoodMain />} />
+      <Route path="/diet" element={<Diet setDialog={setDialog}/>} />
     </Routes>
     <Footer dialog={dialog} setDialog={setDialog}/>
   </AuthProvider>
