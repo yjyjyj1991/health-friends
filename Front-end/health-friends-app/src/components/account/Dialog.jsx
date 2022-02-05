@@ -3,6 +3,10 @@ import Dialog from '@mui/material/Dialog';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import { Box } from '@mui/material';
+<<<<<<< HEAD
+=======
+// import { useState } from 'react';
+>>>>>>> 572dca7358d4cefbac59ad77f3b743dcecd650b5
 import { useNavigate } from 'react-router-dom';
 import LoginForm from './form/LoginForm';
 import SignupForm from './form/SignupForm'

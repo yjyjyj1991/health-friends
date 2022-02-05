@@ -18,14 +18,14 @@ public class FoodManagementServiceImpl implements FoodManagementService {
   private SqlSession sqlSession;
 
   @Override
-  public boolean addFoodManagementActivity(FoodManagementActivityDto foodManagementActivityDto) throws Exception {
+  public boolean modifyFoodManagementActivity(FoodManagementActivityDto foodManagementActivityDto) throws Exception {
     if (foodManagementActivityDto.getUserId() == null || foodManagementActivityDto.getWeight() == null
         || foodManagementActivityDto.getActivePoint() == null
         || foodManagementActivityDto.getPurposeId() == null) {
       throw new Exception();
     }
     return sqlSession.getMapper(FoodManagementMapper.class)
-        .createFoodManagementActivity(foodManagementActivityDto) == 1;
+        .updateFoodManagementActivity(foodManagementActivityDto) == 1;
   }
 
   @Override
