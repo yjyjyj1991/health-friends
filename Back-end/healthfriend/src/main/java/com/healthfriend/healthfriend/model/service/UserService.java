@@ -1,6 +1,7 @@
 package com.healthfriend.healthfriend.model.service;
 
 import com.healthfriend.healthfriend.model.DTO.user.UserModifyRequest;
+import com.healthfriend.healthfriend.model.DTO.user.UserPasswordChangeRequest;
 import com.healthfriend.healthfriend.model.DTO.user.UserAccountRequest;
 import com.healthfriend.healthfriend.model.DTO.user.UserResponse;
 import com.healthfriend.healthfriend.model.DTO.user.UserSignup;
@@ -14,7 +15,7 @@ public interface UserService {
 
   public boolean deleteUser(UserWithdraw userWithdraw) throws Exception;
 
-  public boolean updateUserPassword(UserAccountRequest userAccountRequest) throws Exception;
+  public boolean updateUserRandomPassword(UserAccountRequest userAccountRequest) throws Exception;
 
   public boolean isExistsEmail(String email) throws Exception;
 
@@ -25,5 +26,9 @@ public interface UserService {
 
   public UserResponse findUserInfo(String email) throws Exception;
 
+  public UserResponse findUserById(UserPasswordChangeRequest passwordChangeRequest) throws Exception;
+
   public boolean modifyLogin(UserTokenDto userTokenDto) throws Exception;
+
+  public boolean updateUserPassword(UserPasswordChangeRequest passwordChangeRequest) throws Exception;
 }

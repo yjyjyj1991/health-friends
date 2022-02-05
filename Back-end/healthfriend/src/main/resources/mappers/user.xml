@@ -9,58 +9,69 @@
 		VALUES ( #{email}, #{name}, #{nickname}, #{password} );
 	</insert>
 
-    <update id="updateUser" parameterType="UserModifyRequest">
-			UPDATE tbl_user
-			SET nickname = #{nickname}, password = #{password}, active_point = #{activePoint}, purpose_id = #{purposeId}
-			WHERE id = #{id};
-    </update>
+	<update id="updateUser" parameterType="UserModifyRequest">
+		UPDATE tbl_user
+		SET nickname = #{nickname}, password = #{password}, active_point = #{activePoint}, purpose_id = #{purposeId}
+		WHERE id = #{id};
+	</update>
 
-    <update id="deleteUser" parameterType="UserWithdraw">
-      UPDATE tbl_user
-			SET isWithdraw = 1, withdraw_reason = #{withdraw_reason}
-			WHERE id = #{id};
-    </update>
+	<update id="deleteUser" parameterType="UserWithdraw">
+		UPDATE tbl_user
+		SET isWithdraw = 1, withdraw_reason = #{withdraw_reason}
+		WHERE id = #{id};
+	</update>
 
-		<update id="updateUserPassword" parameterType="UserAccountRequest">
-			UPDATE tbl_user
-			SET password = #{password}
-			WHERE email = #{email} AND isWithdraw = 0;
-		</update>
+	<update id="updateUserRandomPassword" parameterType="UserAccountRequest">
+		UPDATE tbl_user
+		SET password = #{password}
+		WHERE email = #{email} AND isWithdraw = 0;
+	</update>
 
-		<select id="isExistsEmail" parameterType="string" resultType="boolean">
-			SELECT COUNT(*)
-			FROM tbl_user
-			WHERE email = #{email} AND isWithdraw = 0
-		</select>
+	<update id="updateUserPassword" parameterType="UserPasswordChangeRequest">
+		UPDATE tbl_user
+		SET password = #{newPassword}
+		WHERE id = #{id};
+	</update>
 
-		<select id="isExistsNickname" parameterType="string" resultType="boolean">
-			SELECT COUNT(*)
-			FROM tbl_user
-			WHERE nickname = #{nickname} AND isWithdraw = 0
-		</select>
+	<select id="isExistsEmail" parameterType="string" resultType="boolean">
+		SELECT COUNT(*)
+		FROM tbl_user
+		WHERE email = #{email} AND isWithdraw = 0
+	</select>
 
+	<select id="isExistsNickname" parameterType="string" resultType="boolean">
+		SELECT COUNT(*)
+		FROM tbl_user
+		WHERE nickname = #{nickname} AND isWithdraw = 0
+	</select>
 
-		<update id="updateDUser" parameterType="UserWithdraw">
-			UPDATE tbl_user
-			SET isWithdraw = 1, withdraw_reason = #{withdrawReason}
-			WHERE id = #{id};
-		</update>
+	<update id="updateDUser" parameterType="UserWithdraw">
+		UPDATE tbl_user
+		SET isWithdraw = 1, withdraw_reason = #{withdrawReason}
+		WHERE id = #{id};
+	</update>
 
-		<select id="selectUser" parameterType="UserAccountRequest" resultType="UserResponse">
-			SELECT user.id, user.name, user.email, user.nickname, user.purpose_id, user.active_point, user.weight, purpose.purpose
-			FROM tbl_user AS user LEFT OUTER JOIN tbl_purpose AS purpose ON purpose.id = user.purpose_id
-			WHERE user.email = #{email} AND user.password = #{password} AND user.isWithdraw = 0;
-		</select>
+	<select id="selectUser" parameterType="UserAccountRequest" resultType="UserResponse">
+		SELECT user.id, user.name, user.email, user.nickname, user.purpose_id, user.active_point, user.weight, purpose.purpose
+		FROM tbl_user AS user LEFT OUTER JOIN tbl_purpose AS purpose ON purpose.id = user.purpose_id
+		WHERE user.email = #{email} AND user.password = #{password} AND user.isWithdraw = 0;
+	</select>
 
-		<select id="selectUserInfo" parameterType="String" resultType="UserResponse">
-			SELECT name, email, password, id, nickname, weight, active_point
-			FROM tbl_user
-			WHERE email = #{email} AND isWithdraw = 0;
-		</select>
+	<select id="selectUserById" parameterType="UserPasswordChangeRequest" resultType='UserResponse'>
+		SELECT user.id, user.name, user.email, user.nickname, user.purpose_id, user.active_point, user.weight, purpose.purpose
+		FROM tbl_user AS user LEFT OUTER JOIN tbl_purpose AS purpose ON purpose.id = user.purpose_id
+		WHERE user.id = #{id} AND user.password = #{oldPassword} AND user.isWithdraw = 0;
+	</select>
 
-		<update id="updateLogin" parameterType="UserTokenDto">
-			UPDATE tbl_user
-			SET token = #{token}
-			WHERE id = #{id}
-		</update>
+	<select id="selectUserInfo" parameterType="String" resultType="UserResponse">
+		SELECT name, email, password, id, nickname, weight, active_point
+		FROM tbl_user
+		WHERE email = #{email} AND isWithdraw = 0;
+	</select>
+
+	<update id="updateLogin" parameterType="UserTokenDto">
+		UPDATE tbl_user
+		SET token = #{token}
+		WHERE id = #{id}
+	</update>
 </mapper>
