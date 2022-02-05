@@ -3,11 +3,11 @@ import Dialog from '@mui/material/Dialog';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import { Box } from '@mui/material';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoginForm from './form/LoginForm';
 import SignupForm from './form/SignupForm'
 import ResetForm from './form/ResetForm'
+import ChangePwForm from './form/ChangePwForm';
 
 export default function FormDialog(props) {
   const {dialog, setDialog} = props
@@ -39,6 +39,7 @@ export default function FormDialog(props) {
       {dialog==='login'&&<LoginForm setDialog={setDialog} />}
       {dialog==='signup'&&<SignupForm setDialog={setDialog}/>}
       {dialog==='reset'&&<ResetForm setDialog={setDialog}/>}
+      {dialog==='changePw'&&<ChangePwForm setDialog={setDialog}/>}
     </Dialog>
   );
 }

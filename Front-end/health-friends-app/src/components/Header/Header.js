@@ -24,6 +24,10 @@ const Header = (props) => {
     localStorage.removeItem('user')
     auth.signout()
   }
+  function changePw(){
+    setDialog('changePw')
+  }
+
   return (
   <nav className="navbar navbar-expand-lg sticky-top">
     <div className="container">
@@ -54,7 +58,7 @@ const Header = (props) => {
             <FontAwesomeIcon icon={faUserCircle} size="4x" color="black" />
           </Dropdown.Toggle>
           {auth.user && <Dropdown.Menu className="text-center" align="end">
-            <Dropdown.Item className="mt-3">내 프로필</Dropdown.Item>
+            <Dropdown.Item onClick={changePw} className="mt-3">비밀번호변경</Dropdown.Item>
             <Dropdown.Item onClick={logout} className="mt-3">로그아웃</Dropdown.Item>
           </Dropdown.Menu>}
           {!auth.user && <Dropdown.Menu className="text-center" align="end">

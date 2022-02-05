@@ -8,11 +8,8 @@ export let AuthContext = React.createContext(null);
 export function AuthProvider({ children }) {
   let [user, setUser] = React.useState(null);
   let login = (newUser) => {
-    // fakeAuthProvider.signin
     setUser(newUser);
-    console.log(user);
   };
-
   let signout = () => {
     setUser(null);
   };

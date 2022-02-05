@@ -25,7 +25,7 @@ export default function ResetForm(props){
       size="small"
       required
       onChange={handleChange}
-      label="Enter email"
+      label="이메일"
       name='email'
       fullWidth
       helperText={msg}
