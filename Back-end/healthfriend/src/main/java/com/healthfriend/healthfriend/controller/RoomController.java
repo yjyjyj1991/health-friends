@@ -28,7 +28,7 @@ import io.swagger.annotations.Api;
 
 @RestController
 @RequestMapping("/rooms")
-@CrossOrigin(origins = "*")
+@CrossOrigin
 @Api("룸 컨트롤러  API V1")
 public class RoomController {
 

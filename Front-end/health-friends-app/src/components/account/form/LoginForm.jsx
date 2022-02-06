@@ -17,20 +17,20 @@ export default function LoginForm(props){
 
   function handleSubmit(e){
     e.preventDefault();
-    
     const data = new FormData(e.currentTarget);
     axios.post(BASE_URL+'users/login',{email: data.get('email'),password: data.get('password'),})
     .then((res)=>{
     if (res.data.success) {
       localStorage.setItem("user", JSON.stringify(res.data.data))
-      auth.login(res.data.data)
+      auth.login(res.data.data.userInfo)
       navigate(location)
       setDialog(null)
-      } else {setMsg('check email or password')}})
-      .then(err=>console.log(err))
+      } else {setMsg('이메일 또는 비밀번호를 확인해주세요')}})
+    .catch((err)=>console.log(err))
     }
 
   function renderResetForm(){
+    navigate('/')
     setDialog('reset')
   }
 
@@ -44,9 +44,8 @@ export default function LoginForm(props){
       <Grid item xs={12}>
         <TextField
           required
-          label="Email Address"
+          label="이메일"
           name="email"
-          variant="standard"
           autoComplete="email"
           fullWidth
         />
@@ -55,9 +54,8 @@ export default function LoginForm(props){
         <TextField 
           required
           type='password'
-          label="password"
+          label="패스워드"
           name="password"
-          variant="standard"
           fullWidth
         />
       </Grid>
@@ -67,7 +65,7 @@ export default function LoginForm(props){
       </Grid>
 
       <Grid item xs={12} sx={{display:'flex', justifyContent:'space-between', }}>        
-        <Button size="small" onClick={renderResetForm} >Forgot password?</Button>
+        <Button size="small" onClick={renderResetForm} >비밀번호를 잊어버렸나요?</Button>
       </Grid>
     </Grid>
   )

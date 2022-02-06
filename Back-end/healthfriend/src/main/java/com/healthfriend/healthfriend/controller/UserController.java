@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.healthfriend.healthfriend.message.Message;
 import com.healthfriend.healthfriend.model.DTO.user.UserModifyRequest;
+import com.healthfriend.healthfriend.model.DTO.user.UserPasswordChangeRequest;
 import com.healthfriend.healthfriend.model.DTO.user.UserAccountRequest;
 import com.healthfriend.healthfriend.model.DTO.user.UserResponse;
 import com.healthfriend.healthfriend.model.DTO.user.UserSignup;
@@ -40,7 +41,7 @@ import io.swagger.annotations.ApiParam;
 
 @RestController
 @RequestMapping("/users")
-@CrossOrigin(origins = "*")
+@CrossOrigin
 @Api("사용자 컨트롤러  API V1")
 public class UserController {
 	public static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -239,9 +240,41 @@ public class UserController {
 	// ----------------------------------------------------------------------------------------//
 	//
 	// ----------------------------------------------------------------------------------------//
+	@ApiOperation(value = "패스워드 변경")
+	@PutMapping(value = "/update-password")
+	public ResponseEntity<Message> putMethodName(@RequestBody UserPasswordChangeRequest passwordChangeRequest)
+			throws Exception {
+
+		Message message = new Message();
+		HttpStatus status = HttpStatus.NO_CONTENT;
+
+		UserResponse user = userService.findUserById(passwordChangeRequest);
+
+		if (user == null) {
+			status = HttpStatus.OK;
+			message.setSuccess(false);
+			message.setMessage("기존 패스워드가 일치하지 않습니다.");
+		} else {
+			status = HttpStatus.OK;
+
+			if (userService.updateUserPassword(passwordChangeRequest)) {
+				message.setSuccess(true);
+				message.setMessage("비밀번호 변경에 성공했습니다.");
+			} else {
+				message.setSuccess(false);
+				message.setMessage("비밀번호 변경에 실패했습니다.");
+			}
+		}
+
+		return new ResponseEntity<Message>(message, status);
+	}
+
+	// ----------------------------------------------------------------------------------------//
+	//
+	// ----------------------------------------------------------------------------------------//
 	@ApiOperation(value = "임시 비밀번호 적용", notes = "해당 이메일로 임시 비밀번호를 전송")
 	@PutMapping(value = "reset-password/{email}")
-	public ResponseEntity<Message> putMethodName(@PathVariable String email) throws Exception {
+	public ResponseEntity<Message> resetPassword(@PathVariable String email) throws Exception {
 
 		Message message = new Message();
 		boolean isSuccess = false;
@@ -261,7 +294,7 @@ public class UserController {
 			userAccount.setEmail(email);
 			userAccount.setPassword(randomValue);
 
-			if (userService.updateUserPassword(userAccount)) {
+			if (userService.updateUserRandomPassword(userAccount)) {
 				if (SendMailHelper.getInstance().SendMail(email, randomValue)) {
 					isSuccess = true;
 				} else {

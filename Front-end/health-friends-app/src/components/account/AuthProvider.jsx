@@ -8,11 +8,8 @@ export let AuthContext = React.createContext(null);
 export function AuthProvider({ children }) {
   let [user, setUser] = React.useState(null);
   let login = (newUser) => {
-    // fakeAuthProvider.signin
     setUser(newUser);
-    console.log(user);
   };
-
   let signout = () => {
     setUser(null);
   };
@@ -46,7 +43,7 @@ export function RequireAuth(props) {
 
   if (!auth.user) {
     props.setDialog('login')
-    return <h1>Protected</h1>
+    return <h1>로그인이 필요합니다</h1>
   }
   return props.children;
 }

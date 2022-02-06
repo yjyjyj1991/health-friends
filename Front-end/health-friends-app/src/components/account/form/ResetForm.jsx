@@ -7,15 +7,20 @@ export default function ResetForm(props){
   const BASE_URL='https://i6d204.p.ssafy.io/api/'
   const [email,setEmail]= useState(null)
   const [msg,setMsg]=useState('이메일로 새 비밀번호를 받습니다')
-  
+  const [disable,setDisable]=useState(false)
+
   function handleChange(e){
     setEmail(e.target.value)
   }
   function sendEmail(e){  
-    axios.put(BASE_URL+'users/reset-password/', {params:{email:email}})
-    .then((res) => {console.log(res)
-    setMsg('성공적으로 보냈습니다')
-    setTimeout(() => {setDialog('login')}, 1000)})
+    setDisable(true)
+    axios({
+      method: 'put',
+      url: BASE_URL+'users/reset-password/'+email,
+    })
+    .then((res) => {
+      if (res.data.success) { setMsg('성공적으로 보냈습니다'); setTimeout(() => {setDialog('login')}, 1500)}
+      else {setMsg('이메일을 확인해주세요'); setDisable(false) }}) 
     .catch(err=>{console.log(err);setMsg('실패')})
   }
 
@@ -25,14 +30,14 @@ export default function ResetForm(props){
       size="small"
       required
       onChange={handleChange}
-      label="Enter email"
+      label="이메일"
       name='email'
       fullWidth
       helperText={msg}
       InputProps={{
         endAdornment: <InputAdornment position="end">
           <Button variant='contained' size='small'
-            onClick={sendEmail}>send</Button>
+            onClick={sendEmail} disabled={disable}>send</Button>
         </InputAdornment>
       }}
     />

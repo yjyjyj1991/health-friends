@@ -3,7 +3,7 @@ import { useState } from "react";
 import axios from 'axios';
 
 export default function SignupForm(props){
-  const {setForm}=props
+  const {setDialog}=props
 
   const [email, setEmail]=useState(null)
   const [nickname,setNickname]=useState(null)
@@ -16,9 +16,8 @@ export default function SignupForm(props){
   const [isPw2Valid, setIsPw2Valid]=useState(null)
 
   const [code, setCode]=useState(null)
-  const [data,setData]=useState(null)
 
-  var isAllValid = isEmailValid==='verified'&&isNicknameValid==='verified'&&!isPwValid&&!isPw2Valid &&pw&&pw2
+  var isAllValid = isEmailValid==='사용가능'&&isNicknameValid==='사용가능'&&!isPwValid&&!isPw2Valid &&pw&&pw2
   const BASE_URL='https://i6d204.p.ssafy.io/api/'
 
   function validate(e){
@@ -26,9 +25,9 @@ export default function SignupForm(props){
     switch (e.target.name) {
       case 'email':
         if (!value){setIsEmailValid(null); return
-        } else if (/.+@[^.]+\.[^.]+$/.test(value)){setIsEmailValid('valid'); return  
+        } else if (/.+@[^.]+\.[^.]+$/.test(value)){setIsEmailValid('유효'); return  
         } 
-        setIsEmailValid('invalid')
+        setIsEmailValid('유효하지않음')
         break;
       case 'pw':
         if (!value || (/\d/.test(value) && /[A-Za-z]/.test(value) && /\W/.test(value) && 
@@ -40,7 +39,7 @@ export default function SignupForm(props){
         break;
       case 'pw2':
         if (!value) {setIsPw2Valid(null); return
-      } else if (value!==pw) {setIsPw2Valid('doesn\'t match'); return
+      } else if (value!==pw) {setIsPw2Valid('invalid'); return
       } else {
         setIsPw2Valid(null);
       }
@@ -61,7 +60,7 @@ export default function SignupForm(props){
   }
   function handlePwChange(e){
     setPw(e.target.value)
-    if (pw2&&e.target.value!==pw2) {setIsPw2Valid('doesn\'t match')} else {setIsPw2Valid(null)}
+    if (pw2&&e.target.value!==pw2) {setIsPw2Valid('invalid')} else {setIsPw2Valid(null)}
     validate(e)
   }
   function handlePw2Change(e){
@@ -70,28 +69,30 @@ export default function SignupForm(props){
   }
   function verifyEmail(e){
     axios.get(BASE_URL+'users/exists/email', {params:{email:email}})
-    .then((response) => response.status===200 && setIsEmailValid('verified'))
-    .catch(() => {setIsEmailValid('exist');})
+    .then((res) => { console.log(res); res.status===200 && setIsEmailValid('사용가능')})
+    .catch((err) => {console.log(err); setIsEmailValid('사용중');})
   }
   function verifyNickname(e){
     axios.get(BASE_URL+'users/exists/nickname', {params:{nickname:nickname}})
-    .then((response) => response.status===200 && setIsNicknameValid('verified'))
-    .catch(() => {setIsNicknameValid('exist');})
+    .then((response) => response.status===200 && setIsNicknameValid('사용가능'))
+    .catch(() => {setIsNicknameValid('사용중');})
   }
   function sendCode(e){
+    setIsEmailValid(null)
+    setIsNicknameValid(null)
+    setIsPwValid(null)
+    setIsPw2Valid(null)
     e.preventDefault();
-    setData({
-      email:email,
-      nickname:nickname,
-      password:pw,
-    })
-    axios.get(BASE_URL+'users/verify', {params:{email:data.email}})
-    .then((res) => {console.log(res); setCode(res.data.data)})
+    axios.get(BASE_URL+'users/verify', {params:{email:email}})
+    .then((res) => {setCode(res.data.data)})
     .catch((err)=>console.log(err) )
+  
   }
+    
   function checkCode(e){
-    alert('success')
-    setForm('login')
+    axios.post(BASE_URL+'users',{nickname:nickname,email:email,name:'홍길동',password:pw})
+    .then(res=>{alert('회원등록완료')
+    setDialog('login')} )
   }
 
   return (
@@ -100,22 +101,20 @@ export default function SignupForm(props){
       component='form'
       spacing={2}
       padding={2}
-      // noValidate 
       onSubmit={sendCode}
     > 
       <Grid item xs={12} sx={{display:'flex',}}>
         <TextField
           required
-          label="Email"
+          label="이메일"
           name='email'
           fullWidth
           onChange={handleEmailChange}
-          // onBlur={handleBlur}
-          error={isEmailValid==='invalid'||isEmailValid==='exist'}
+          error={isEmailValid==='유효하지않음'||isEmailValid==='사용중입니다'}
           helperText={isEmailValid}
           InputProps={{
             endAdornment: <InputAdornment position="end">
-              <Button variant='contained' disabled={!email||isEmailValid==='invalid'}
+              <Button variant='contained' disabled={!email||isEmailValid==='유효하지않음'}
                 onClick={verifyEmail}>Check</Button>
               </InputAdornment>
           }}
@@ -124,12 +123,11 @@ export default function SignupForm(props){
       <Grid item xs={12} sx={{display:'flex',}}>
         <TextField
           required
-          label="Nickname"
+          label="닉네임"
           name='nickname'
           fullWidth
           onChange={handleNicknameChange}
-          // onBlur={handleBlur}
-          error={isNicknameValid==='exist'}
+          error={isNicknameValid==='사용중입니다'}
           helperText={isNicknameValid}
           InputProps={{
             endAdornment: <InputAdornment position="end">
@@ -143,35 +141,34 @@ export default function SignupForm(props){
         <TextField
           type='password'
           required
-          label="Password"
+          label="비밀번호"
           name='pw'
           fullWidth
           onChange={handlePwChange}
-          // onBlur={handleBlur}
           error={isPwValid==='invalid'}
-          helperText={isPwValid}
+          helperText={isPwValid && '8~16자 이내 | 문자,숫자,특수문자 포함'}
         />
       </Grid>
       <Grid item xs={12} sx={{display:'flex',}}>
         <TextField
           type='password'
           required
-          label="Password Confirm"
+          label="비밀번호확인"
           name='pw2'
           fullWidth
           onChange={handlePw2Change}
-          error={isPw2Valid==='doesn\'t match'}
-          helperText={isPw2Valid}
+          error={isPw2Valid==='invalid'}
+          helperText={isPw2Valid&&'불일치'}
         />
       </Grid>
 
       <Grid item xs={Boolean(code)?6:12}>
         <Button fullWidth size="large" type="submit" variant='contained' disabled={!isAllValid}
-        onClick={sendCode}>Verify Email</Button>
+        onClick={sendCode}>이메일인증</Button>
       </Grid>
       {code &&
         <Grid item xs={6}>
-          <TextField size="small" label='Code sent to email' onChange={checkCode}/>  
+          <TextField fullWidth size="small" label='발송된 코드를 입력해주세요' onChange={checkCode}/>  
         </Grid>
       }
       

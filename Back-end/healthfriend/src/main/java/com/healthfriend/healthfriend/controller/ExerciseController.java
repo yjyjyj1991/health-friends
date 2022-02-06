@@ -21,7 +21,7 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/exercise")
-@CrossOrigin(origins = "*")
+@CrossOrigin
 @Api("운동 일정 컨트롤러  API V1")
 public class ExerciseController {
   @Autowired
