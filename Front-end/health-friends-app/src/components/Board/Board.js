@@ -28,8 +28,8 @@ const Board = () => {
         console.log(Error);})
   },[]);
   return (
-    <div sytle={{minHeight:'100vh'}}>
-      <Header/>
+    <div sytle={{flex: '1'}}>
+      {/* <Header/> */}
       <div className='container_board'>
         <div className='text-center'>
           <h1 style={{ fontSize: '5rem' }}>공지사항</h1>
@@ -86,7 +86,7 @@ const Board = () => {
           </Table>
         </div>
       </div>
-      <Footer/>
+      {/* <Footer/> */}
     </div>
   );
 };

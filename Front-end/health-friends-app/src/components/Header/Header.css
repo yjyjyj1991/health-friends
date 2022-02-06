@@ -1,11 +1,30 @@
 .navbar {
   background-color: #D3E4CD;
-  height: 10rem;
+  /* height: 10rem; */
+  /* position: sticky; */
+  width: 100%;
+  min-width: 1250px;
+  height: 100px;
+  top: 0px;
+  left: 0px;
+  right: 0px;
 }
+/* .container-fluid {
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  display: flex;
+  width: 100%;
+  min-width: 1250px;
+  height: 100px;
+  align-items: center;
+  justify-content: space-between;
+} */
 .container {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  /* flex-wrap: wrap; */
 }
 .user_img {
   background-color: #D3E4CD;

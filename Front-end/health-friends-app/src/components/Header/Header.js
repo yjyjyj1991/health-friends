@@ -30,48 +30,56 @@ const Header = (props) => {
 
   return (
   <nav className="navbar navbar-expand-lg sticky-top">
-    <div className="container">
-      <div className="col-2">
+    <div className="container-fluid">
+      {auth.user && <div className="container d-flex justify-content-between">
         <Link to='/'>
-          <p className="navbar-brand navbar-left m-0 p-0 mb-4" >
-          <img src={logo} alt="logo" style={{height: '7rem'}}/> </p>
+          <img src={logo} alt="logo" style={{height: '7rem'}}/>
         </Link>
-      </div>
-      <div className="col-10">
-        <div className="d-flex justify-content-evenly">
-          <Link to='/rooms'>
-            <p className="room nav-link" style={{color:'black'} }>헬스장</p>
-          </Link>
-          <a className="room nav-link" href="#exercise" style={{color:'black'}}>운동기록</a>
-          {/* <a className="room nav-link" href="#diet" style={{color:'black'}}>식단</a> */}
-          <Link to='/diet'>
-            <p className="room nav-link" style={{color:'black'} }>식단</p>
-          </Link>
-          <Link to='/boards'>
-            <p className="room nav-link" style={{color:'black'} }>HELP DESK</p>
-          </Link>
-        </div>
-      </div>
-      <div className="col-1">
+        <Link to='/rooms'>
+          <p className="room nav-link" style={{color:'black'} }>헬스장</p>
+        </Link>
+        <Link to='/diet'>
+          <p className="room nav-link" style={{color:'black'} }>운동기록</p>
+        </Link>
+        <Link to='/diet'>
+          <p className="room nav-link" style={{color:'black'} }>식단</p>
+        </Link>
+        <Link to='/boards'>
+          <p className="room nav-link" style={{color:'black'} }>HELP DESK</p>
+        </Link>
         <Dropdown className="mt-4">
           <Dropdown.Toggle className='user_img' variant="white">
             <FontAwesomeIcon icon={faUserCircle} size="4x" color="black" />
           </Dropdown.Toggle>
-          {auth.user && <Dropdown.Menu className="text-center" align="end">
+          <Dropdown.Menu className="text-center" align="end">
             <Dropdown.Item onClick={changePw} className="mt-3">비밀번호변경</Dropdown.Item>
             <Dropdown.Item onClick={logout} className="mt-3">로그아웃</Dropdown.Item>
-          </Dropdown.Menu>}
-          {!auth.user && <Dropdown.Menu className="text-center" align="end">
+          </Dropdown.Menu>
+        </Dropdown>
+        </div>
+      }
+      {!auth.user && <div className="container d-flex justify-content-between">
+        <Link to='/'>
+          <img src={logo} alt="logo" style={{height: '7rem'}}/>
+        </Link>
+          <p className="room nav-link" style={{color:'black', visibility:'hidden'} }>헬스장</p>
+          <p className="room nav-link" style={{color:'black', visibility:'hidden'} }>운동기록</p>
+          <p className="room nav-link" style={{color:'black', visibility:'hidden'} }>식단</p>
+        <Link to='/boards'>
+          <p className="room nav-link" style={{color:'black'} }>HELP DESK</p>
+        </Link>
+        <Dropdown className="mt-4">
+          <Dropdown.Toggle className='user_img' variant="white">
+            <FontAwesomeIcon icon={faUserCircle} size="4x" color="black" />
+          </Dropdown.Toggle>
+        <Dropdown.Menu className="text-center" align="end">
             <Dropdown.Item  className="mt-3" onClick={handleLogin}>로그인</Dropdown.Item>
             <Dropdown.Item  className="mt-3" onClick={handleSignup}>회원가입</Dropdown.Item>
-          </Dropdown.Menu>}
-        </Dropdown>  
-      </div>
+          </Dropdown.Menu>
+        </Dropdown>
+        </div>
+      }
     </div>
-
-  
-    
-
   </nav>
   
   );
