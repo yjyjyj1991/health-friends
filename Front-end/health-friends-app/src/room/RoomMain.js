@@ -42,7 +42,7 @@ const RoomMain = () => {
                 <RoomListCard/>
             </Container>
         
-            <Footer/>
+
            
         </>
        

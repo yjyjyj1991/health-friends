@@ -1,11 +1,19 @@
 import React from "react";
 // import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
-import './Main.css'; 
+// import Footer from "../Footer/Footer";
+import './Main.css';
+import { Link } from 'react-router-dom';
+import {AuthContext,} from '../account/AuthProvider'
+import {useContext,} from 'react'
 
 // import Button from 'react-bootstrap/Button'
 
-const Main = () => {
+const Main = (props) => {
+  const {setDialog}=props
+  const auth = useContext(AuthContext)
+  function handleLogin(){
+    setDialog('login')
+  }
   return (
     <div>
 
@@ -23,24 +31,20 @@ const Main = () => {
                 color:'black',
                 textDecoration: 'none',  }} href="#login">운동가기</Button> */}
               {/* <Link to="#..."><button color="black" className="start_btn">운동하러 가기</button></Link> */}
-              <button color="black" className="start_btn">운동하러 가기</button>
+              {auth.user && <Link to='/rooms'>
+                <button style={{color:'black'}} className="start_btn">운동하러 가기</button>
+              </Link>}
+              {!auth.user && 
+            //   <Link to='/rooms'>
+                <button style={{color:'black'}} onClick={handleLogin} className="start_btn">운동하러 가기</button>
+            /* </Link> */
+              }
               
           </div>
         </div>
         {/* <div class="d-grid gap-2 col-2 mx-auto"> */}
         <div style={{backgroundColor:'#D3E4CD', height:'15rem'}} >
-
         </div>
-        {/* <div className="second_main">
-          <div className="second_sentence col-6">
-            <p>WHAT<br/>WE<br/>DO<br/></p>
-          </div> */}
-          {/* <div className="col-6">
-            <div>
-              <p>함께하는 홈트</p>
-              <p>여럿이서 함께 할수 있는... 어쩌구 저쩌꾸..</p>
-            </div>
-          </div> */}
           <section id="service" className="service">
             <div className="container">
                 <div className="row">
@@ -107,7 +111,7 @@ const Main = () => {
       </div>
       
 
-      <Footer/>
+      {/* <Footer/> */}
     </div>
   );
 };
