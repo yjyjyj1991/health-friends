@@ -4,7 +4,6 @@ import {Button, Container} from '@material-ui/core';
 import Grid from '@mui/material/Grid';
 import Rank from './Rank';
 import RoomListCard from './RoomListCard';
-// import RoomList from './RoomList';
 import RoomCreate from './RoomCreate';
 
 
