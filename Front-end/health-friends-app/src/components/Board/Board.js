@@ -1,26 +1,73 @@
+import Box from '@mui/material/Box';
+import Collapse from '@mui/material/Collapse';
+import IconButton from '@mui/material/IconButton';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Typography from '@mui/material/Typography';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import React, { useEffect, useState } from 'react';
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
-import Table from 'react-bootstrap/Table'
-import './Board.css'; 
 import axios from 'axios'
-// import logo from './logo.png';
-import Accordion from 'react-bootstrap/Accordion'
-// import IconButton from '@mui/material/IconButton';
-// import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-// import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import Moment from 'react-moment';
 
 
-const Board = () => {
+function Row(props) {
+  const { row } = props;
+  const [open, setOpen] = React.useState(false);
+
+  return (
+      <React.Fragment>
+        <TableRow sx={{ borderBottom: 'set'}} onClick={() => setOpen(!open)}>
+          <TableCell style={{ border:'none'}}>
+            <IconButton
+              aria-label="expand row"
+              size="small"
+              onClick={() => setOpen(!open)}
+            >
+              {open ? <KeyboardArrowUpIcon/>  : <KeyboardArrowDownIcon />}
+            </IconButton>
+          </TableCell>
+
+          <TableCell align="center" style={{ fontSize:'1.5rem', fontWeight:'bold', border:'none' }}>{row.id}</TableCell>
+          <TableCell align="left" style={{ fontSize:'1.5rem', fontWeight:'bold', border:'none' }} >{row.title}</TableCell>
+          <TableCell align="center" style={{ fontSize:'1.5rem', fontWeight:'bold', border:'none' }}>
+          <Moment format="YYYY-MM-DD">{row.date}</Moment></TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell style={{ paddingBottom: 0, paddingTop: 0}} colSpan={6}>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <Box sx={{ margin: 1 }}>
+                <Typography variant="h6" gutterBottom component="div">
+                </Typography>
+                <Table aria-label="purchases">
+                    <TableHead className='container-fluid'>
+                      <TableRow>
+                      <TableCell className='col-2' style={{ border: 'none' }}></TableCell>
+                        <TableCell className='col-8' style={{ border: 'none', fontSize:'1.5rem', height:'10rem' }}>
+                        <pre style={{ backgroundColor:'white', border:'none' }}>{row.content}</pre> </TableCell>
+                        <TableCell  className='col-2'  style={{ border: 'none' }}></TableCell>
+                      </TableRow>
+                    </TableHead>
+                </Table>
+              </Box>
+            </Collapse>
+          </TableCell>
+        </TableRow>
+      </React.Fragment>
+
+  );
+}
+
+export default function CollapsibleTable() {
   const [posts, setPosts] = useState([]);
-  // const [open, setOpen] = React.useState(false);
   
   useEffect(() => {
     axios
       .get('https://i6d204.p.ssafy.io/api/boards')
-      // .then((Response)=>{
-      //   setPosts(Response.data)
-      //   console.log(Response.data);})
       .then(({data})=>{
         setPosts(data)
         console.log(data);})
@@ -28,69 +75,33 @@ const Board = () => {
         console.log(Error);})
   },[]);
   return (
-    <div sytle={{flex: '1'}}>
-      {/* <Header/> */}
-      <div className='container_board'>
-        <div className='text-center'>
-          <h1 style={{ fontSize: '5rem' }}>공지사항</h1>
+    <div className="body">
+      
+        <div className='text-center sentence'>
+          <h1 style={{ fontSize: '5rem', marginTop:'5rem', marginBottom:'5rem', fontWeight:'bold' }}>공지사항</h1>
         </div>
-        <div>
-        </div>
-        <div className="table_board">
-          <Table hover size="sm">
-            <thead>
-              <tr className="text-center">
-                <th>번호</th>
-                <th>제목</th>
-                <th>등록일</th>
-              </tr>
-            </thead>
-            <tbody >
-
-                {/* {posts.data && posts.data.map((post, index) => (
-                    <tr key={index}>
-                      <td>{post.id}</td>
-                      <td>{post.title}</td>
-                      <td>{post.date}</td>
-                    </tr>
-                ))} */}
-                {posts.data && posts.data.map((post, index) => (
-                  <tr key={index}>
-                    <td>{post.id}</td>
-                    <td><Accordion>
-                        <Accordion.Item eventKey={index}>
-                        <Accordion.Header>{post.title}</Accordion.Header>
-                        <Accordion.Body>{post.title} content들어가면된다</Accordion.Body>
-                        </Accordion.Item>
-                        </Accordion></td>
-                    <td>{post.date}</td>
-                  </tr>
-                ))}
-                {/* {posts.data && posts.data.map((post, index) => (
-                  <Accordion>
-                  <Accordion.Item eventKey={index}>
-                  <Accordion.Header>
-                  <tr key={index}>
-                    <td>{post.id}</td>
-                    <td>{post.title}</td>
-                    <td>{post.date}</td>
-                    </tr>
-                  </Accordion.Header>
-                  <Accordion.Body>{post.title}</Accordion.Body>
-                  </Accordion.Item>
-                  </Accordion>
-                ))} */}
-                
-
-            </tbody>
+        {/* <div> */}
+      <div className="container">
+        <TableContainer style={{ marginBottom:'10rem' }}>
+          <Table aria-label="collapsible table">
+            <TableHead className="row"  >
+              <TableRow >
+                <TableCell className="col-1" style={{ borderColor :'#99A799' }}></TableCell>
+                <TableCell className="col-2" align="center" style={{ fontSize:'2rem', fontWeight:'bold', color:"#99A799", borderColor:'#99A799' }}>번호 </TableCell>
+                <TableCell className="col-7" align="center" style={{ fontSize:'2rem', fontWeight:'bold', color:"#99A799", borderColor:'#99A799' }}>제목</TableCell>
+                <TableCell className="col-2" align="center" style={{ fontSize:'2rem', fontWeight:'bold', color:"#99A799", borderColor:'#99A799' }}>등록일</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody >
+              {posts.data && posts.data.map((row, index) => (
+                <Row key={index} row={row} />
+              ))}
+            </TableBody>
           </Table>
-        </div>
+        </TableContainer>
+
       </div>
-      {/* <Footer/> */}
+
     </div>
   );
-};
-
-
-export default Board;
-
+}
