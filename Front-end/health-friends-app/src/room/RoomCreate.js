@@ -1,11 +1,10 @@
 /*eslint-disable*/
-import React, { useState, useEffect} from "react";
+import React, { useState, useCallback } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import { DialogActions, DialogTitle, DialogContent, DialogContentText, TextField } from "@material-ui/core";
 import { Button } from "@material-ui/core";
 import axios from 'axios';
 import { post } from 'axios';
-
 
 const RoomCreate = (props) => {
   let [roomTitle, setRoomTitle] = useState('');
@@ -15,17 +14,19 @@ const RoomCreate = (props) => {
   let [password, setPassword] = useState('');
 
   const handlerFormSubmit = (e) => {
-    e.preventDefault()
-    this.addList()
+    e.preventDefault();
+    addList()
         .then((response)=>{
           console.log(response.data);
         })
+        .catch((error)=>{
+          console.log(error)
+        });
 
     if(roomTitle && roomType && roomContent ) {
       console.log(roomTitle, roomType, roomContent)
     }
   }
-
 
   const addList = () => {
     const url = 'https://i6d204.p.ssafy.io/api/rooms';
@@ -33,13 +34,15 @@ const RoomCreate = (props) => {
     formData.append('roomType', roomType);
     formData.append('title', roomTitle);
     formData.append('content', roomContent);
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
+    }
 
-    return post(url, formData);
+    return post(url, formData, config);
 
   }
-
- 
-
 
   return (
     <>
@@ -50,7 +53,8 @@ const RoomCreate = (props) => {
         <DialogTitle >방 생성하기</DialogTitle>
         <DialogContent>
           <DialogContentText >
-            <form onSubmit={() => handlerFormSubmit}>
+            {/* <form onSubmit={add}> */}
+            <form onSubmit={handlerFormSubmit}>
               <select name="roomType" onChange={(e) => setRoomType(e.target.value) }>
                 <option value="">--운동 종류 선택--</option>
                 <option value="헬스">헬스</option>
@@ -72,7 +76,7 @@ const RoomCreate = (props) => {
               } */}
              
               <DialogActions> 
-                <Button variant="outlined" type="submit"> 생성 </Button>
+                <Button variant="outlined" type="submit"> 만들기 </Button>
               </DialogActions>
             </form>
 

@@ -1,11 +1,10 @@
 /*eslint-disable*/
 import React, { useState } from 'react';
-import Header from '../components/Header/Header';
-import Footer from '../components/Footer/Footer';
 import {Button, Container} from '@material-ui/core';
 import Grid from '@mui/material/Grid';
 import Rank from './Rank';
 import RoomListCard from './RoomListCard';
+// import RoomList from './RoomList';
 import RoomCreate from './RoomCreate';
 
 
@@ -42,7 +41,7 @@ const RoomMain = () => {
                 <RoomListCard/>
             </Container>
         
-            <Footer/>
+            
            
         </>
        

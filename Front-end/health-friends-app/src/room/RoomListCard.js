@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
+// import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea, CardActions } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { ButtonGroup, Button } from '@material-ui/core';
 import axios from 'axios';
 
-function RoomListCard() {
-
+const RoomListCard = (props) => {
   
-    let [lists, setLists] = useState([]);
+  let [lists, setLists] = useState([]);
 
   const filterResult=(selectedType)=>{
     const result = lists.data.filter(curData => curData.roomType === selectedType);
