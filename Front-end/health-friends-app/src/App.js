@@ -1,6 +1,6 @@
 /*eslint-disable*/
 import Main from "./components/Main/Main";
-import Board from "./components/Board/Board";
+import BoardCreate from "./components/Board/BoardCreate";
 import FoodMain from "./components/food/FoodMain";
 import RoomMain from "./components/room/RoomMain";
 // import './App.css';
@@ -22,8 +22,8 @@ function App() {
     <Routes>
       <Route path="/" element={<Main />} />
       {/* <Route path="/rooms" element={<RequireAuth dialog={dialog} setDialog={setDialog}><RoomMain /></RequireAuth>} /> */}
-      <Route path="/rooms" element={<RoomMain />} />
-      <Route path="/boards" element={<Board />} />
+      <Route path="/rooms" element={<RoomMain />}/>
+      <Route path="/boards" element={<BoardCreate />} />
       <Route path="/foods" element={<FoodMain />} />
       <Route path="/diet" element={<Diet/>} />
     </Routes>
