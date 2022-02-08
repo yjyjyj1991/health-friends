@@ -1,4 +1,4 @@
-import { InputAdornment, TextField, Button, Box } from "@mui/material";
+import { InputAdornment, TextField, Button, Grid } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
 
@@ -25,22 +25,23 @@ export default function ResetForm(props){
   }
 
   return (
-  <Box sx={{padding:'20px'}}>
-    <TextField
-      size="small"
-      required
-      onChange={handleChange}
-      label="이메일"
-      name='email'
-      fullWidth
-      helperText={msg}
-      InputProps={{
-        endAdornment: <InputAdornment position="end">
-          <Button variant='contained' size='small'
-            onClick={sendEmail} disabled={disable}>send</Button>
-        </InputAdornment>
-      }}
-    />
-  </Box>
+    <Grid container>
+      <Grid item xs={12}>
+        <TextField
+          required
+          onChange={handleChange}
+          label="이메일"
+          name='email'
+          fullWidth
+          helperText={msg}
+          InputProps={{
+            endAdornment: <InputAdornment position="end">
+              <Button variant='contained' size='small'
+                onClick={sendEmail} disabled={disable}>send</Button>
+            </InputAdornment>
+          }}
+        />
+      </Grid>
+    </Grid>
   )
 }

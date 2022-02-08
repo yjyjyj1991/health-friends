@@ -16,7 +16,6 @@ const Main = (props) => {
   }
   return (
     <div>
-
       <div className="container_main">
         <div className="first_main">
           <div className="main_sentence d-flex justify-content-center">

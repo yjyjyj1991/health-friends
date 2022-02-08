@@ -1,5 +1,5 @@
-import { Grid,InputAdornment ,TextField, Button, } from "@mui/material";
-import { useState } from "react";
+import { Grid,InputAdornment ,TextField, Button, Typography, } from "@mui/material";
+import { useState, } from "react";
 import axios from 'axios';
 
 export default function SignupForm(props){
@@ -100,9 +100,10 @@ export default function SignupForm(props){
       container
       component='form'
       spacing={2}
-      padding={2}
+      padding={5}
       onSubmit={sendCode}
     > 
+      <Grid item xs={12}><Typography align="center" variant="h2">회원가입</Typography></Grid>
       <Grid item xs={12} sx={{display:'flex',}}>
         <TextField
           required

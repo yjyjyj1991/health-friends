@@ -8,10 +8,9 @@ import Grid from '@mui/material/Grid';
 import { ButtonGroup, Button } from '@material-ui/core';
 import axios from 'axios';
 
-function RoomListCard() {
-
+const RoomListCard = (props) => {
   
-    let [lists, setLists] = useState([]);
+  let [lists, setLists] = useState([]);
 
   const filterResult=(selectedType)=>{
     const result = lists.data.filter(curData => curData.roomType === selectedType);

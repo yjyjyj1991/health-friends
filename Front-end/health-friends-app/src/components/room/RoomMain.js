@@ -1,7 +1,5 @@
 /*eslint-disable*/
 import React, { useState } from 'react';
-import Header from '../components/Header/Header';
-import Footer from '../components/Footer/Footer';
 import {Button, Container} from '@material-ui/core';
 import Grid from '@mui/material/Grid';
 import Rank from './Rank';
@@ -42,7 +40,6 @@ const RoomMain = () => {
                 <RoomListCard/>
             </Container>
         
-
            
         </>
        

@@ -61,6 +61,7 @@ export default function ChangePwForm(props){
       padding={2}
       component='form' onSubmit={handleSubmit}
     > 
+      <Grid item xs={12}><Typography align="center" variant="h2">비밀번호변경</Typography></Grid>
       <Grid item xs={12}>
         <TextField 
           required
