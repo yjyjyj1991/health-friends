@@ -14,7 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.openvidu.java.client.ConnectionProperties;
@@ -24,7 +26,6 @@ import io.openvidu.java.client.OpenViduHttpException;
 import io.openvidu.java.client.OpenViduJavaClientException;
 import io.openvidu.java.client.OpenViduRole;
 import io.openvidu.java.client.Session;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping("/rtc")
@@ -49,14 +50,14 @@ public class RTCSessionController {
   //
   // ----------------------------------------------------------------------------------------//
   @PostMapping("/get-token")
-  public ResponseEntity<Message> getToken(@RequestBody RTCSessionTokenRequestDto sessionRequestDto)
+  public ResponseEntity<Message> getToken(@RequestBody RTCSessionTokenRequestDto rtcSessionRequestDto)
       throws ParseException {
-    System.out.println(sessionRequestDto.toString());
-    System.out.println(sessionRequestDto.getSessionName());
+    System.out.println(rtcSessionRequestDto.toString());
+    System.out.println(rtcSessionRequestDto.getSessionName());
 
-    String sessionName = sessionRequestDto.getSessionName();
+    String sessionName = rtcSessionRequestDto.getSessionName();
     OpenViduRole role = OpenViduRole.SUBSCRIBER;
-    String serverData = "{\"serverData\": \"" + sessionRequestDto.getUserNickName() + "\"}";
+    String serverData = "{\"serverData\": \"" + rtcSessionRequestDto.getUserNickName() + "\"}";
     ConnectionProperties connectionProperties = new ConnectionProperties.Builder().type(ConnectionType.WEBRTC)
         .data(serverData).role(role).build();
 
