@@ -7,11 +7,14 @@ import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 
 import { Link,useNavigate } from 'react-router-dom';
 import {AuthContext,} from '../account/AuthProvider'
-import {useContext,} from 'react'
+import {useContext,useState} from 'react'
 
-const Header = (props) => {
+import FormDialog from '../common/FormDialog'
+
+const Header = () => {
   const auth = useContext(AuthContext)
-  const {setDialog}=props
+  const [dialog,setDialog]=useState(false)
+
   const navigate=useNavigate()
   function handleLogin(){
     setDialog('login')
@@ -21,7 +24,6 @@ const Header = (props) => {
   }
   function logout(){
     navigate('/')
-    localStorage.removeItem('user')
     auth.signout()
   }
   function changePw(){
@@ -29,6 +31,7 @@ const Header = (props) => {
   }
 
   return (
+  <>
   <nav className="navbar navbar-expand-lg sticky-top">
     <div className="container-fluid">
       {auth.user && <div className="container d-flex justify-content-between">
@@ -81,7 +84,8 @@ const Header = (props) => {
       }
     </div>
   </nav>
-  
+  <FormDialog setDialog={setDialog} dialog={dialog} />
+  </>
   );
 };
 

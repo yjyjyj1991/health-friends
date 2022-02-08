@@ -41,6 +41,7 @@ export default function LoginForm(props){
       padding={2}
       component='form' onSubmit={handleSubmit}
     > 
+      <Grid item xs={12}><Typography align="center" variant="h2">로그인</Typography></Grid>
       <Grid item xs={12}>
         <TextField
           required
@@ -64,9 +65,9 @@ export default function LoginForm(props){
         {msg&&<Typography color='secondary'>{msg}</Typography>}
       </Grid>
 
-      <Grid item xs={12} sx={{display:'flex', justifyContent:'space-between', }}>        
+      {/* <Grid item xs={12} sx={{display:'flex', justifyContent:'space-between', }}>        
         <Button size="small" onClick={renderResetForm} >비밀번호를 잊어버렸나요?</Button>
-      </Grid>
+      </Grid> */}
     </Grid>
   )
 

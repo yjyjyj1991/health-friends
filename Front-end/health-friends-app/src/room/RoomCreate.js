@@ -30,7 +30,7 @@ const RoomCreate = (props) => {
   const addList = () => {
     const url = 'https://i6d204.p.ssafy.io/api/rooms';
     const formData = new FormData();
-    formData.append('roomType', roomType);
+    formData.append('roomType', 1);
     formData.append('title', roomTitle);
     formData.append('content', roomContent);
 
