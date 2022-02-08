@@ -5,7 +5,7 @@ import { DialogActions, DialogTitle, DialogContent, DialogContentText, TextField
 import { Button } from "@material-ui/core";
 import axios from 'axios';
 import { post } from 'axios';
-import { BASE_URL } from '../common/Properties.js'
+import { BASE_URL } from 'common/Properties.js'
 
 const RoomCreate = (props) => {
   let [roomTitle, setRoomTitle] = useState('');

@@ -2,7 +2,7 @@
 import Main from "./components/Main/Main";
 import Board from "./components/Board/Board";
 import FoodMain from "./components/food/FoodMain";
-import RoomMain from "./room/RoomMain";
+import RoomMain from "./components/room/RoomMain";
 // import './App.css';
 import { Routes, Route } from "react-router-dom";
 import {AuthProvider,RequireAuth} from "./components/account/AuthProvider";
