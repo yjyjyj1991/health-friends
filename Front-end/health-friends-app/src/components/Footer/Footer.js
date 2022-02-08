@@ -4,7 +4,6 @@ import logo from './logo.png';
 import './Footer.css'
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-
 const Footer = () => {
   return (
     <footer id="footer" className="footer sticky-bottom">
@@ -27,7 +26,7 @@ const Footer = () => {
           </div>
       </div>
   </footer>
-  );
+  )
 };
 
 export default Footer;
