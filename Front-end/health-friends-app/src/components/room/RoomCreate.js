@@ -7,7 +7,6 @@ import axios from 'axios';
 import { post } from 'axios';
 import { BASE_URL } from '../common/Properties.js'
 
-
 const RoomCreate = (props) => {
   let [roomTitle, setRoomTitle] = useState('');
   let [roomType, setRoomType] = useState(1);
