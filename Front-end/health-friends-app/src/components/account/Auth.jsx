@@ -1,21 +1,12 @@
 import * as React from "react";
 import {useNavigate,} from "react-router-dom";
 
-export let AuthContext = React.createContext(null);
+export let AuthContext = React.createContext({
+  user:localStorage.getItem('user'),
+  login:()=>{},
+  logout:()=>{},
+});
 
-
-// 하위 컴포넌트들이 user, signin, signout을 사용하게 해준다.
-export function AuthProvider({ children }) {
-  let [user, setUser] = React.useState(null);
-  let login = (newUser) => {
-    setUser(newUser);
-  };
-  let signout = () => {
-    setUser(null);
-  };
-  let value = { user, login, signout };
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
 
 export function AuthStatus() {
   let auth = React.useContext(AuthContext);
@@ -38,12 +29,11 @@ export function AuthStatus() {
 }
 
 export function RequireAuth(props) {
-  
-  let auth = React.useContext(AuthContext);
-
+  console.log('requireauth');
+  const auth = React.useContext(AuthContext);
   if (!auth.user) {
     props.setDialog('login')
-    return <h1>로그인이 필요합니다</h1>
+    return null
   }
   return props.children;
 }

@@ -3,7 +3,7 @@ import React from "react";
 // import Footer from "../Footer/Footer";
 import './Main.css';
 import { Link } from 'react-router-dom';
-import {AuthContext,} from '../account/AuthProvider'
+import {AuthContext,} from '../account/Auth'
 import {useContext,} from 'react'
 
 // import Button from 'react-bootstrap/Button'
