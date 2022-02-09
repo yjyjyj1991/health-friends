@@ -2,6 +2,7 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
+import { useNavigate } from 'react-router-dom';
 
 import ChangePwForm from '../account/form/ChangePwForm';
 import LoginForm from '../account/form/LoginForm'
@@ -11,16 +12,18 @@ import ResetForm from '../account/form/ResetForm'
 export default function FormDialog(props) {
   
   const {dialog,setDialog}=props
-
+  const navigate = useNavigate()
   const handleClickOpen = () => {
     setDialog(true);
   };
 
   const handleClose = () => {
+    navigate('/')
     setDialog(false);
   };
 
   function forgotPw(){
+    navigate('/')
     setDialog('reset')
   }
 

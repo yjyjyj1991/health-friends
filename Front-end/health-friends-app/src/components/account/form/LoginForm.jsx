@@ -4,7 +4,7 @@ import { Grid } from "@mui/material";
 import axios from "axios";
 import { useState,useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import {AuthContext} from '../AuthProvider'
+import {AuthContext} from '../Auth'
 
 export default function LoginForm(props){
   const [msg,setMsg]=useState(null)
@@ -21,10 +21,12 @@ export default function LoginForm(props){
     axios.post(BASE_URL+'users/login',{email: data.get('email'),password: data.get('password'),})
     .then((res)=>{
     if (res.data.success) {
+      console.log(res.data.data);
       localStorage.setItem("user", JSON.stringify(res.data.data))
-      auth.login(res.data.data.userInfo)
+      auth.login(res.data.data)
       navigate(location)
       setDialog(null)
+      axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.data.accessToken}`;
       } else {setMsg('이메일 또는 비밀번호를 확인해주세요')}})
     .catch((err)=>console.log(err))
     }

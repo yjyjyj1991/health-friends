@@ -6,14 +6,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 
 import { Link,useNavigate } from 'react-router-dom';
-import {AuthContext,} from '../account/AuthProvider'
+import {AuthContext,} from '../account/Auth'
 import {useContext,useState} from 'react'
 
 import FormDialog from '../common/FormDialog'
 
-const Header = () => {
+const Header = (props) => {
   const auth = useContext(AuthContext)
-  const [dialog,setDialog]=useState(false)
+  const {dialog,setDialog}=props
 
   const navigate=useNavigate()
   function handleLogin(){
@@ -24,7 +24,7 @@ const Header = () => {
   }
   function logout(){
     navigate('/')
-    auth.signout()
+    auth.logout()
   }
   function changePw(){
     setDialog('changePw')
