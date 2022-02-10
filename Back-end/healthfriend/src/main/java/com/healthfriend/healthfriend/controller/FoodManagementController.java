@@ -8,6 +8,7 @@ import com.healthfriend.healthfriend.model.DTO.Food.FoodManagementListDto;
 import com.healthfriend.healthfriend.model.DTO.Food.FoodManagementRemoveDto;
 import com.healthfriend.healthfriend.model.DTO.Food.FoodManagementActivity.FoodManagementActivityDto;
 import com.healthfriend.healthfriend.model.DTO.Food.FoodManagementActivity.FoodManagementAddDto;
+import com.healthfriend.healthfriend.model.DTO.Food.FoodManagementActivity.FoodReserveDto;
 import com.healthfriend.healthfriend.model.service.FoodManagementService;
 
 import org.slf4j.Logger;
@@ -62,7 +63,7 @@ public class FoodManagementController {
 		logger.info("foodManagementList - 호출");
 		Message message = new Message();
 		HttpStatus status = null;
-		List<FoodDto> list = foodManagementService.findFoodManagement(foodManagementListDto);
+		List<FoodReserveDto> list = foodManagementService.findFoodManagement(foodManagementListDto);
 		if (list.isEmpty()) {
 			message.setSuccess(false);
 			status = HttpStatus.NO_CONTENT;
