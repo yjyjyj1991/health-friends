@@ -15,4 +15,5 @@ public class FoodReserveDto {
   Integer fat;
   Integer kcal;
   Integer num;
+  Integer servingSize;
 }

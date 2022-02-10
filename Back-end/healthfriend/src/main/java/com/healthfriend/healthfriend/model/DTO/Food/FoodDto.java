@@ -14,4 +14,5 @@ public class FoodDto {
   String brand;
   Integer fat;
   Integer kcal;
+  Integer servingSize;
 }
