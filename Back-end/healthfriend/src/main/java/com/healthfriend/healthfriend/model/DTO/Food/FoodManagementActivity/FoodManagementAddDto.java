@@ -7,5 +7,5 @@ import lombok.Setter;
 @Setter
 public class FoodManagementAddDto {
   Integer userId;
-  Integer Id;
+  Integer foodId;
 }
