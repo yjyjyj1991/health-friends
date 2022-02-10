@@ -10,16 +10,16 @@
     WHERE id = #{userId}
   </update>
 
-    <insert id="createFoodManagement" parameterType="foodDto">
-      INSERT INTO tbl_fm_with_food (fm_id,food_id)
-      VALUES ((SELECT id AS fm_id FROM tbl_food_management WHERE user_id = #{userId}),#{id})
+    <insert id="createFoodManagement" parameterType="foodManagementAddDto">
+      INSERT INTO tbl_fm_with_food (fm_id,food_id,date)
+      VALUES ((SELECT id AS fm_id FROM tbl_food_management WHERE user_id = #{userId}),#{id},now())
     </insert>
-
+    
 
     <select id="selectFoodManagenent" parameterType="foodManagementDto" resultType="foodDto">
-      SELECT * FROM tbl_food WHERE id = (
+      SELECT * FROM tbl_food WHERE id IN (
       SELECT food_id FROM tbl_fm_with_food 
-      WHERE fm_id = (SELECT id FROM tbl_food_management WHERE DATE = #{date} AND user_id = #{userId}));
+      WHERE date = #{date} AND fm_id = (SELECT id FROM tbl_food_management WHERE user_id = 1 AND DATE =(SELECT MAX(date) FROM tbl_food_management)));
     </select>
     
     <delete id="deleteFoodManagement" parameterType="foodManagementRemoveDto">
