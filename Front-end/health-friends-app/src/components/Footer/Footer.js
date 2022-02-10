@@ -3,11 +3,13 @@ import logo from './logo.png';
 // import logo from './public/logo.png';
 import './Footer.css'
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 
 const Footer = () => {
   return (
-    <footer id="footer" className="footer sticky-bottom">
-      <div className="container">
+    <footer id="footer" className="footer">
+      <Container maxWidth="lg">
           <div className="main_footer">
               <div className="row">
                   <div className="col-sm-6 col-xs-12">
@@ -24,7 +26,7 @@ const Footer = () => {
                   </div>
               </div>
           </div>
-      </div>
+      </Container>
   </footer>
   )
 };
