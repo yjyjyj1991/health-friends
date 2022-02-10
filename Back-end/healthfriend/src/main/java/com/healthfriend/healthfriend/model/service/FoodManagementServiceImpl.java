@@ -3,9 +3,11 @@ package com.healthfriend.healthfriend.model.service;
 import java.util.List;
 
 import com.healthfriend.healthfriend.model.DTO.Food.FoodDto;
+import com.healthfriend.healthfriend.model.DTO.Food.FoodManagementDto;
 import com.healthfriend.healthfriend.model.DTO.Food.FoodManagementListDto;
 import com.healthfriend.healthfriend.model.DTO.Food.FoodManagementRemoveDto;
 import com.healthfriend.healthfriend.model.DTO.Food.FoodManagementActivity.FoodManagementActivityDto;
+import com.healthfriend.healthfriend.model.DTO.Food.FoodManagementActivity.FoodManagementAddDto;
 import com.healthfriend.healthfriend.model.mapper.FoodManagementMapper;
 
 import org.apache.ibatis.session.SqlSession;
@@ -29,7 +31,7 @@ public class FoodManagementServiceImpl implements FoodManagementService {
   }
 
   @Override
-  public boolean addFoodManagement(FoodDto foodDto) throws Exception {
+  public boolean addFoodManagement(FoodManagementAddDto foodDto) throws Exception {
     if (foodDto.getUserId() == null) {
       throw new Exception();
     }
