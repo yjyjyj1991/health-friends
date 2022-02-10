@@ -19,7 +19,10 @@ public interface RoomService {
 
   public RoomDetailResponseDto findRoom(int id) throws Exception;
 
+  public RoomDetailResponseDto findRoomByToken(String token) throws Exception;
+
   public boolean removeRoom(int id) throws Exception;
 
   public boolean joinUser(RoomJoinUserDto roomJoinUserDto) throws Exception;
+
 }

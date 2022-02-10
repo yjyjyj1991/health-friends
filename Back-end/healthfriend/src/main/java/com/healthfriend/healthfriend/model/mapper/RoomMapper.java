@@ -23,6 +23,8 @@ public interface RoomMapper {
 
   public RoomDetailResponseDto selectRoomById(int id) throws SQLException;
 
+  public RoomDetailResponseDto selectRoomByToken(String token) throws SQLException;
+
   public boolean deleteRoom(int id) throws SQLException;
 
   public boolean joinUser(RoomJoinUserDto roomJoinUserDto) throws SQLException;

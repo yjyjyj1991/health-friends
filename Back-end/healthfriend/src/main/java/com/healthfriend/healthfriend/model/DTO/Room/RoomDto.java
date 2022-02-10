@@ -4,9 +4,11 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @ApiModel(value = "RoomDto : 방 정보 객체")
 public class RoomDto {
   @ApiModelProperty(value = "방 고유 값")
@@ -31,4 +33,6 @@ public class RoomDto {
   private String closeTime = null;
   @ApiModelProperty(value = "방 제한 인원")
   private int limitUser;
+  @ApiModelProperty(value = "방 토큰")
+  private String token;
 }

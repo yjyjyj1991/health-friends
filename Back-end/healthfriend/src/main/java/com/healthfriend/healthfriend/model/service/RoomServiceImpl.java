@@ -52,4 +52,9 @@ public class RoomServiceImpl implements RoomService {
   public boolean joinUser(RoomJoinUserDto roomJoinUserDto) throws Exception {
     return sqlSession.getMapper(RoomMapper.class).joinUser(roomJoinUserDto);
   }
+
+  @Override
+  public RoomDetailResponseDto findRoomByToken(String token) throws Exception {
+    return sqlSession.getMapper(RoomMapper.class).selectRoomByToken(token);
+  }
 }
