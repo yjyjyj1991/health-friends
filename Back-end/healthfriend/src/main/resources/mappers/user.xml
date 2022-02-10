@@ -11,7 +11,7 @@
 
 	<update id="updateUser" parameterType="UserModifyRequest">
 		UPDATE tbl_user
-		SET nickname = #{nickname}, password = #{password}, active_point = #{activePoint}, purpose_id = #{purposeId}
+		SET weight = #{weight}, active_point = #{activePoint}, purpose_id = #{purposeId}
 		WHERE id = #{id};
 	</update>
 
