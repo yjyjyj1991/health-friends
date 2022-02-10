@@ -18,8 +18,8 @@ function App() {
   console.log('app render');
   const [user,setUser]=useState(localStorage.getItem('user'))
   const [dialog, setDialog] = useState(null)
-
   function login(user){
+    localStorage.setItem("user", JSON.stringify(user))
     setUser(user)
   }
   function logout(){
