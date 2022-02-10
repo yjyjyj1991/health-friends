@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from "../Header/Header";
+// import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import Activity from "../food/Activity";
 import './FoodMain.css'; 
@@ -8,7 +8,7 @@ import './FoodMain.css';
 const Food = () => {
   return (
     <div className='container_food'>
-      <Header/>
+      {/* <Header/> */}
       <div className='food_content'>
         <Activity/>
       </div>

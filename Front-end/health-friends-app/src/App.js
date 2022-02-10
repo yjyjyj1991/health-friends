@@ -5,8 +5,9 @@ import RoomMain from "./components/room/RoomMain";
 // import './App.css';
 import { Routes, Route } from "react-router-dom";
 import {AuthContext,RequireAuth} from "./components/account/Auth";
-import Header from './components/Header/Header';
-import Footer from './components/Footer/Footer';
+// import Header from './components/Header/Header';
+// import AppBar from './components/Header/Header';
+// import Footer from './components/Footer/Footer';
 import React from "react";
 import Diet from './apps/diet/Diet'
 import { useState } from "react";
@@ -29,7 +30,8 @@ function App() {
 
   return (
   <AuthContext.Provider value={{user:user,login:login,logout:logout}}> 
-    <Header dialog={dialog} setDialog={setDialog} />
+    {/* <Header dialog={dialog} setDialog={setDialog} /> */}
+    {/* <AppBar dialog={dialog} setDialog={setDialog} /> */}
 
     <Routes>
       <Route path="/" element={<Main setDialog={setDialog}/>} />
@@ -39,7 +41,7 @@ function App() {
       <Route path="/foods" element={<FoodMain />} />
       <Route path="/diet" element={<RequireAuth setDialog={setDialog}><Diet/></RequireAuth>} />
     </Routes>
-    <Footer/>
+    {/* <Footer/> */}
   </AuthContext.Provider>
   );
 }

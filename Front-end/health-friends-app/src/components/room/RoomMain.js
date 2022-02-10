@@ -6,15 +6,17 @@ import Rank from './Rank';
 import RoomListCard from './RoomListCard';
 import RoomCreate from './RoomCreate';
 
-
+import AppBar from '../appbar/AppBar';
+import Footer from '../Footer/Footer';
 
 const RoomMain = () => {
-
+    const [dialog, setDialog] = useState(null)
     let [open, setOpen] = useState(false);
 
     return (
-       <>
-            <div className='top'>
+        <div style={{display: 'flex', flexDirection:'column', minHeight:'100%'}}>
+            <AppBar dialog={dialog} setDialog={setDialog} />
+            <div className='top' style={{flex:'1'}}>
             <Container>
             <Grid container>
                 <Grid item xs='8' className='myProfile'>
@@ -40,8 +42,8 @@ const RoomMain = () => {
                 <RoomListCard/>
             </Container>
         
-           
-        </>
+            <Footer/>
+        </div>
        
     );
 };

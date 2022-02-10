@@ -1,37 +1,3 @@
 .App {
     text-align: center;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-.myProfile {
-    text-align: center;
-    padding-bottom: 50px;
-}
-
-.rankedList {
-    text-align: center;
-    padding-bottom: 50px;
-}
-
-.top {
-    margin-top: 100px;
-    margin-bottom: 20px;
-}
-
-.roomCreate {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.roomType {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.roomList {
-    margin-bottom: 100px;
 }

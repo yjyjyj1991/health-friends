@@ -13,7 +13,8 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
 import Moment from 'react-moment';
-
+import AppBar from '../appbar/AppBar';
+import Footer from '../Footer/Footer';
 
 function Row(props) {
   const { row } = props;
@@ -64,6 +65,7 @@ function Row(props) {
 
 export default function CollapsibleTable() {
   const [posts, setPosts] = useState([]);
+  const [dialog, setDialog] = useState(null)
   
   useEffect(() => {
     axios
@@ -75,12 +77,13 @@ export default function CollapsibleTable() {
         console.log(Error);})
   },[]);
   return (
-    <div className="body">
-      
-        <div className='text-center sentence'>
-          <h1 style={{ fontSize: '5rem', marginTop:'5rem', marginBottom:'5rem', fontWeight:'bold' }}>공지사항</h1>
-        </div>
-        {/* <div> */}
+
+  <div style={{display: 'flex', flexDirection:'column', minHeight:'100%'}}>
+    <AppBar dialog={dialog} setDialog={setDialog} />
+    <div style={{flex:'1'}} >
+      <div className='text-center'>
+        <h1 style={{ fontSize: '5rem', marginTop:'5rem', marginBottom:'5rem', fontWeight:'bold' }}>공지사항</h1>
+      </div>
       <div className="container">
         <TableContainer style={{ marginBottom:'10rem' }}>
           <Table aria-label="collapsible table">
@@ -99,9 +102,10 @@ export default function CollapsibleTable() {
             </TableBody>
           </Table>
         </TableContainer>
-
       </div>
-
     </div>
+    <Footer/>
+  </div>
+
   );
 }
