@@ -3,9 +3,12 @@ package com.healthfriend.healthfriend.model.service;
 import java.util.List;
 
 import com.healthfriend.healthfriend.model.DTO.Food.FoodDto;
+import com.healthfriend.healthfriend.model.DTO.Food.FoodManagementDto;
 import com.healthfriend.healthfriend.model.DTO.Food.FoodManagementListDto;
 import com.healthfriend.healthfriend.model.DTO.Food.FoodManagementRemoveDto;
 import com.healthfriend.healthfriend.model.DTO.Food.FoodManagementActivity.FoodManagementActivityDto;
+import com.healthfriend.healthfriend.model.DTO.Food.FoodManagementActivity.FoodManagementAddDto;
+import com.healthfriend.healthfriend.model.DTO.Food.FoodManagementActivity.FoodReserveDto;
 import com.healthfriend.healthfriend.model.mapper.FoodManagementMapper;
 
 import org.apache.ibatis.session.SqlSession;
@@ -29,7 +32,7 @@ public class FoodManagementServiceImpl implements FoodManagementService {
   }
 
   @Override
-  public boolean addFoodManagement(FoodDto foodDto) throws Exception {
+  public boolean addFoodManagement(FoodManagementAddDto foodDto) throws Exception {
     if (foodDto.getUserId() == null) {
       throw new Exception();
     }
@@ -37,8 +40,16 @@ public class FoodManagementServiceImpl implements FoodManagementService {
   }
 
   @Override
-  public List<FoodDto> findFoodManagement(FoodManagementListDto foodManagementListDto) throws Exception {
-    return sqlSession.getMapper(FoodManagementMapper.class).selectFoodManagenent(foodManagementListDto);
+  public List<FoodReserveDto> findFoodManagement(FoodManagementListDto foodManagementListDto) throws Exception {
+    List<FoodReserveDto> list = sqlSession.getMapper(FoodManagementMapper.class).selectFoodManagenent(foodManagementListDto);
+    
+    List<FoodReserveDto> list2 = sqlSession.getMapper(FoodManagementMapper.class).selectFoodManagement2(foodManagementListDto);
+
+    for(int i = 0; i < list.size(); i++){
+      list.get(i).setNum(list2.get(i).getNum());
+    }
+    
+    return list;
   }
 
   @Override

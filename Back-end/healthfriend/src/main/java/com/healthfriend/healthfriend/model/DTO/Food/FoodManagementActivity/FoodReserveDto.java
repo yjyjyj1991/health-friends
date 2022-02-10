@@ -1,11 +1,12 @@
-package com.healthfriend.healthfriend.model.DTO.Food;
+package com.healthfriend.healthfriend.model.DTO.Food.FoodManagementActivity;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class FoodAddDto {
+public class FoodReserveDto {
+  Integer id;
   Integer userId;
   String foodName;
   Integer carbohydrate;
@@ -13,5 +14,6 @@ public class FoodAddDto {
   String brand;
   Integer fat;
   Integer kcal;
+  Integer num;
   Integer servingSize;
 }

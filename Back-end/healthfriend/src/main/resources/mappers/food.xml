@@ -5,7 +5,7 @@
 <mapper namespace="com.healthfriend.healthfriend.model.mapper.FoodMapper">
 
     <select id="selectFood" parameterType="map" resultType="foodDto">
-      SELECT id, user_id, food_name, carbohydrate , protein , brand, fat, kcal
+      SELECT id, user_id, food_name, carbohydrate , protein , brand, fat, kcal, serving_size
       FROM tbl_food
       <if test="word != null and word != ''">
         <if test="key == 'food_name'">
@@ -21,12 +21,12 @@
 
     <insert id="createFood" parameterType="foodAddDto">
       <!-- select key 이용해서 제일 최고 앞의 ID 값 보다 +1 한 값으로 들어가기 -->
-      INSERT INTO tbl_food ( user_id, food_name, carbohydrate, protein, brand, fat, kcal)
-      VALUES (#{userId}, #{foodName}, #{carbohydrate},#{protein}, #{brand}, #{fat}, #{kcal})
+      INSERT INTO tbl_food ( user_id, food_name, carbohydrate, protein, brand, fat, kcal, serving_size)
+      VALUES (#{userId}, #{foodName}, #{carbohydrate},#{protein}, #{brand}, #{fat}, #{kcal}, #{servingSize})
     </insert>
     
     <select id="selectFoodDetails" parameterType="int" resultType="foodDto">
-      SELECT id, food_name, carbohydrate , protein , brand, fat, kcal
+      SELECT id, food_name, carbohydrate , protein , brand, fat, kcal , serving_size
       FROM tbl_food
       WHERE id = #{id}
     </select>

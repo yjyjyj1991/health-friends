@@ -25,9 +25,6 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public boolean modifyUser(UserModifyRequest userModifyRequest) throws Exception {
-    if (userModifyRequest.getPassword() == null) {
-      throw new Exception();
-    }
     return sqlSession.getMapper(UserMapper.class).updateUser(userModifyRequest) == 1;
   }
 

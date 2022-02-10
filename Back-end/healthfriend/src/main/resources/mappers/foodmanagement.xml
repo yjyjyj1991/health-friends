@@ -10,16 +10,25 @@
     WHERE id = #{userId}
   </update>
 
-    <insert id="createFoodManagement" parameterType="foodDto">
-      INSERT INTO tbl_fm_with_food (fm_id,food_id)
-      VALUES ((SELECT id AS fm_id FROM tbl_food_management WHERE user_id = #{userId}),#{id})
+    <insert id="createFoodManagement" parameterType="foodManagementAddDto">
+      INSERT INTO tbl_fm_with_food (fm_id,food_id,date)
+      VALUES ((SELECT id AS fm_id FROM tbl_food_management WHERE user_id = #{userId}),#{foodId},now())
     </insert>
+    
 
-
-    <select id="selectFoodManagenent" parameterType="foodManagementDto" resultType="foodDto">
-      SELECT * FROM tbl_food WHERE id = (
+    <select id="selectFoodManagenent" parameterType="foodManagementListDto" resultType="foodReserveDto">
+      SELECT * FROM tbl_food WHERE id IN (
       SELECT food_id FROM tbl_fm_with_food 
-      WHERE fm_id = (SELECT id FROM tbl_food_management WHERE DATE = #{date} AND user_id = #{userId}));
+      WHERE date = #{date} AND fm_id = (SELECT id FROM tbl_food_management WHERE user_id = #{userId} AND DATE =(SELECT MAX(date) FROM tbl_food_management))) ORDER BY id;
+    </select>
+
+    <select id="selectFoodManagement2" parameterType="foodManagementListDto" resultType="foodReserveDto">
+      SELECT COUNT(food_id) AS num FROM tbl_fm_with_food 
+      WHERE DATE = #{date}
+      GROUP BY food_id
+      HAVING food_id = (
+      SELECT food_id FROM tbl_food_management WHERE user_id = #{userId} AND DATE =(SELECT MAX(date) FROM tbl_food_management))
+      ORDER BY food_id ASC
     </select>
     
     <delete id="deleteFoodManagement" parameterType="foodManagementRemoveDto">
