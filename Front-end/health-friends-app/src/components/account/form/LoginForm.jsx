@@ -25,7 +25,7 @@ export default function LoginForm(props){
       auth.login(res.data.data)
       navigate(location)
       setDialog(null)
-      axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.data.accessToken}`;
+      // axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.data.accessToken}`;
       } else {setMsg('이메일 또는 비밀번호를 확인해주세요')}})
     .catch((err)=>console.log(err))
     }
