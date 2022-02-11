@@ -5,7 +5,8 @@ import { DialogActions, DialogTitle, DialogContent, DialogContentText, TextField
 import { Button } from "@material-ui/core";
 import axios from 'axios';
 import { post } from 'axios';
-import { BASE_URL } from 'common/Properties.js'
+import { BASE_URL } from 'common/Properties.js';
+import RTC from 'components/room/RTC/RTCHelper.js';
 
 const RoomCreate = (props) => {
   let [roomTitle, setRoomTitle] = useState('');
@@ -17,17 +18,45 @@ const RoomCreate = (props) => {
   const handlerFormSubmit = (e) => {
     console.log("handlerFormSubmit");
     e.preventDefault();
-    addList()
-      .then((res) => {
-        console.log('do something');
-      })
-      .catch((err) => {
-        console.log(err + "ERRRRR");
-      });
+    var rtc = new RTC();
 
-    if (roomTitle && roomType && roomContent) {
-      console.log(roomTitle, roomType, roomContent)
-    }
+    const formData = new FormData();
+    formData.append('userId', JSON.parse(localStorage.getItem('user'))['userInfo']['id']);
+    formData.append('typeId', roomType);
+    formData.append('title', roomTitle);
+    formData.append('content', roomContent);
+    formData.append('isPublic', 1);
+    formData.append('password', null);
+    formData.append('limitUser', 4);
+    var object = {}
+    formData.forEach(function (value, key) {
+      object[key] = value
+    })
+    var data = JSON.stringify(object)
+
+
+    rtc.create(data, (result) => {
+      if (result && result['success']) {
+        props.setRoomId(result['data']['id']);
+        console.log(result);
+        props.setOpen(false);
+      } else {
+        alert(result);
+        console.log(result);
+      }
+    });
+
+    // addList()
+    //   .then((res) => {
+    //     console.log('do something');
+    //   })
+    //   .catch((err) => {
+    //     console.log(err + "ERRRRR");
+    //   });
+
+    // if (roomTitle && roomType && roomContent) {
+    //   console.log(roomTitle, roomType, roomContent)
+    // }
   }
 
   const addList = () => {
