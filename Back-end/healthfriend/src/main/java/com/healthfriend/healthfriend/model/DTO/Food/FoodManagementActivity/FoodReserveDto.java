@@ -7,13 +7,12 @@ import lombok.Setter;
 @Setter
 public class FoodReserveDto {
   Integer id;
-  Integer userId;
   String foodName;
   Integer carbohydrate;
   Integer protein;
   String brand;
   Integer fat;
   Integer kcal;
-  Integer num;
+  Integer newServing;
   Integer servingSize;
 }
