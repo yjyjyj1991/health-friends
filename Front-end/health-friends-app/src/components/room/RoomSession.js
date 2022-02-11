@@ -27,7 +27,10 @@ class RoomSession extends Component {
 
   componentDidMount() {
     getSessionInfo(this.props.roomId, this.userInfo, (res) => {
-      this.state.sessionInfo = res;
+      this.setState({
+        sessionInfo: res
+      })
+
       console.log(this.state.sessionInfo);
       if (this.state.sessionInfo === undefined || this.state.sessionInfo['closeTime'] !== null) {
         alert("방이 존재하지 않습니다.");
