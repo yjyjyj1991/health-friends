@@ -36,6 +36,9 @@ public class FoodManagementServiceImpl implements FoodManagementService {
     if (foodDto.getUserId() == null) {
       throw new Exception();
     }
+    if(sqlSession.getMapper(FoodManagementMapper.class).selectFoodUserExist(foodDto) == null){
+      sqlSession.getMapper(FoodManagementMapper.class).createFoodUserExist(foodDto); //하나 생성 후 넣음
+    }
     return sqlSession.getMapper(FoodManagementMapper.class).createFoodManagement(foodDto) == 1;
   }
 
@@ -43,11 +46,9 @@ public class FoodManagementServiceImpl implements FoodManagementService {
   public List<FoodReserveDto> findFoodManagement(FoodManagementListDto foodManagementListDto) throws Exception {
     List<FoodReserveDto> list = sqlSession.getMapper(FoodManagementMapper.class).selectFoodManagenent(foodManagementListDto);
     
-    List<FoodReserveDto> list2 = sqlSession.getMapper(FoodManagementMapper.class).selectFoodManagement2(foodManagementListDto);
+    //List<FoodReserveDto> list2 = sqlSession.getMapper(FoodManagementMapper.class).selectFoodManagement2(foodManagementListDto);
 
-    for(int i = 0; i < list.size(); i++){
-      list.get(i).setNum(list2.get(i).getNum());
-    }
+   
     
     return list;
   }
