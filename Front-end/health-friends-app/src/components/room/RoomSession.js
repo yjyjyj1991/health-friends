@@ -251,31 +251,31 @@ class RoomSession extends Component {
             }}> 나가기 </Button> */}
           </Box>
         </div>
+        {/* <Button size="large" color="primary" variant='outlined' style={{ fontSize: '15px' }} onClick={() => {
+          this.leaveSession();
+        }}> 나가기 </Button>
+        {this.state.session !== undefined ? (
+          <div id="session">
+            <div id="video-container" className="col-md-6">
+              {this.state.publisher !== undefined ? (
+                <div className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
+                  <UserVideoComponent
+                    streamManager={this.state.publisher} />
+                </div>
+              ) : null}
+              {this.state.subscribers.map((sub, i) => (
+                <div key={i} className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(sub)}>
+                  <UserVideoComponent streamManager={sub} />
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : null} */}
       </div>
     );
   };
 }
 
-{/* <Button size="large" color="primary" variant='outlined' style={{ fontSize: '15px' }} onClick={() => {
-  this.leaveSession();
-}}> 나가기 </Button>
-{this.state.session !== undefined ? (
-  <div id="session">
-    <div id="video-container" className="col-md-6">
-      {this.state.publisher !== undefined ? (
-        <div className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
-          <UserVideoComponent
-            streamManager={this.state.publisher} />
-        </div>
-      ) : null}
-      {this.state.subscribers.map((sub, i) => (
-        <div key={i} className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(sub)}>
-          <UserVideoComponent streamManager={sub} />
-        </div>
-      ))}
-    </div>
-  </div>
-) : null} */}
 function leave(props) {
   props.setRoomId(null);
 }
