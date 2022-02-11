@@ -15,7 +15,7 @@ export default class RTCHelper {
     )
       .then((res) => {
         console.log(res);
-        callback(res);
+        callback(res['data']);
       })
       .catch((err) => {
         console.warn(err);

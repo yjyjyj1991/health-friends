@@ -51,9 +51,12 @@ const RoomMain = () => {
   } else {
     return (
       <>
-        <Container>
-          <RoomSession roomId={roomId} setRoomId={setRoomId} />
-        </Container>
+        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100%' }}>
+          <AppBar dialog={dialog} setDialog={setDialog} />
+          <Container>
+            <RoomSession roomId={roomId} setRoomId={setRoomId} />
+          </Container>
+        </div>
       </>
     );
   }
