@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.healthfriend.healthfriend.message.Message;
+import com.healthfriend.healthfriend.model.DTO.RTCSession.RTCSessionInfoDto;
 import com.healthfriend.healthfriend.model.DTO.RTCSession.RTCSessionLeaveRequestDto;
 import com.healthfriend.healthfriend.model.DTO.RTCSession.RTCSessionTokenRequestDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomDetailResponseDto;
@@ -66,20 +67,24 @@ public class RTCSessionController {
   //
   // ----------------------------------------------------------------------------------------//
   @PostMapping("/get-token")
-  public ResponseEntity<Message> getToken(@RequestBody RTCSessionTokenRequestDto rtcSessionRequestDto)
-      throws ParseException {
-    System.out.println(rtcSessionRequestDto.toString());
-    System.out.println(rtcSessionRequestDto.getSessionName());
+  public ResponseEntity<Message> getToken(@RequestBody RTCSessionInfoDto rtcSessionInfoDto)
+      throws ParseException, Exception {
 
-    String sessionName = rtcSessionRequestDto.getSessionName();
-    OpenViduRole role = OpenViduRole.SUBSCRIBER;
-    String serverData = "{\"serverData\": \"" + rtcSessionRequestDto.getUserNickName() + "\"}";
-    ConnectionProperties connectionProperties = new ConnectionProperties.Builder().type(ConnectionType.WEBRTC)
-        .data(serverData).role(role).build();
+    System.out.println("#getToken");
 
     Message message = new Message();
     boolean isSuccess = false;
-    JSONObject data = new JSONObject();
+
+    RTCSessionInfoDto sessionInfo = roomService.findSessionInfo(rtcSessionInfoDto.getId());
+    sessionInfo.setNickname(rtcSessionInfoDto.getNickname());
+
+    String sessionName = sessionInfo.getSessionName();
+
+    OpenViduRole role = this.mapSessions.get(sessionName) == null ? OpenViduRole.PUBLISHER : OpenViduRole.SUBSCRIBER;
+    role = OpenViduRole.PUBLISHER;
+    String serverData = "{\"serverData\": \"" + sessionInfo.getNickname() + "\"}";
+    ConnectionProperties connectionProperties = new ConnectionProperties.Builder().type(ConnectionType.WEBRTC)
+        .data(serverData).role(role).build();
 
     if (this.mapSessions.get(sessionName) != null) {
       System.out.println("Existing session " + sessionName);
@@ -87,7 +92,7 @@ public class RTCSessionController {
         String token = this.mapSessions.get(sessionName).createConnection(connectionProperties).getToken();
         this.mapSessionNamesTokens.get(sessionName).put(token, role);
 
-        data.put("token", token);
+        sessionInfo.setToken(token);
         isSuccess = true;
       } catch (OpenViduJavaClientException e1) {
         message.setMessage(e1.getMessage());
@@ -106,17 +111,18 @@ public class RTCSessionController {
         this.mapSessionNamesTokens.put(sessionName, new ConcurrentHashMap<>());
         this.mapSessionNamesTokens.get(sessionName).put(token, role);
 
-        data.put("token", token);
+        sessionInfo.setToken(token);
         isSuccess = true;
 
       } catch (Exception e) {
         message.setMessage(e.getMessage() + e.getStackTrace());
       }
     }
+    sessionInfo.setUserCount(this.mapSessionNamesTokens.get(sessionName).size());
     message.setSuccess(isSuccess);
-    message.setData(data.toMap());
-    System.out.println(data);
-    return new ResponseEntity<>(message, HttpStatus.OK);
+    message.setData(sessionInfo);
+
+    return new ResponseEntity<Message>(message, HttpStatus.OK);
   }
 
   // ----------------------------------------------------------------------------------------//
@@ -136,47 +142,63 @@ public class RTCSessionController {
     Timestamp ts = new Timestamp(System.currentTimeMillis());
     String sessionName = roomDto.getUserId().toString() + ts.getTime();
     UserResponse userInfo = userService.findUserById(roomDto.getUserId());
-    OpenViduRole role = OpenViduRole.SUBSCRIBER;
-    String serverData = "{\"serverData\": \"" + userInfo.getNickname() + "\"}";
-    // ConnectionProperties connectionProperties = new
-    // ConnectionProperties.Builder().type(ConnectionType.WEBRTC)
-    // .data(serverData).role(role).build();
-    ConnectionProperties connectionProperties = new ConnectionProperties.Builder().type(ConnectionType.WEBRTC)
-        .role(role).build();
+    roomDto.setSessionName(sessionName);
 
-    if (this.mapSessions.get(sessionName) != null) {
-      System.out.println("Existing session " + sessionName);
-      msg = "Existing session " + sessionName;
+    if (!roomService.addRoom(roomDto)) {
+      msg = "DB 저장 실패";
     } else {
-      System.out.println("New session " + sessionName);
-      msg = "New session " + sessionName;
-      try {
-        Session session = this.openVidu.createSession();
-        String token = session.createConnection(connectionProperties).getToken();
-        roomDto.setToken(token);
-        if (!roomService.addRoom(roomDto)) {
-          msg = "DB 저장 실패";
-        } else {
-          responseData = roomService.findRoomByToken(token);
-          if (responseData == null) {
-            msg = "DB 조회 실패";
-          } else {
-            isSuccess = true;
-            this.mapSessions.put(sessionName, session);
-            this.mapSessionNamesTokens.put(sessionName, new ConcurrentHashMap<>());
-            this.mapSessionNamesTokens.get(sessionName).put(token, role);
-          }
-        }
-
-      } catch (Exception e) {
-        msg = e.getMessage() + e.getStackTrace();
+      responseData = roomService.findRoomBySessionName(sessionName);
+      if (responseData == null) {
+        msg = "DB 조회 실패";
+      } else {
+        isSuccess = true;
       }
-
     }
+
     message.setSuccess(isSuccess);
     message.setMessage(msg);
     message.setData(responseData);
     return new ResponseEntity<>(message, HttpStatus.OK);
+
+    // OpenViduRole role = OpenViduRole.SUBSCRIBER;
+    // String serverData = "{\"serverData\": \"" + userInfo.getNickname() + "\"}";
+    // ConnectionProperties connectionProperties = new
+    // ConnectionProperties.Builder().type(ConnectionType.WEBRTC)
+    // .data(serverData).role(role).build();
+
+    // if (this.mapSessions.get(sessionName) != null) {
+    // System.out.println("Existing session " + sessionName);
+    // msg = "Existing session " + sessionName;
+    // } else {
+    // System.out.println("New session " + sessionName);
+    // msg = "New session " + sessionName;
+    // try {
+    // Session session = this.openVidu.createSession();
+    // String token = session.createConnection(connectionProperties).getToken();
+    // roomDto.setSessionName(sessionName);
+    // if (!roomService.addRoom(roomDto)) {
+    // msg = "DB 저장 실패";
+    // } else {
+    // responseData = roomService.findRoomBySessionName(sessionName);
+    // if (responseData == null) {
+    // msg = "DB 조회 실패";
+    // } else {
+    // isSuccess = true;
+    // this.mapSessions.put(sessionName, session);
+    // this.mapSessionNamesTokens.put(sessionName, new ConcurrentHashMap<>());
+    // this.mapSessionNamesTokens.get(sessionName).put(token, role);
+    // }
+    // }
+
+    // } catch (Exception e) {
+    // msg = e.getMessage() + e.getStackTrace();
+    // }
+
+    // }
+    // message.setSuccess(isSuccess);
+    // message.setMessage(msg);
+    // message.setData(responseData);
+    // return new ResponseEntity<>(message, HttpStatus.OK);
   }
 
   // ----------------------------------------------------------------------------------------//

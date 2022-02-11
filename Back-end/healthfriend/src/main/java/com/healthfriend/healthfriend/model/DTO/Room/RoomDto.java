@@ -33,6 +33,6 @@ public class RoomDto {
   private String closeTime = null;
   @ApiModelProperty(value = "방 제한 인원")
   private int limitUser;
-  @ApiModelProperty(value = "방 토큰")
-  private String token;
+  @ApiModelProperty(value = "방 세션")
+  private String sessionName;
 }

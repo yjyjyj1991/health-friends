@@ -3,6 +3,7 @@ package com.healthfriend.healthfriend.model.mapper;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.healthfriend.healthfriend.model.DTO.RTCSession.RTCSessionInfoDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomDetailResponseDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomJoinUserDto;
@@ -23,9 +24,11 @@ public interface RoomMapper {
 
   public RoomDetailResponseDto selectRoomById(int id) throws SQLException;
 
-  public RoomDetailResponseDto selectRoomByToken(String token) throws SQLException;
+  public RoomDetailResponseDto selectRoomBySessionName(String sessionName) throws SQLException;
 
   public boolean deleteRoom(int id) throws SQLException;
 
   public boolean joinUser(RoomJoinUserDto roomJoinUserDto) throws SQLException;
+
+  public RTCSessionInfoDto selectSessionInfo(int id) throws SQLException;
 }
