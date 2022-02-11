@@ -28,6 +28,8 @@ public interface UserService {
 
   public UserResponse findUserById(UserPasswordChangeRequest passwordChangeRequest) throws Exception;
 
+  public UserResponse findUserById(int id) throws Exception;
+
   public boolean modifyLogin(UserTokenDto userTokenDto) throws Exception;
 
   public boolean updateUserPassword(UserPasswordChangeRequest passwordChangeRequest) throws Exception;

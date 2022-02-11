@@ -26,7 +26,9 @@ public interface UserMapper {
 
     public int updateLogin(UserTokenDto userTokenDto) throws SQLException;
 
-    public UserResponse selectUserById(UserPasswordChangeRequest passwordChangeRequest) throws SQLException;
+    public UserResponse selectUserByIdAndPassword(UserPasswordChangeRequest passwordChangeRequest) throws SQLException;
+
+    public UserResponse selectUserById(int id) throws SQLException;
 
     public int updateUserPassword(UserPasswordChangeRequest passwordChangeRequest) throws SQLException;
 }
