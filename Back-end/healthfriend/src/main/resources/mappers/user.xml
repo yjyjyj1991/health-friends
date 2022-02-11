@@ -57,7 +57,7 @@
 		WHERE user.email = #{email} AND user.password = #{password} AND user.isWithdraw = 0;
 	</select>
 
-	<select id="selectUserById" parameterType="UserPasswordChangeRequest" resultType='UserResponse'>
+	<select id="selectUserByIdAndPassword" parameterType="UserPasswordChangeRequest" resultType='UserResponse'>
 		SELECT user.id, user.name, user.email, user.nickname, user.purpose_id, user.active_point, user.weight, purpose.purpose
 		FROM tbl_user AS user LEFT OUTER JOIN tbl_purpose AS purpose ON purpose.id = user.purpose_id
 		WHERE user.id = #{id} AND user.password = #{oldPassword} AND user.isWithdraw = 0;
@@ -74,4 +74,10 @@
 		SET token = #{token}
 		WHERE id = #{id}
 	</update>
+
+	<select id="selectUserById" parameterType="int" resultType='UserResponse'>
+		SELECT user.id, user.name, user.email, user.nickname, user.purpose_id, user.active_point, user.weight, purpose.purpose
+		FROM tbl_user AS user LEFT OUTER JOIN tbl_purpose AS purpose ON purpose.id = user.purpose_id
+		WHERE user.id = #{id};
+	</select>
 </mapper>

@@ -33,4 +33,6 @@ public class RoomDetailResponseDto {
   private String closeTime;
   @ApiModelProperty(value = "방 제한 인원")
   private Integer limitUser;
+  @ApiModelProperty(value = "방 세션")
+  private String sessionName;
 }

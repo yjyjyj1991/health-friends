@@ -67,11 +67,16 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserResponse findUserById(UserPasswordChangeRequest passwordChangeRequest) throws Exception {
-    return sqlSession.getMapper(UserMapper.class).selectUserById(passwordChangeRequest);
+    return sqlSession.getMapper(UserMapper.class).selectUserByIdAndPassword(passwordChangeRequest);
   }
 
   @Override
   public boolean updateUserPassword(UserPasswordChangeRequest passwordChangeRequest) throws Exception {
     return sqlSession.getMapper(UserMapper.class).updateUserPassword(passwordChangeRequest) == 1;
+  }
+
+  @Override
+  public UserResponse findUserById(int id) throws Exception {
+    return sqlSession.getMapper(UserMapper.class).selectUserById(id);
   }
 }
