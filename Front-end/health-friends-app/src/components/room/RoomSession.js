@@ -8,6 +8,27 @@ import { BASE_URL } from 'common/Properties.js';
 import RTC from 'components/room/RTC/RTCHelper.js';
 import { OpenVidu } from 'openvidu-browser';
 import UserVideoComponent from './RTC/UserVideoComponent';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import CardMedia from '@mui/material/CardMedia';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faComments, faDoorOpen, faFileExport, faMicrophone, faMicrophoneSlash, faVideo, faVideoSlash, } from "@fortawesome/free-solid-svg-icons";
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import { styled } from '@mui/material/styles';
+
+const GoTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    // backgroundColor: theme.palette.common.white,
+    backgroundColor: '#99A799',
+    color: 'white',
+    boxShadow: theme.shadows[1],
+    fontSize: 11,
+  },
+}));
 
 class RoomSession extends Component {
   constructor(props) {
@@ -137,35 +158,124 @@ class RoomSession extends Component {
       }
     );
   }
-
+  
   render() {
     return (
-      <>
-        <Button size="large" color="primary" variant='outlined' style={{ fontSize: '15px' }} onClick={() => {
-          this.leaveSession();
-        }}> 나가기 </Button>
+      //대체 이 부분의 윗단계는 어디?? 그부분에서 100%를 줘야함... 
+      <div className="container-fluid">
         {this.state.session !== undefined ? (
           <div id="session">
-            <div id="video-container" className="col-md-6">
-              {this.state.publisher !== undefined ? (
-                <div className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
-                  <UserVideoComponent
-                    streamManager={this.state.publisher} />
+            <div id="video-container" style={{display: 'flex', flexDirection:'column'}} >
+              <div className="main-container" style={{marginTop:'3rem'}}>
+                <div className="col-md-6">
+                  <Card sx={{ minWidth: 200, width: {sm: 500 ,md:700}, height: {sm:350, md:450} }}>
+                    <CardContent>
+                    <CardMedia
+                        component="iframe"
+                        alt="green iguana"
+                        // height="450"
+                        sx={{height: {sm: 250, md: 350}}}
+                        src="https://www.youtube.com/embed/QpSAMoEm0fc?start=36"
+                      />
+                      {/* <iframe width="560" height="315" src="https://www.youtube.com/embed/QpSAMoEm0fc?start=36" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> */}
+                      <Typography variant="h5" >
+                        유투브 영상 들어갈 곳
+                      </Typography>
+                    </CardContent>
+                  </Card>
                 </div>
-              ) : null}
-              {this.state.subscribers.map((sub, i) => (
-                <div key={i} className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(sub)}>
-                  <UserVideoComponent streamManager={sub} />
-                </div>
-              ))}
+                {this.state.publisher !== undefined ? (
+                  // <div className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
+                  <div className="stream-container col-md-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
+                    <Card sx={{ minWidth: 200, width: {sm: 500 ,md:700}, height: {sm:350, md:450} }}>
+                    {/* <div sx={{height: {sm: 300, md: 450}}}> */}
+                      <UserVideoComponent style={{height:700}} streamManager={this.state.publisher}  />
+                    {/* </div> */}
+                      <CardContent>
+                        <Typography variant="h5" >
+                          본인 여기에 카운트 들어갈까?
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </div>
+                ) : null}
+              </div>
+              {/* <div className="d-flex flex-wrap" style={{display: 'flex', flexDirection:'row'}} > */}
+              <div className="d-flex flex-wrap">
+                {this.state.subscribers.map((sub, i) => (
+                  <div key={i} className="stream-container col-md-3 col-xs-6" style={{display: 'flex', flexDirection:'row'}}  onClick={() => this.handleMainVideoStream(sub)}>
+                  {/* //  <div key={i} className="stream-container d-flex"  onClick={() => this.handleMainVideoStream(sub)}> */}
+                    <Card sx={{ width:400 }}>
+                      <UserVideoComponent style={{}} streamManager={sub} />
+                      <CardContent>
+                        <Typography variant="h5" >
+                          다른 유저들 카운트 개수 보여줄수 있나?
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         ) : null}
-      </>
+        <div style={{backgroundColor:'#D3E4CD', height:'10rem'}} className="row align-items-center justify-content-center">
+            <Box sx={{width: 600 }}>
+            <Button style={{backgroundColor:'white', marginRight:'1rem'}}>
+              <FontAwesomeIcon icon={faMicrophone} size="3x" /> &nbsp; 음소거
+            </Button>
+            <Button style={{backgroundColor:'white', marginRight:'1rem'}}>
+              <FontAwesomeIcon icon={faMicrophoneSlash} size="3x" />&nbsp; 음소거 해제
+            </Button>
+            <Button style={{backgroundColor:'white', marginRight:'1rem'}}>
+              <FontAwesomeIcon icon={faVideo} size="3x" /> &nbsp;비디오 중지
+            </Button>
+            <Button style={{backgroundColor:'white', marginRight:'1rem'}}>
+              <FontAwesomeIcon icon={faVideoSlash} size="3x" /> &nbsp;비디오 시작
+            </Button>
+            <GoTooltip title="채팅"  placement="top" style={{color:'red'}}>
+              <Button style={{backgroundColor:'white', marginRight:'1rem'}}>
+                <FontAwesomeIcon icon={faComments} size="3x" />
+              </Button>
+            </GoTooltip>
+            <GoTooltip title="나가기"  placement="top">
+              <Button size="large" style={{ backgroundColor:'white', marginRight:'1rem' }} onClick={() => {this.leaveSession();}}>
+                <FontAwesomeIcon icon={faDoorOpen} size="3x" /> 
+              </Button>
+            </GoTooltip>
+            {/* <Button size="large" style={{ backgroundColor:'white', marginRight:'1rem' }} onClick={() => {this.leaveSession();}}>
+            <FontAwesomeIcon icon={faFileExport} size="3x" />
+            </Button> */}
+            {/* <Button size="large" color="primary" variant='outlined' style={{ fontSize: '15px' }} onClick={() => {
+              this.leaveSession();
+            }}> 나가기 </Button> */}
+          </Box>
+        </div>
+      </div>
     );
   };
 }
 
+{/* <Button size="large" color="primary" variant='outlined' style={{ fontSize: '15px' }} onClick={() => {
+  this.leaveSession();
+}}> 나가기 </Button>
+{this.state.session !== undefined ? (
+  <div id="session">
+    <div id="video-container" className="col-md-6">
+      {this.state.publisher !== undefined ? (
+        <div className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
+          <UserVideoComponent
+            streamManager={this.state.publisher} />
+        </div>
+      ) : null}
+      {this.state.subscribers.map((sub, i) => (
+        <div key={i} className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(sub)}>
+          <UserVideoComponent streamManager={sub} />
+        </div>
+      ))}
+    </div>
+  </div>
+) : null} */}
 function leave(props) {
   props.setRoomId(null);
 }
