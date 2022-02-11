@@ -1,7 +1,6 @@
 import { Grid, TextField, Button, Typography } from "@mui/material"
 import { useState, useContext } from "react"
 import axios from 'axios'
-import { AuthContext } from "../Auth"
 
 export default function ChangePwForm(props){
   const BASE_URL='https://i6d204.p.ssafy.io/api/'
@@ -10,13 +9,15 @@ export default function ChangePwForm(props){
   const [pw,setPw]=useState(null)
   const [pw2,setPw2]=useState(null)
   const [msg,setMsg]=useState(null)
-  let auth = useContext(AuthContext)
 
   function handleSubmit(e){
     e.preventDefault()
     const data=new FormData(e.target)
-    axios.put(BASE_URL+'/users/update-password', 
-    {id:auth.user.id,newPassword:data.get('newPw'),oldPassword:data.get('pw')})
+    const data1={id:JSON.parse(localStorage.getItem('user')).userInfo.id,
+      newPassword:data.get('newPw'),
+      oldPassword:data.get('pw')}
+    console.log(data1);
+    axios.put(BASE_URL+'/users/update-password',data1) 
     .then(res=>{
       console.log(res);
       if (res.data.success) {alert('비밀번호가 변경되었습니다');props.setDialog(null)}

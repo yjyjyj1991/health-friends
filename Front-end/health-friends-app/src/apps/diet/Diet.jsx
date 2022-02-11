@@ -1,4 +1,4 @@
-import { InputAdornment,Button,TextField,Typography,Grid } from '@mui/material'
+import { Button,Typography,Grid, } from '@mui/material'
 import { useState,useEffect,useContext } from 'react'
 import { Pie } from 'react-chartjs-2'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
@@ -6,21 +6,14 @@ import DietDialog from './DietGoal';
 import Calender from 'components/common/Calender';
 import axios from 'axios';
 import { BASE_URL } from 'common/Properties';
-import { useDatePickerDefaultizedProps } from '@mui/lab/DatePicker/shared';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormHelperText from '@mui/material/FormHelperText';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import BasicTable from 'components/common/Table';
 
 export default function Diet(){
   const userInfo = JSON.parse(localStorage.getItem('user')).userInfo
   const [dialog,setDialog]=useState(false)
   const [date, setDate] = useState(new Date());
-  const [food,setFood]=useState(null)
-  const [foodList,setFoodList]=useState([])
-  const [key,setKey]=useState('')
-
+  const [list,setList]=useState([])
+  const [checked, setChecked] = useState(false);
   function open(){
     setDialog(true)
   }
@@ -33,35 +26,11 @@ export default function Diet(){
     .then(res=>console.log(res))
     .catch(err=>console.log(err))
   }
-  function handleKeyChange(e){
-    setKey(e.target.value)
-  }
-  function handleChange(e){
-    setFood(e.target.value)
-  }
-  function search(e){
-    e.preventDefault()
-    console.log(key, food);
-  }
-// 다이어트 할때 계산 방법
-// 단백질 : 몸무게 (파운드 값) * 1.1
-// 지방 : 몸무게 (파운드 값) * 0.3
-// 탄수화물 : (칼로리 - (단백질 *4 + 지방 * 9))/4 
+  const handleCheckChange = (event) => {
+    setChecked(event.target.checked)
+  };
 
-// 린메스업 할 때 계산 방법
-// 단백질 : 몸무게 (파운드 값) * 0.9
-// 지방 : 몸무게 (파운드 값) * 0.4
-// 탄수화물 : (칼로리 - (단백질 *4 + 지방 * 9))/4 
 
-// 유지 할때는
-// 탄수화물: (칼로리 총량의 50%) 
-// 단백질 : (칼로리 총량의 25%) 
-// 지방 : ((칼로리 총량의 * 0.25) * (4/9))
-
-// 유지 칼로리 구하는 법 : (몸무게(파운드 값으로) * 10 ) *(Active_Point DB에서 받아온 값(1.3~1.8))
-// 다이어트 칼로리 구하는 법 : (몸무게(파운드 값으로) * 10 ) *(Active_Point DB에서 받아온 값(1.3~1.8)) - 300
-// 린 메스업 칼로리 구하는 법 : (몸무게(파운드 값으로) * 10 ) *(Active_Point DB에서 받아온 값(1.3~1.8)) + 200
-  
   const WEIGHT = userInfo.weight*2.20462
   const BASE_CAL = WEIGHT*10*userInfo.activePoint
   var cal,protein,fat,carbo
@@ -176,63 +145,50 @@ export default function Diet(){
   return (
     <>
     <Grid container spacing={2} marginY={3}>
+
       <Grid item xs={6} marginBottom={5} align='center' borderColor='primary'>
         <Typography variant='h5'>현재 활동지수는 {userInfo.activePoint}입니다</Typography>
         <Typography variant='h5'>현재 몸무게는 {userInfo.weight}입니다</Typography>
         <Typography variant='h5'>현재 목표는 {userInfo.purpose}입니다</Typography>
         <Button variant='contained' onClick={open}>수정하기</Button>
       </Grid>
+
       <Grid item xs={6} align='center'>
         <Calender setDate={handleDate} date={date}/>
       </Grid>
-      <Grid item container xs={12} component='form' onSubmit={search}>
-        <Grid item xs={6}>
-        <FormControl required fullWidth>
-          <InputLabel id="demo-simple-select-required-label">음식/브랜드</InputLabel>
-          <Select
-            
-            labelId="demo-simple-select-required-label"
-            id="demo-simple-select-required"
-            value={key}
-            label="*"
-            onChange={handleKeyChange}
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={'food'}>음식</MenuItem>
-            <MenuItem value={'brand'}>브랜드</MenuItem>
-          </Select>
-        </FormControl>
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            fullWidth
-            required
-            label="섭취한 음식을 등록해주세요"
-            name='food'
-            onChange={handleChange}
-          />
-          <Button type='submit' variant='contained'>검색</Button>
-        </Grid>
-      <Grid item xs={12} padding={8}>
+
+      <Grid item xs={12}>
         
       </Grid>
+
+      <Grid item xs={12} align='center'>
+        <BasicTable />
       </Grid>
+      
+      <Grid item xs={12} align='center'>
+        <BasicTable />
+      </Grid>
+
+      <Grid item xs={12} padding={8}>
+      </Grid>
+      
       <Grid item xs={4} padding={8}>
         <Typography variant='h5' align='center'>탄수화물</Typography>
         <Pie data={data[0]}/>
       </Grid>
+
       <Grid item xs={4} padding={8}>
         <Typography variant='h5' align='center'>단백질</Typography>
         <Pie data={data[1]}/>
       </Grid>
+
       <Grid item xs={4} padding={8}>
         <Typography variant='h5' align='center'>지방</Typography>
         <Pie data={data[2]}/>
       </Grid>
+
     </Grid>
-    <DietDialog close={close} dialog={dialog}/>
+    <DietDialog close={close} dialog={dialog} />
     </>
   )
 }
@@ -241,3 +197,22 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 
  
+// 다이어트 할때 계산 방법
+// 단백질 : 몸무게 (파운드 값) * 1.1
+// 지방 : 몸무게 (파운드 값) * 0.3
+// 탄수화물 : (칼로리 - (단백질 *4 + 지방 * 9))/4 
+
+// 린메스업 할 때 계산 방법
+// 단백질 : 몸무게 (파운드 값) * 0.9
+// 지방 : 몸무게 (파운드 값) * 0.4
+// 탄수화물 : (칼로리 - (단백질 *4 + 지방 * 9))/4 
+
+// 유지 할때는
+// 탄수화물: (칼로리 총량의 50%) 
+// 단백질 : (칼로리 총량의 25%) 
+// 지방 : ((칼로리 총량의 * 0.25) * (4/9))
+
+// 유지 칼로리 구하는 법 : (몸무게(파운드 값으로) * 10 ) *(Active_Point DB에서 받아온 값(1.3~1.8))
+// 다이어트 칼로리 구하는 법 : (몸무게(파운드 값으로) * 10 ) *(Active_Point DB에서 받아온 값(1.3~1.8)) - 300
+// 린 메스업 칼로리 구하는 법 : (몸무게(파운드 값으로) * 10 ) *(Active_Point DB에서 받아온 값(1.3~1.8)) + 200
+  
