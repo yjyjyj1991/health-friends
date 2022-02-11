@@ -13,7 +13,7 @@
   
 <!-- create Food Management Start-->
   <select id="selectFoodUserExist" parameterType="foodManagementAddDto" resultType="int">
-    SELECT * FROM tbl_food_management WHERE user_id = 29 AND DATE = DATE_FORMAT(NOW(),'%Y-%m-%d')
+    SELECT * FROM tbl_food_management WHERE user_id = #{userId} AND DATE = DATE_FORMAT(NOW(),'%Y-%m-%d')
   </select>
 
   <insert id="createFoodUserExist" parameterType="foodManagementAddDto">
