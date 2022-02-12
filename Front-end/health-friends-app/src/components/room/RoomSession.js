@@ -17,6 +17,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComments, faDoorOpen, faFileExport, faMicrophone, faMicrophoneSlash, faVideo, faVideoSlash, } from "@fortawesome/free-solid-svg-icons";
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
+import './RoomSession.css';
 
 const GoTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -161,41 +162,43 @@ class RoomSession extends Component {
   
   render() {
     return (
-      //대체 이 부분의 윗단계는 어디?? 그부분에서 100%를 줘야함... 
       <div className="container-fluid">
         {this.state.session !== undefined ? (
           <div id="session">
             <div id="video-container" style={{display: 'flex', flexDirection:'column'}} >
-              <div className="main-container" style={{marginTop:'3rem'}}>
-                <div className="col-md-6">
-                  <Card sx={{ minWidth: 200, width: {sm: 500 ,md:700}, height: {sm:350, md:450} }}>
-                    <CardContent>
+              <div className="row align-items-start " style={{marginTop:'1rem', marginLeft:0, marginRight:0, marginBottom:0}}>
+                <div className="col-md-5 p-0 d-flex justify-content-center">
+                  <Card sx={{ minWidth: 250, width: {sm: 500 ,md:700}, height: {sm:350, md:525}, border:'none' }}>
                     <CardMedia
                         component="iframe"
                         alt="green iguana"
                         // height="450"
-                        sx={{height: {sm: 250, md: 350}}}
+                        sx={{width: {sm: 500, md: 700}, height: {sm: 250, md: 525}}}
                         src="https://www.youtube.com/embed/QpSAMoEm0fc?start=36"
-                      />
+                    />
                       {/* <iframe width="560" height="315" src="https://www.youtube.com/embed/QpSAMoEm0fc?start=36" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> */}
+                    {/* <CardContent>
                       <Typography variant="h5" >
                         유투브 영상 들어갈 곳
                       </Typography>
-                    </CardContent>
+                    </CardContent> */}
                   </Card>
+                </div>
+                <div className="col-md-2"> 여기에 카운트 
                 </div>
                 {this.state.publisher !== undefined ? (
                   // <div className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
-                  <div className="stream-container col-md-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
-                    <Card sx={{ minWidth: 200, width: {sm: 500 ,md:700}, height: {sm:350, md:450} }}>
-                    {/* <div sx={{height: {sm: 300, md: 450}}}> */}
-                      <UserVideoComponent style={{height:700}} streamManager={this.state.publisher}  />
-                    {/* </div> */}
-                      <CardContent>
+                  // <div className="stream-container col-md-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
+                  <div className="col-md-5 d-flex justify-content-center" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
+                    <Card variant="outlined" sx={{ minWidth: 250, width: {sm: 500 ,md:700}, height: {sm:350, md:525} }}>
+                      {/* <div style={{height:'400px'}}> */}
+                      <UserVideoComponent streamManager={this.state.publisher}  />
+                      {/* </div> */}
+                      {/* <CardContent>
                         <Typography variant="h5" >
                           본인 여기에 카운트 들어갈까?
                         </Typography>
-                      </CardContent>
+                      </CardContent> */}
                     </Card>
                   </div>
                 ) : null}
@@ -205,13 +208,14 @@ class RoomSession extends Component {
                 {this.state.subscribers.map((sub, i) => (
                   <div key={i} className="stream-container col-md-3 col-xs-6" style={{display: 'flex', flexDirection:'row'}}  onClick={() => this.handleMainVideoStream(sub)}>
                   {/* //  <div key={i} className="stream-container d-flex"  onClick={() => this.handleMainVideoStream(sub)}> */}
-                    <Card sx={{ width:400 }}>
-                      <UserVideoComponent style={{}} streamManager={sub} />
+                    {/* <Card sx={{ minWidth:300, width:400, minHeight:200, height: 350 }}> */}
+                    <Card sx={{ width: {sm: 250 ,md:300}, height: {sm:200, md:250} }}>
                       <CardContent>
                         <Typography variant="h5" >
-                          다른 유저들 카운트 개수 보여줄수 있나?
+                          다른 유저들 카운트
                         </Typography>
                       </CardContent>
+                      <UserVideoComponent style={{}} streamManager={sub} />
                     </Card>
                   </div>
                 ))}

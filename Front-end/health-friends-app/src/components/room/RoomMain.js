@@ -50,14 +50,14 @@ const RoomMain = () => {
     );
   } else {
     return (
-      <>
+
         <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100%' }}>
-          <AppBar dialog={dialog} setDialog={setDialog} />
-          <Container>
+
+          {/* <Container style={{minHeight:'100%'}}> */}
             <RoomSession roomId={roomId} setRoomId={setRoomId} />
-          </Container>
+          {/* </Container> */}
         </div>
-      </>
+
     );
   }
 };
