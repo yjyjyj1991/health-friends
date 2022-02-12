@@ -32,7 +32,7 @@
     SELECT fw.id,f.user_id,f.food_name,f.carbohydrate,f.protein,f.brand,f.fat,f.kcal,f.serving_size,fw.serving_size AS newServing 
 	  FROM tbl_food f 
 	  JOIN tbl_fm_with_food fw ON f.id = fw.food_id
-	  WHERE DATE = #{date} AND fm_id = (SELECT id FROM tbl_food_management WHERE user_id = #{userId} AND DATE = DATE_FORMAT(NOW(),'%Y-%m-%d')) ORDER BY id;
+	  WHERE DATE = #{date} AND fm_id IN (SELECT id FROM tbl_food_management WHERE user_id = #{userId} AND DATE = #{date}) ORDER BY id;
   </select>
 
   <select id="selectFoodManagement2" parameterType="foodManagementListDto" resultType="foodReserveDto">
