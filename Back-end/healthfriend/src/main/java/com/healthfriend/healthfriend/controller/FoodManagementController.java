@@ -58,7 +58,7 @@ public class FoodManagementController {
 	@ApiOperation(value = "식단 가져오기", notes = "새로운 나의 개인 식단을 가져온다.", response = String.class)
 	@GetMapping
 	public ResponseEntity<Message> foodManagementList(
-			@RequestBody FoodManagementListDto foodManagementListDto)
+			 FoodManagementListDto foodManagementListDto)
 			throws Exception {
 		logger.info("foodManagementList - 호출");
 		Message message = new Message();
