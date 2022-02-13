@@ -44,7 +44,7 @@
     ORDER BY food_id ASC
   </select>
   
-  <delete id="deleteFoodManagement" parameterType="foodManagementRemoveDto">
+  <delete id="deleteFoodFromManagement" parameterType="foodManagementRemoveDto">
     DELETE 
     FROM tbl_fm_with_food 
     WHERE id = #{id}

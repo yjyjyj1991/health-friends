@@ -55,7 +55,7 @@ public class FoodManagementServiceImpl implements FoodManagementService {
 
   @Override
   public boolean removeFoodManagement(FoodManagementRemoveDto foodManagementRemoveDto) throws Exception {
-    return sqlSession.getMapper(FoodManagementMapper.class).deleteFoodManagement(foodManagementRemoveDto) == 1;
+    return sqlSession.getMapper(FoodManagementMapper.class).deleteFoodFromFM(foodManagementRemoveDto) == 1;
   }
 
 }
