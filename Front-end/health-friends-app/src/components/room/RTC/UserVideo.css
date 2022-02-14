@@ -9,17 +9,17 @@ video {
   float: left;
   cursor: pointer; */
 }
-.streamcomponent div {
-  /* position: absolute; */
-  /* background: #f8f8f8;
+/* .streamcomponent div {
+  position: absolute;
+  background: #f8f8f8;
   padding-left: 5px;
   padding-right: 5px;
   color: #777777;
   font-weight: bold;
   border-bottom-right-radius: 4px;
   width: 500px;
-  height: 300; */
-}
+  height: 300;
+} */
 p {
   margin: 0;
 }

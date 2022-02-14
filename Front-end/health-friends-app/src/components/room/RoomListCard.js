@@ -88,6 +88,7 @@ function List(props) {
         <CardActions>
           <Button size="large" color="primary" variant='outlined' style={{ fontSize: '15px' }} onClick={() => {
             props.rootProps.setRoomId(props.list.id);
+            window.localStorage.setItem("roomId", props.list.id);
           }}> 입장하기 </Button>
           <Button size="large" color="primary" variant='outlined' style={{ fontSize: '15px' }}> 상세보기 </Button>
         </CardActions>

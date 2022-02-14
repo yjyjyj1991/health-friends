@@ -7,6 +7,8 @@ import { BASE_URL } from 'common/Properties';
 import BasicTable from 'components/common/Table';
 import SearchBar from './SearchBar'
 import Piechart from './Piechart'
+import AppBar from '../../components/appbar/AppBar';
+import Footer from '../../components/Footer/Footer';
 
 export default function Diet(){
   const userInfo = JSON.parse(localStorage.getItem('user')).userInfo
@@ -105,50 +107,52 @@ export default function Diet(){
     
 
   return (
-    <>
-    <Grid container spacing={2} marginY={3}>
-      <Grid item xs={6} marginBottom={5} align='center'>
-        <Box sx={{border:1,borderRadius:7,backgroundColor:'yellowgreen'}}>
-          {/* <span>현재 활동지수는 {userInfo.activePoint}입니다</span> */}
-        <Typography variant='h5'>현재 활동지수는 {userInfo.activePoint}입니다</Typography>
-        <Typography variant='h5'>현재 몸무게는 {userInfo.weight}입니다</Typography>
-        <Typography variant='h5'>현재 목표는 {userInfo.purpose}입니다</Typography>
-        <Button variant='contained' onClick={open}>수정하기</Button>
-        </Box>
-      </Grid>
+    <div style={{display: 'flex', flexDirection:'column', minHeight:'100%'}}>
+      <AppBar dialog={dialog} setDialog={setDialog} />
+      <div className='container' style={{flex:'1'}}>
+        <Grid container spacing={2} marginY={3}>
+          <Grid item xs={6} marginBottom={5} align='center'>
+            <Typography variant='h5'>현재 활동지수는 {userInfo.activePoint}입니다</Typography>
+            <Typography variant='h5'>현재 몸무게는 {userInfo.weight}입니다</Typography>
+            <Typography variant='h5'>현재 목표는 {userInfo.purpose}입니다</Typography>
+            <Button variant='contained' onClick={open}>수정하기</Button>
+          </Grid>
 
-      <Grid item xs={6} align='center'> 
-        <Calender setDate={handleDate} date={date} />
-      </Grid>
+          <Grid item xs={6} align='center' > 
+            <Calender setDate={handleDate} date={date} />
+          </Grid>
 
-      <Grid item xs={12}>
-        <SearchBar setList={setList} list={list} />
-      </Grid>
-      
-      <Grid item xs={12} align='center'>
-        <BasicTable list={list} setList={setList} />
-      </Grid>
-      
-      <Grid item container xs={12} marginBottom={10}>
-        <Grid item xs={4} padding={2}>
-          <Typography variant='h5' align='center'>탄수화물</Typography>
-          <Piechart goal={goal[0]} current={curr[0]}/>
+          <Grid item xs={12}>
+            <SearchBar setList={setList} list={list} />
+          </Grid>
+          
+          <Grid item xs={12} align='center'>
+            <BasicTable list={list} setList={setList} />
+          </Grid>
+          
+          <Grid item container xs={12} marginBottom={10}>
+            <Grid item xs={4} padding={2}>
+              <Typography variant='h5' align='center'>탄수화물</Typography>
+              <Piechart goal={goal[0]} current={curr[0]}/>
+            </Grid>
+
+            <Grid item xs={4} padding={2}>
+              <Typography variant='h5' align='center'>단백질</Typography>
+              <Piechart goal={goal[1]} current={curr[1]}/>
+            </Grid>
+
+            <Grid item xs={4} padding={2}>
+              <Typography variant='h5' align='center'>지방</Typography>
+              <Piechart goal={goal[2]} current={curr[2]}/>
+            </Grid>
+          </Grid>
+        
         </Grid>
+        <DietDialog close={close} dialog={dialog} />
 
-        <Grid item xs={4} padding={2}>
-          <Typography variant='h5' align='center'>단백질</Typography>
-          <Piechart goal={goal[1]} current={curr[1]}/>
-        </Grid>
-
-        <Grid item xs={4} padding={2}>
-          <Typography variant='h5' align='center'>지방</Typography>
-          <Piechart goal={goal[2]} current={curr[2]}/>
-        </Grid>
-      </Grid>
-    
-    </Grid>
-    <DietDialog close={close} dialog={dialog} />
-    </>
+      </div>
+      <Footer/>
+    </div>
   )
 }
 
