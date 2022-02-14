@@ -21,7 +21,7 @@ export default function LoginForm(props){
     axios.post(BASE_URL+'users/login',{email: data.get('email'),password: data.get('password'),})
     .then((res)=>{
     if (res.data.success) {
-      console.log(res.data.data)
+      // console.log(res.data.data)
       auth.login(res.data.data)
       navigate(location)
       setDialog(null)

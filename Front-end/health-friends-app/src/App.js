@@ -11,6 +11,7 @@ import {AuthContext,RequireAuth} from "./components/account/Auth";
 import React from "react";
 import Diet from './apps/diet/Diet'
 import { useState } from "react";
+import Record from './apps/record/Record'
 
 const BASE_URL='https://i6d204.p.ssafy.io/api/'
 
@@ -39,6 +40,7 @@ function App() {
       <Route path="/rooms" element={<RoomMain />}/>
       <Route path="/boards" element={<Board />} />
       <Route path="/foods" element={<FoodMain />} />
+      <Route path="/record" element={<RequireAuth setDialog={setDialog}><Record /></RequireAuth>} />
       <Route path="/diet" element={<RequireAuth setDialog={setDialog}><Diet/></RequireAuth>} />
     </Routes>
     {/* <Footer/> */}

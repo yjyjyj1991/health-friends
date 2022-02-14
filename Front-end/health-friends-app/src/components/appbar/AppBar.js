@@ -111,7 +111,7 @@ const ResponsiveAppBar = (props) => {
               </MenuItem>
               <MenuItem onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
-                  <Link to='/main' style={{color:'black', fontSize:'1.5rem', fontWeight:'bold', textDecoration:'none'}}>
+                  <Link to='/record' style={{color:'black', fontSize:'1.5rem', fontWeight:'bold', textDecoration:'none'}}>
                     운동기록
                   </Link></Typography>
               </MenuItem>
@@ -148,7 +148,7 @@ const ResponsiveAppBar = (props) => {
                   헬스장
                 </Button>
               </Link>
-              <Link to='/main' style={{ textDecoration:'none', marginRight:'3rem'}}>
+              <Link to='/record' style={{ textDecoration:'none', marginRight:'3rem'}}>
                 <Button
                   // onClick={handleCloseNavMenu}
                   style={{ my: 3, color: 'black', display: 'block', fontSize:'2rem', fontWeight:'bold'  }}>

@@ -78,33 +78,6 @@ export default function Diet(){
   function handleDate(date){
     setDate(date)
   }
-  // function getList(date){
-  //   const data = {
-  //     date:`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`,
-  //     userId:userInfo.id
-  //   }
-  //   axios.get(BASE_URL+'foodmanagement',{params:data})
-  //   .then(res=>{
-  //     var dailyList=[]
-  //     const dataList = res.data.data
-  //     if (dataList) {
-  //       dataList.forEach(el=>
-  //         {
-  //           const rate=el.newServing/el.servingSize
-  //           dailyList.push({...el,
-  //             kcal:Math.round(el.kcal*rate),
-  //             carbohydrate:Math.round(el.carbohydrate*rate),
-  //             fat:Math.round(el.fat*rate),
-  //             protein:Math.round(el.protein*rate),
-  //           }) 
-  //         }) 
-  //       }
-  //     else {dailyList = []}
-  //     setList(dailyList)
-  //   })
-  //   .catch(err=>console.log(err))
-  // }
-    
 
   return (
     <div style={{display: 'flex', flexDirection:'column', minHeight:'100%'}}>

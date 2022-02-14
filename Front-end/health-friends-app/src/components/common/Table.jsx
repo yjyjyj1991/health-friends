@@ -16,7 +16,6 @@ export default function BasicTable(props) {
     // console.log(list[index].id);
     axios.delete(BASE_URL+'foodmanagement',{data:{id:list[index].id}})
     .catch(err=>console.log(err))
-    .then(res=>console.log(res))
     const newList=list
     newList.splice(index,1)
     setList([...newList])
