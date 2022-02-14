@@ -13,7 +13,7 @@ import { BASE_URL } from 'common/Properties';
 export default function BasicTable(props) {
   const {list,setList}=props
   function removeRow(index){
-    console.log(list[index].id);
+    // console.log(list[index].id);
     axios.delete(BASE_URL+'foodmanagement',{data:{id:list[index].id}})
     .catch(err=>console.log(err))
     .then(res=>console.log(res))
@@ -23,7 +23,12 @@ export default function BasicTable(props) {
   }
   return (
   <>
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} 
+      sx={{
+        backgroundColor:'lightgreen',
+        border:1,
+          
+      }}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>

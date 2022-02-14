@@ -78,70 +78,74 @@ export default function Diet(){
   function handleDate(date){
     setDate(date)
   }
-  function getList(date){
-    const data = {
-      date:`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`,
-      userId:userInfo.id
-    }
-    axios.get(BASE_URL+'foodmanagement',{params:data})
-    .then(res=>{
-      var dailyList=[]
-      const dataList = res.data.data
-      if (dataList) {
-        dataList.forEach(el=>
-          {
-            const rate=el.newServing/el.servingSize
-            dailyList.push({...el,
-              kcal:Math.round(el.kcal*rate),
-              carbohydrate:Math.round(el.carbohydrate*rate),
-              fat:Math.round(el.fat*rate),
-              protein:Math.round(el.protein*rate),
-            }) 
-          }) 
-        }
-      else {dailyList = []}
-      setList(dailyList)
-    })
-    .catch(err=>console.log(err))
-  }
+  // function getList(date){
+  //   const data = {
+  //     date:`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`,
+  //     userId:userInfo.id
+  //   }
+  //   axios.get(BASE_URL+'foodmanagement',{params:data})
+  //   .then(res=>{
+  //     var dailyList=[]
+  //     const dataList = res.data.data
+  //     if (dataList) {
+  //       dataList.forEach(el=>
+  //         {
+  //           const rate=el.newServing/el.servingSize
+  //           dailyList.push({...el,
+  //             kcal:Math.round(el.kcal*rate),
+  //             carbohydrate:Math.round(el.carbohydrate*rate),
+  //             fat:Math.round(el.fat*rate),
+  //             protein:Math.round(el.protein*rate),
+  //           }) 
+  //         }) 
+  //       }
+  //     else {dailyList = []}
+  //     setList(dailyList)
+  //   })
+  //   .catch(err=>console.log(err))
+  // }
     
 
   return (
     <div style={{display: 'flex', flexDirection:'column', minHeight:'100%'}}>
       <AppBar dialog={dialog} setDialog={setDialog} />
-      <div className='container' style={{flex:'1'}}>
+      <div className='container' 
+        // style={{flex:'1'}}
+      >
         <Grid container spacing={2} marginY={3}>
-          <Grid item xs={6} marginBottom={5} align='center'>
-            <Typography variant='h5'>현재 활동지수는 {userInfo.activePoint}입니다</Typography>
-            <Typography variant='h5'>현재 몸무게는 {userInfo.weight}입니다</Typography>
-            <Typography variant='h5'>현재 목표는 {userInfo.purpose}입니다</Typography>
-            <Button variant='contained' onClick={open}>수정하기</Button>
+          <Grid item xs={4} marginBottom={5} align='center' >
+            <Box sx={{border:1,borderRadius:1,backgroundColor:'lightgreen' }} paddingY={5}>
+              <Typography variant='h5'>현재 활동지수는 {userInfo.activePoint}입니다</Typography>
+              <Typography variant='h5'>현재 몸무게는 {userInfo.weight}입니다</Typography>
+              <Typography variant='h5'>현재 목표는 {userInfo.purpose}입니다</Typography>
+              <Button variant='contained' onClick={open} size='small'>수정하기</Button>
+            </Box>
           </Grid>
 
           <Grid item xs={6} align='center' > 
             <Calender setDate={handleDate} date={date} />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item xs={12} sx={{border:1,borderRadius:1,backgroundColor:'lightgreen' }}>
             <SearchBar setList={setList} list={list} />
           </Grid>
           
-          <Grid item xs={12} align='center'>
+          <Grid item xs={12} align='center' marginBottom={5}>
             <BasicTable list={list} setList={setList} />
           </Grid>
           
           <Grid item container xs={12} marginBottom={10}>
-            <Grid item xs={4} padding={2}>
+            <Grid item xs={4} padding={4}>
               <Typography variant='h5' align='center'>탄수화물</Typography>
               <Piechart goal={goal[0]} current={curr[0]}/>
             </Grid>
 
-            <Grid item xs={4} padding={2}>
+            <Grid item xs={4} padding={4}>
               <Typography variant='h5' align='center'>단백질</Typography>
               <Piechart goal={goal[1]} current={curr[1]}/>
             </Grid>
 
-            <Grid item xs={4} padding={2}>
+            <Grid item xs={4} padding={4}>
               <Typography variant='h5' align='center'>지방</Typography>
               <Piechart goal={goal[2]} current={curr[2]}/>
             </Grid>

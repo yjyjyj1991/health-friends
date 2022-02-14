@@ -25,7 +25,7 @@ export default function SearchBar(props){
       spp:1000,
       word:data.get('word')
     }
-    console.log(data1);
+    // console.log(data1);
     axios.get(BASE_URL+'foods', {params:data1} )
     .then(res=>setResult(res.data.data))
     .catch(err=>console.log(err))
@@ -35,7 +35,9 @@ export default function SearchBar(props){
   <Box margin={2}>
     <FormControlLabel 
       control={<Checkbox checked={checked} onChange={handleChange}/>} 
-      label={label} />
+      label={label} 
+      sx={{marginBottom:2, marginLeft:2}}  
+    />
     <TextField
       component='form'
       onSubmit={search}

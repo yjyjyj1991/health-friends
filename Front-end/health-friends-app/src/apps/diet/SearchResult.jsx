@@ -18,11 +18,11 @@ export default function SearchResult(props) {
   function select(e){
     const food = props.result.find(el=>el.foodName===e.target.innerText) 
     setFood(food)
-    console.log(food);
+    // console.log(food);
   }
   function addToList(e){
     e.preventDefault()
-    console.log(food);
+    // console.log(food);
     const data = new FormData(e.currentTarget);
     const servingSize = parseInt(data.get('servingSize'))
     const data1={
@@ -41,7 +41,7 @@ export default function SearchResult(props) {
           fat:Math.round(food.fat*rate),
           protein:Math.round(food.protein*rate),
         }
-      console.log(x);
+      // console.log(x);
       setList([...list, x])
     })
     .catch(err=>console.log(err))
