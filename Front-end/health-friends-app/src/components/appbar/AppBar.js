@@ -59,7 +59,7 @@ const ResponsiveAppBar = (props) => {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor:'#D3E4CD'}}>
+    <AppBar position="static" sx={{ backgroundColor:'#D3E4CD', boxShadow:'none', paddingBottom:'1rem', paddingTop:'1rem'}}>
       <Container maxWidth="lg">
         <Toolbar disableGutters>
           <Typography
@@ -108,19 +108,19 @@ const ResponsiveAppBar = (props) => {
                   <Link to='/rooms' style={{color:'black', fontSize:'1.5rem', fontWeight:'bold', textDecoration:'none' }}>
                     헬스장
                   </Link></Typography>
-              </MenuItem>
+              </MenuItem><br/>
               <MenuItem onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
                   <Link to='/record' style={{color:'black', fontSize:'1.5rem', fontWeight:'bold', textDecoration:'none'}}>
                     운동기록
                   </Link></Typography>
-              </MenuItem>
+              </MenuItem><br/>
               <MenuItem onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
                   <Link to='/diet' style={{color:'black', fontSize:'1.5rem', fontWeight:'bold', textDecoration:'none' }}>
                     식단
                   </Link></Typography>
-              </MenuItem>
+              </MenuItem><br/>
               <MenuItem onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">
                 <Link to='/boards' style={{color:'black', fontSize:'1.5rem', fontWeight:'bold', textDecoration:'none' }}>

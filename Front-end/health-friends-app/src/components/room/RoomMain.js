@@ -40,7 +40,6 @@ const RoomMain = () => {
                 </Grid>
               </Grid>
             </Container>
-          </div>
 
 
           <div className='roomCreate' >
@@ -51,6 +50,8 @@ const RoomMain = () => {
           <Container>
             <RoomListCard setRoomId={setRoomId} />
           </Container>
+          </div>
+          <Footer/>
         </div>
       </>
     );

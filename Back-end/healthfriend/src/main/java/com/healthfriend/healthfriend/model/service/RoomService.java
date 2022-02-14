@@ -28,4 +28,6 @@ public interface RoomService {
 
   public RTCSessionInfoDto findSessionInfo(int id) throws Exception;
 
+  public boolean closeBySessionName(String sessionName) throws Exception;
+
 }

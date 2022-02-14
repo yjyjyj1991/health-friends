@@ -86,39 +86,45 @@ public class RTCSessionController {
     ConnectionProperties connectionProperties = new ConnectionProperties.Builder().type(ConnectionType.WEBRTC)
         .data(serverData).role(role).build();
 
-    if (this.mapSessions.get(sessionName) != null) {
-      System.out.println("Existing session " + sessionName);
-      try {
-        String token = this.mapSessions.get(sessionName).createConnection(connectionProperties).getToken();
-        this.mapSessionNamesTokens.get(sessionName).put(token, role);
+    if (sessionInfo.getCloseTime() == null) {
+      if (this.mapSessions.get(sessionName) != null) {
+        System.out.println("Existing session " + sessionName);
+        try {
+          String token = this.mapSessions.get(sessionName).createConnection(connectionProperties).getToken();
+          this.mapSessionNamesTokens.get(sessionName).put(token, role);
 
-        sessionInfo.setToken(token);
-        isSuccess = true;
-      } catch (OpenViduJavaClientException e1) {
-        message.setMessage(e1.getMessage());
-      } catch (OpenViduHttpException e2) {
-        if (404 == e2.getStatus()) {
-          this.mapSessions.remove(sessionName);
-          this.mapSessionNamesTokens.remove(sessionName);
+          sessionInfo.setToken(token);
+          isSuccess = true;
+        } catch (OpenViduJavaClientException e1) {
+          message.setMessage(e1.getMessage());
+        } catch (OpenViduHttpException e2) {
+          if (404 == e2.getStatus()) {
+            this.mapSessions.remove(sessionName);
+            this.mapSessionNamesTokens.remove(sessionName);
+          }
+        }
+      } else {
+        System.out.println("New session " + sessionName);
+        try {
+          Session session = this.openVidu.createSession();
+          String token = session.createConnection(connectionProperties).getToken();
+          this.mapSessions.put(sessionName, session);
+          this.mapSessionNamesTokens.put(sessionName, new ConcurrentHashMap<>());
+          this.mapSessionNamesTokens.get(sessionName).put(token, role);
+
+          sessionInfo.setToken(token);
+          isSuccess = true;
+
+        } catch (Exception e) {
+          message.setMessage(e.getMessage() + e.getStackTrace());
         }
       }
-    } else {
-      System.out.println("New session " + sessionName);
-      try {
-        Session session = this.openVidu.createSession();
-        String token = session.createConnection(connectionProperties).getToken();
-        this.mapSessions.put(sessionName, session);
-        this.mapSessionNamesTokens.put(sessionName, new ConcurrentHashMap<>());
-        this.mapSessionNamesTokens.get(sessionName).put(token, role);
-
-        sessionInfo.setToken(token);
-        isSuccess = true;
-
-      } catch (Exception e) {
-        message.setMessage(e.getMessage() + e.getStackTrace());
-      }
     }
-    sessionInfo.setUserCount(this.mapSessionNamesTokens.get(sessionName).size());
+    if (this.mapSessionNamesTokens.get(sessionName) == null) {
+      sessionInfo = null;
+      roomService.closeBySessionName(sessionName);
+    }
+
     message.setSuccess(isSuccess);
     message.setData(sessionInfo);
 
@@ -159,46 +165,6 @@ public class RTCSessionController {
     message.setMessage(msg);
     message.setData(responseData);
     return new ResponseEntity<>(message, HttpStatus.OK);
-
-    // OpenViduRole role = OpenViduRole.SUBSCRIBER;
-    // String serverData = "{\"serverData\": \"" + userInfo.getNickname() + "\"}";
-    // ConnectionProperties connectionProperties = new
-    // ConnectionProperties.Builder().type(ConnectionType.WEBRTC)
-    // .data(serverData).role(role).build();
-
-    // if (this.mapSessions.get(sessionName) != null) {
-    // System.out.println("Existing session " + sessionName);
-    // msg = "Existing session " + sessionName;
-    // } else {
-    // System.out.println("New session " + sessionName);
-    // msg = "New session " + sessionName;
-    // try {
-    // Session session = this.openVidu.createSession();
-    // String token = session.createConnection(connectionProperties).getToken();
-    // roomDto.setSessionName(sessionName);
-    // if (!roomService.addRoom(roomDto)) {
-    // msg = "DB 저장 실패";
-    // } else {
-    // responseData = roomService.findRoomBySessionName(sessionName);
-    // if (responseData == null) {
-    // msg = "DB 조회 실패";
-    // } else {
-    // isSuccess = true;
-    // this.mapSessions.put(sessionName, session);
-    // this.mapSessionNamesTokens.put(sessionName, new ConcurrentHashMap<>());
-    // this.mapSessionNamesTokens.get(sessionName).put(token, role);
-    // }
-    // }
-
-    // } catch (Exception e) {
-    // msg = e.getMessage() + e.getStackTrace();
-    // }
-
-    // }
-    // message.setSuccess(isSuccess);
-    // message.setMessage(msg);
-    // message.setData(responseData);
-    // return new ResponseEntity<>(message, HttpStatus.OK);
   }
 
   // ----------------------------------------------------------------------------------------//
@@ -207,16 +173,10 @@ public class RTCSessionController {
   @PostMapping("/leave")
   public ResponseEntity<Message> removeUser(@RequestBody RTCSessionLeaveRequestDto rtcSessionLeaveRequestDto)
       throws Exception {
-
-    // try {
-    // checkUserLogged(httpSession);
-    // } catch (Exception e) {
-    // return getErrorResponse(e);
-    // }
-
     Message message = new Message();
     String msg = null;
     boolean isSuccess = false;
+    boolean isCloseable = false;
 
     HttpStatus status;
 
@@ -228,6 +188,7 @@ public class RTCSessionController {
     if (this.mapSessions.get(sessionName) != null && this.mapSessionNamesTokens.get(sessionName) != null) {
       if (this.mapSessionNamesTokens.get(sessionName).remove(token) != null) {
         if (this.mapSessionNamesTokens.get(sessionName).isEmpty()) {
+          isCloseable = true;
           this.mapSessions.remove(sessionName);
         }
 
@@ -235,15 +196,21 @@ public class RTCSessionController {
         status = HttpStatus.OK;
       } else {
         msg = "Problems in the app server: the TOKEN wasn't valid";
+        isCloseable = true;
         status = HttpStatus.INTERNAL_SERVER_ERROR;
       }
 
     } else {
       msg = "Problems in the app server: the SESSION does not exist";
+      isCloseable = true;
       status = HttpStatus.INTERNAL_SERVER_ERROR;
     }
     message.setMessage(msg);
     message.setSuccess(isSuccess);
+
+    if (isCloseable) {
+      roomService.closeBySessionName(sessionName);
+    }
 
     return new ResponseEntity<>(message, status);
   }

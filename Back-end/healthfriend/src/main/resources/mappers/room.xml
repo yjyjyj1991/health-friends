@@ -54,4 +54,10 @@
     FROM tbl_room
     WHERE id = #{id}
   </select>
+
+  <update id="closeBySessionName" parameterType="String">
+    UPDATE tbl_room
+    SET close_time = NOW()
+    WHERE session_name = #{sessionName} AND close_time IS NULL;
+  </update>
 </mapper>

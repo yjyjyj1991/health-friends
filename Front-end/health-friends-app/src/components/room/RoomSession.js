@@ -18,6 +18,15 @@ import { faComments, faDoorOpen, faFileExport, faMicrophone, faMicrophoneSlash, 
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import './RoomSession.css';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import MailIcon from '@mui/icons-material/Mail';
+
 
 const GoTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -31,6 +40,7 @@ const GoTooltip = styled(({ className, ...props }) => (
 }));
 
 class RoomSession extends Component {
+
   constructor(props) {
     super(props);
     this.userInfo = JSON.parse(localStorage.getItem('user'))['userInfo'];
@@ -41,6 +51,7 @@ class RoomSession extends Component {
       mainStreamManager: undefined,
       publisher: undefined,
       subscribers: [],
+      componentWillUnmountable: true
     };
 
     this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
@@ -95,7 +106,7 @@ class RoomSession extends Component {
       console.log(this.state.sessionInfo);
       if (this.state.sessionInfo === undefined || this.state.sessionInfo['closeTime'] !== null) {
         alert("방이 존재하지 않습니다.");
-        leave(this.props);
+        resetRoomId(this.props);
       } else {
         console.log("CONNECT");
         this.connectSession();
@@ -105,7 +116,9 @@ class RoomSession extends Component {
 
   componentWillUnmount() {
     console.log("componentWillUnmount");
-    this.leaveSession();
+    if (this.state.componentWillUnmountable) {
+      this.leaveSession();
+    }
   }
 
   handleMainVideoStream(stream) {
@@ -136,22 +149,32 @@ class RoomSession extends Component {
 
     // Empty all properties...
     this.OV = null;
-    this.setState({
-      sessionInfo: undefined,
-      session: undefined,
-      subscribers: [],
-      myUserName: undefined,
-      mainStreamManager: undefined,
-      publisher: undefined
-    });
-    leave(this.props);
+    if (this.state.sessionInfo !== undefined && this.state.sessionInfo['closeTime'] === null) {
+      axios.post(
+        BASE_URL + 'rtc/leave',
+        {
+          sessionName: this.state.sessionInfo.sessionName,
+          token: this.state.sessionInfo.token
+        }
+      ).then((res) => {
+        console.log(res);
+        resetRoomId(this.props);
+        this.setState({
+          sessionInfo: undefined,
+          session: undefined,
+          subscribers: [],
+          myUserName: undefined,
+          mainStreamManager: undefined,
+          publisher: undefined
+        });
+      }).catch((err) => {
+        console.warn(err);
+      });
+    }
   }
 
   connectSession() {
     this.OV = new OpenVidu();
-
-
-
     this.setState(
       {
         session: this.OV.initSession(),
@@ -251,24 +274,17 @@ class RoomSession extends Component {
                     </CardContent> */}
                     </Card>
                   </div>
-                  <div className="col-md-2"> {this.state.subscribers.length + 1} 명 참가
-                  </div>
+                  <div className="col-md-2"> {this.state.subscribers.length + 1} 명 참가</div>
                   {this.state.publisher !== undefined ? (
                     // <div className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
                     // <div className="stream-container col-md-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
                     <div className="col-md-5 d-flex justify-content-center" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
                       <Card variant="outlined" sx={{ minWidth: 250, width: { sm: 500, md: 700 }, height: { sm: 350, md: 525 } }}>
-                        {/* <div style={{height:'400px'}}> */}
+                        
                         <UserVideoComponent streamManager={this.state.publisher} />
-                        {/* </div> */}
-                        {/* <CardContent>
-                        <Typography variant="h5" >
-                          본인 여기에 카운트 들어갈까?
-                        </Typography>
-                      </CardContent> */}
                       </Card>
                     </div>
-                  ) : null}
+                ) : null}
                 </div>
                 {/* <div className="d-flex flex-wrap" style={{display: 'flex', flexDirection:'row'}} > */}
                 <div className="d-flex flex-wrap">
@@ -305,13 +321,33 @@ class RoomSession extends Component {
             <Button id="unscreenmute" style={{ backgroundColor: 'white', marginRight: '1rem', display: 'none' }} onClick={() => { this.UnscreenMute(); }}>
               <FontAwesomeIcon icon={faVideoSlash} size="3x" /> &nbsp;비디오 시작
             </Button>
+          {/* </div>
+        ) : null}
+      </div>
+        <div style={{backgroundColor:'#D3E4CD', height:'10rem'}} className="container-fluid m-0 p-0 row align-items-center justify-content-center">
+          <Box sx={{width: 600 }} className="d-flex justify-content-evenly"  >
+            <Button id="mute" style={{backgroundColor:'white', marginRight:'1rem', width:'15rem', height:'5rem', fontSize:'1.5rem', fontWeight:'bold'}} onClick={() =>{this.mute();}}>
+              <FontAwesomeIcon icon={faMicrophone} size="2x" /> &nbsp; 음소거
+            </Button>
+            <Button id="unmute" style={{backgroundColor:'white', marginRight:'1rem', display:'none', width:'15rem', height:'5rem', fontSize:'1.5rem', fontWeight:'bold'}} onClick={() =>{this.Unmute();}}>
+              <FontAwesomeIcon icon={faMicrophoneSlash} size="2x" />&nbsp;음소거 해제
+            </Button>
+            <Button id="screenmute" style={{backgroundColor:'white', marginRight:'1rem', width:'15rem', height:'5rem', fontSize:'1.5rem', fontWeight:'bold'}} onClick={() =>{this.screenMute();}}>
+              <FontAwesomeIcon icon={faVideo} size="2x" /> &nbsp;비디오 중지
+            </Button>
+            <Button id="unscreenmute" style={{backgroundColor:'white', marginRight:'1rem', display: 'none', width:'15rem', height:'5rem', fontSize:'1.5rem', fontWeight:'bold'}} onClick={() =>{this.UnscreenMute();}}>
+              <FontAwesomeIcon icon={faVideoSlash} size="2x" /> &nbsp;비디오 시작
+            </Button> */}
             <GoTooltip title="채팅" placement="top" style={{ color: 'red' }} onClick={() => { this.chat(); }}>
               <Button style={{ backgroundColor: 'white', marginRight: '1rem' }}>
                 <FontAwesomeIcon icon={faComments} size="3x" />
               </Button>
             </GoTooltip>
             <GoTooltip title="나가기" placement="top">
-              <Button size="large" style={{ backgroundColor: 'white', marginRight: '1rem' }} onClick={() => { this.leaveSession(); }}>
+              <Button size="large" style={{ backgroundColor: 'white', marginRight: '1rem' }} onClick={() => {
+                this.setState({ componentWillUnmountable: false });
+                this.leaveSession();
+              }}>
                 <FontAwesomeIcon icon={faDoorOpen} size="3x" />
               </Button>
             </GoTooltip>
@@ -322,7 +358,7 @@ class RoomSession extends Component {
   };
 }
 
-function leave(props) {
+function resetRoomId(props) {
   props.setRoomId(null);
   window.localStorage.setItem("roomId", null);
 }
@@ -340,7 +376,5 @@ function getSessionInfo(id, userInfo, callback) {
       callback(undefined);
     })
 }
-
-
 
 export default RoomSession;
