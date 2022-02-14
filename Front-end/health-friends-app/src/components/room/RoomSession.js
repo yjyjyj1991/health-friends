@@ -51,6 +51,7 @@ class RoomSession extends Component {
       mainStreamManager: undefined,
       publisher: undefined,
       subscribers: [],
+      componentWillUnmountable: true
     };
 
     this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
@@ -105,7 +106,7 @@ class RoomSession extends Component {
       console.log(this.state.sessionInfo);
       if (this.state.sessionInfo === undefined || this.state.sessionInfo['closeTime'] !== null) {
         alert("방이 존재하지 않습니다.");
-        leave(this.props);
+        resetRoomId(this.props);
       } else {
         console.log("CONNECT");
         this.connectSession();
@@ -115,7 +116,9 @@ class RoomSession extends Component {
 
   componentWillUnmount() {
     console.log("componentWillUnmount");
-    this.leaveSession();
+    if (this.state.componentWillUnmountable) {
+      this.leaveSession();
+    }
   }
 
   handleMainVideoStream(stream) {
@@ -146,22 +149,32 @@ class RoomSession extends Component {
 
     // Empty all properties...
     this.OV = null;
-    this.setState({
-      sessionInfo: undefined,
-      session: undefined,
-      subscribers: [],
-      myUserName: undefined,
-      mainStreamManager: undefined,
-      publisher: undefined
-    });
-    leave(this.props);
+    if (this.state.sessionInfo !== undefined && this.state.sessionInfo['closeTime'] === null) {
+      axios.post(
+        BASE_URL + 'rtc/leave',
+        {
+          sessionName: this.state.sessionInfo.sessionName,
+          token: this.state.sessionInfo.token
+        }
+      ).then((res) => {
+        console.log(res);
+        resetRoomId(this.props);
+        this.setState({
+          sessionInfo: undefined,
+          session: undefined,
+          subscribers: [],
+          myUserName: undefined,
+          mainStreamManager: undefined,
+          publisher: undefined
+        });
+      }).catch((err) => {
+        console.warn(err);
+      });
+    }
   }
 
   connectSession() {
     this.OV = new OpenVidu();
-
-
-
     this.setState(
       {
         session: this.OV.initSession(),
@@ -331,7 +344,10 @@ class RoomSession extends Component {
               </Button>
             </GoTooltip>
             <GoTooltip title="나가기" placement="top">
-              <Button size="large" style={{ backgroundColor: 'white', marginRight: '1rem' }} onClick={() => { this.leaveSession(); }}>
+              <Button size="large" style={{ backgroundColor: 'white', marginRight: '1rem' }} onClick={() => {
+                this.setState({ componentWillUnmountable: false });
+                this.leaveSession();
+              }}>
                 <FontAwesomeIcon icon={faDoorOpen} size="3x" />
               </Button>
             </GoTooltip>
@@ -342,7 +358,7 @@ class RoomSession extends Component {
   };
 }
 
-function leave(props) {
+function resetRoomId(props) {
   props.setRoomId(null);
   window.localStorage.setItem("roomId", null);
 }

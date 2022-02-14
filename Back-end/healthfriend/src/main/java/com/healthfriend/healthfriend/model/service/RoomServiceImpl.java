@@ -63,4 +63,9 @@ public class RoomServiceImpl implements RoomService {
   public RTCSessionInfoDto findSessionInfo(int id) throws Exception {
     return sqlSession.getMapper(RoomMapper.class).selectSessionInfo(id);
   }
+
+  @Override
+  public boolean closeBySessionName(String sessionName) throws Exception {
+    return sqlSession.getMapper(RoomMapper.class).closeBySessionName(sessionName);
+  }
 }
