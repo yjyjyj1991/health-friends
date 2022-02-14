@@ -9,7 +9,7 @@ import Container from '@mui/material/Container';
 const Footer = () => {
   return (
     <footer id="footer" className="footer">
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" sx={{backgroundColor:'#D3E4CD'}}>
           <div className="main_footer">
               <div className="row">
                   <div className="col-sm-6 col-xs-12">
@@ -20,7 +20,7 @@ const Footer = () => {
 
                   <div className="col-sm-6 col-xs-12">
                   <div className="copyright_text">
-                  <p className=" wow fadeInRight" data-wow-duration="1s">Made with <i className="fa fa-heart"></i> by <a href="http://bootstrapthemes.co">Bootstrap Themes</a>2016. All Rights Reserved</p>
+                  <p className=" wow fadeInRight" data-wow-duration="1s">Made with <i className="fa fa-heart"></i> by <a href="https://detailed-hockey-fc8.notion.site/a269a55c26cf43e4a77486e867721de4">헬프</a>2022. All Rights Reserved</p>
                       </div>
 
                   </div>
