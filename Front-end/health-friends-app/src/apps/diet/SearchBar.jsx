@@ -7,7 +7,9 @@ import axios from 'axios';
 const BASE_URL='https://i6d204.p.ssafy.io/api/'
 
 export default function SearchBar(props){
-  console.log('searchBar render');
+  // console.log('searchBar render');
+  const {list,setList}=props
+
   const [checked, setChecked] = useState(false);
   const [result,setResult]=useState([])
   const label = checked?'브랜드검색':'음식검색'
@@ -47,7 +49,7 @@ export default function SearchBar(props){
           </InputAdornment>
     }}
     />
-    {result.length>0 && <SearchResult result={result} setList={props.setList}/>}
+    {result.length>0 && <SearchResult result={result} setList={setList} list={list} />}
   </Box>
   )
 }

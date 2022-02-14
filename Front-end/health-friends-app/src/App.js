@@ -16,7 +16,7 @@ const BASE_URL='https://i6d204.p.ssafy.io/api/'
 
 // 접근제한 거는법: RequireAuth로 감싸주면 됩니다. rooms 봐주세요.
 function App() {
-  console.log('app render');
+  // console.log('app render');
   const [user,setUser]=useState(localStorage.getItem('user'))
   const [dialog, setDialog] = useState(null)
   function login(user){
