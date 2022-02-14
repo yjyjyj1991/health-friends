@@ -31,4 +31,6 @@ public interface RoomMapper {
   public boolean joinUser(RoomJoinUserDto roomJoinUserDto) throws SQLException;
 
   public RTCSessionInfoDto selectSessionInfo(int id) throws SQLException;
+
+  public boolean closeBySessionName(String sessionName) throws SQLException;
 }
