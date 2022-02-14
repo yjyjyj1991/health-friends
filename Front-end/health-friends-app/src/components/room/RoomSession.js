@@ -46,8 +46,8 @@ class RoomSession extends Component {
 
     this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
   }
-
   componentDidMount() {
+    console.log("componentDidMount")
     getSessionInfo(this.props.roomId, this.userInfo, (res) => {
       this.setState({
         sessionInfo: res
@@ -58,15 +58,32 @@ class RoomSession extends Component {
         alert("방이 존재하지 않습니다.");
         leave(this.props);
       } else {
+        console.log("CONNECT");
         this.connectSession();
       }
     });
+  }
+
+  componentWillUnmount() {
+    console.log("componentWillUnmount");
+    this.leaveSession();
   }
 
   handleMainVideoStream(stream) {
     if (this.state.mainStreamManager !== stream) {
       this.setState({
         mainStreamManager: stream
+      });
+    }
+  }
+
+  deleteSubscriber(streamManager) {
+    let subscribers = this.state.subscribers;
+    let index = subscribers.indexOf(streamManager, 0);
+    if (index > -1) {
+      subscribers.splice(index, 1);
+      this.setState({
+        subscribers: subscribers,
       });
     }
   }
@@ -159,24 +176,24 @@ class RoomSession extends Component {
       }
     );
   }
-  
+
   render() {
     return (
       <div className="container-fluid">
         {this.state.session !== undefined ? (
           <div id="session">
-            <div id="video-container" style={{display: 'flex', flexDirection:'column'}} >
-              <div className="row align-items-start " style={{marginTop:'1rem', marginLeft:0, marginRight:0, marginBottom:0}}>
+            <div id="video-container" style={{ display: 'flex', flexDirection: 'column' }} >
+              <div className="row align-items-start " style={{ marginTop: '1rem', marginLeft: 0, marginRight: 0, marginBottom: 0 }}>
                 <div className="col-md-5 p-0 d-flex justify-content-center">
-                  <Card sx={{ minWidth: 250, width: {sm: 500 ,md:700}, height: {sm:350, md:525}, border:'none' }}>
+                  <Card sx={{ minWidth: 250, width: { sm: 500, md: 700 }, height: { sm: 350, md: 525 }, border: 'none' }}>
                     <CardMedia
-                        component="iframe"
-                        alt="green iguana"
-                        // height="450"
-                        sx={{width: {sm: 500, md: 700}, height: {sm: 250, md: 525}}}
-                        src="https://www.youtube.com/embed/QpSAMoEm0fc?start=36"
+                      component="iframe"
+                      alt="green iguana"
+                      // height="450"
+                      sx={{ width: { sm: 500, md: 700 }, height: { sm: 250, md: 525 } }}
+                      src="https://www.youtube.com/embed/QpSAMoEm0fc?start=36"
                     />
-                      {/* <iframe width="560" height="315" src="https://www.youtube.com/embed/QpSAMoEm0fc?start=36" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> */}
+                    {/* <iframe width="560" height="315" src="https://www.youtube.com/embed/QpSAMoEm0fc?start=36" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> */}
                     {/* <CardContent>
                       <Typography variant="h5" >
                         유투브 영상 들어갈 곳
@@ -184,15 +201,15 @@ class RoomSession extends Component {
                     </CardContent> */}
                   </Card>
                 </div>
-                <div className="col-md-2"> 여기에 카운트 
+                <div className="col-md-2"> {this.state.subscribers.length + 1} 명 참가
                 </div>
                 {this.state.publisher !== undefined ? (
                   // <div className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
                   // <div className="stream-container col-md-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
                   <div className="col-md-5 d-flex justify-content-center" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
-                    <Card variant="outlined" sx={{ minWidth: 250, width: {sm: 500 ,md:700}, height: {sm:350, md:525} }}>
+                    <Card variant="outlined" sx={{ minWidth: 250, width: { sm: 500, md: 700 }, height: { sm: 350, md: 525 } }}>
                       {/* <div style={{height:'400px'}}> */}
-                      <UserVideoComponent streamManager={this.state.publisher}  />
+                      <UserVideoComponent streamManager={this.state.publisher} />
                       {/* </div> */}
                       {/* <CardContent>
                         <Typography variant="h5" >
@@ -206,10 +223,10 @@ class RoomSession extends Component {
               {/* <div className="d-flex flex-wrap" style={{display: 'flex', flexDirection:'row'}} > */}
               <div className="d-flex flex-wrap">
                 {this.state.subscribers.map((sub, i) => (
-                  <div key={i} className="stream-container col-md-3 col-xs-6" style={{display: 'flex', flexDirection:'row'}}  onClick={() => this.handleMainVideoStream(sub)}>
-                  {/* //  <div key={i} className="stream-container d-flex"  onClick={() => this.handleMainVideoStream(sub)}> */}
+                  <div key={i} className="stream-container col-md-3 col-xs-6" style={{ display: 'flex', flexDirection: 'row' }} onClick={() => this.handleMainVideoStream(sub)}>
+                    {/* //  <div key={i} className="stream-container d-flex"  onClick={() => this.handleMainVideoStream(sub)}> */}
                     {/* <Card sx={{ minWidth:300, width:400, minHeight:200, height: 350 }}> */}
-                    <Card sx={{ width: {sm: 250 ,md:300}, height: {sm:200, md:250} }}>
+                    <Card sx={{ width: { sm: 250, md: 300 }, height: { sm: 200, md: 250 } }}>
                       <CardContent>
                         <Typography variant="h5" >
                           다른 유저들 카운트
@@ -223,28 +240,28 @@ class RoomSession extends Component {
             </div>
           </div>
         ) : null}
-        <div style={{backgroundColor:'#D3E4CD', height:'10rem'}} className="row align-items-center justify-content-center">
-            <Box sx={{width: 600 }}>
-            <Button style={{backgroundColor:'white', marginRight:'1rem'}}>
+        <div style={{ backgroundColor: '#D3E4CD', height: '10rem' }} className="row align-items-center justify-content-center">
+          <Box sx={{ width: 600 }}>
+            <Button style={{ backgroundColor: 'white', marginRight: '1rem' }}>
               <FontAwesomeIcon icon={faMicrophone} size="3x" /> &nbsp; 음소거
             </Button>
-            <Button style={{backgroundColor:'white', marginRight:'1rem'}}>
+            <Button style={{ backgroundColor: 'white', marginRight: '1rem' }}>
               <FontAwesomeIcon icon={faMicrophoneSlash} size="3x" />&nbsp; 음소거 해제
             </Button>
-            <Button style={{backgroundColor:'white', marginRight:'1rem'}}>
+            <Button style={{ backgroundColor: 'white', marginRight: '1rem' }}>
               <FontAwesomeIcon icon={faVideo} size="3x" /> &nbsp;비디오 중지
             </Button>
-            <Button style={{backgroundColor:'white', marginRight:'1rem'}}>
+            <Button style={{ backgroundColor: 'white', marginRight: '1rem' }}>
               <FontAwesomeIcon icon={faVideoSlash} size="3x" /> &nbsp;비디오 시작
             </Button>
-            <GoTooltip title="채팅"  placement="top" style={{color:'red'}}>
-              <Button style={{backgroundColor:'white', marginRight:'1rem'}}>
+            <GoTooltip title="채팅" placement="top" style={{ color: 'red' }}>
+              <Button style={{ backgroundColor: 'white', marginRight: '1rem' }}>
                 <FontAwesomeIcon icon={faComments} size="3x" />
               </Button>
             </GoTooltip>
-            <GoTooltip title="나가기"  placement="top">
-              <Button size="large" style={{ backgroundColor:'white', marginRight:'1rem' }} onClick={() => {this.leaveSession();}}>
-                <FontAwesomeIcon icon={faDoorOpen} size="3x" /> 
+            <GoTooltip title="나가기" placement="top">
+              <Button size="large" style={{ backgroundColor: 'white', marginRight: '1rem' }} onClick={() => { this.leaveSession(); }}>
+                <FontAwesomeIcon icon={faDoorOpen} size="3x" />
               </Button>
             </GoTooltip>
             {/* <Button size="large" style={{ backgroundColor:'white', marginRight:'1rem' }} onClick={() => {this.leaveSession();}}>
