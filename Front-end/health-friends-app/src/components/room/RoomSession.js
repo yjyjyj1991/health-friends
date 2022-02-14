@@ -228,7 +228,9 @@ class RoomSession extends Component {
 
   render() {
     return (
-      <div className="container-fluid">
+      <div style={{display: 'flex', flexDirection:'column', minHeight:'100%'}}>
+
+      <div className="container-fluid" style={{flex:'1'}}>
         {this.state.session !== undefined ? (
           <div id="session">
             <div id="video-container" style={{ display: 'flex', flexDirection: 'column' }} >
@@ -288,6 +290,7 @@ class RoomSession extends Component {
             </div>
           </div>
         ) : null}
+      </div>
         <div style={{backgroundColor:'#D3E4CD', height:'10rem'}} className="row align-items-center justify-content-center">
             <Box sx={{width: 600 }}>
             <Button id="mute" style={{backgroundColor:'white', marginRight:'1rem'}} onClick={() =>{this.mute();}}>
