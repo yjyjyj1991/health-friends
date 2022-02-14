@@ -47,7 +47,7 @@ export default function SearchBar(props){
       fullWidth
       InputProps={{
         endAdornment: <InputAdornment position="end">
-          <Button variant='contained' type='submit'>검색</Button>
+          <Button sx ={{backgroundColor:'#ADC2A9',color:'white', '&:hover':{backgroundColor:'#D3E4CD'}}} type='submit'>검색</Button>
           </InputAdornment>
     }}
     />
