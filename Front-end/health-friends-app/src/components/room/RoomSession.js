@@ -45,45 +45,45 @@ class RoomSession extends Component {
 
     this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
   }
-  mute(){
+  mute() {
     this.state.publisher.publishAudio(false);   // true to unmute the audio track, false to mute it
     document.getElementById("mute").style.display = "none";
     document.getElementById("unmute").style.display = "block";
   }
-  
-  screenMute(){
+
+  screenMute() {
     this.state.publisher.publishVideo(false);   // true to enable the video track, false to disable it
     document.getElementById("screenmute").style.display = "none";
-    document.getElementById("unscreenmute").style.display = "block";	
+    document.getElementById("unscreenmute").style.display = "block";
   }
-  
-  Unmute(){
+
+  Unmute() {
     this.state.publisher.publishAudio(true);   // true to unmute the audio track, false to mute it
     document.getElementById("mute").style.display = "block";
     document.getElementById("unmute").style.display = "none";
   }
-  
-  UnscreenMute(){
+
+  UnscreenMute() {
     this.state.publisher.publishVideo(true);   // true to enable the video track, false to disable it
-      document.getElementById("screenmute").style.display = "block";
-      document.getElementById("unscreenmute").style.display = "none";	
+    document.getElementById("screenmute").style.display = "block";
+    document.getElementById("unscreenmute").style.display = "none";
   }
 
-  chat(){
+  chat() {
     this.state.session.signal({
-      data :"document.getElementById('chat_text').value 추가추가",
+      data: "document.getElementById('chat_text').value 추가추가",
       to: [],                     // Array of Connection objects (optional. Broadcast to everyone if empty)
       type: 'my-chat'             // The type of message (optional)
     })
-    .then(() => {
+      .then(() => {
         console.log('Message successfully sent');
-    })
-    .catch(error => {
+      })
+      .catch(error => {
         console.error(error);
-    });  
+      });
   }
-  
-  
+
+
 
   componentDidMount() {
     console.log("componentDidMount")
@@ -150,7 +150,7 @@ class RoomSession extends Component {
   connectSession() {
     this.OV = new OpenVidu();
 
-    
+
 
     this.setState(
       {
@@ -158,7 +158,7 @@ class RoomSession extends Component {
       },
       () => {
         var session = this.state.session;
-        
+
 
         session.on('signal', (event) => {
           document.getElementById("show").value += event.data;
@@ -197,7 +197,7 @@ class RoomSession extends Component {
             var videoDevices = devices.filter(device => device.kind === 'videoinput');
 
             console.log("#", videoDevices);
-              let publisher = this.OV.initPublisher(undefined, {
+            let publisher = this.OV.initPublisher(undefined, {
               audioSource: undefined, // The source of audio. If undefined default microphone
               videoSource: videoDevices[0].deviceId, // The source of video. If undefined default webcam
               publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
@@ -228,85 +228,85 @@ class RoomSession extends Component {
 
   render() {
     return (
-      <div style={{display: 'flex', flexDirection:'column', minHeight:'100%'}}>
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100%' }}>
 
-      <div className="container-fluid" style={{flex:'1'}}>
-        {this.state.session !== undefined ? (
-          <div id="session">
-            <div id="video-container" style={{ display: 'flex', flexDirection: 'column' }} >
-              <div className="row align-items-start " style={{ marginTop: '1rem', marginLeft: 0, marginRight: 0, marginBottom: 0 }}>
-                <div className="col-md-5 p-0 d-flex justify-content-center">
-                  <Card sx={{ minWidth: 250, width: { sm: 500, md: 700 }, height: { sm: 350, md: 525 }, border: 'none' }}>
-                    <CardMedia
-                      component="iframe"
-                      alt="green iguana"
-                      sx={{ width: { sm: 500, md: 700 }, height: { sm: 250, md: 525 } }}
-                      src="https://www.youtube.com/embed/QpSAMoEm0fc?start=36"
-                    />
-                    {/* <iframe width="560" height="315" src="https://www.youtube.com/embed/QpSAMoEm0fc?start=36" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> */}
-                    {/* <CardContent>
+        <div className="container-fluid" style={{ flex: '1' }}>
+          {this.state.session !== undefined ? (
+            <div id="session">
+              <div id="video-container" style={{ display: 'flex', flexDirection: 'column' }} >
+                <div className="row align-items-start " style={{ marginTop: '1rem', marginLeft: 0, marginRight: 0, marginBottom: 0 }}>
+                  <div className="col-md-5 p-0 d-flex justify-content-center">
+                    <Card sx={{ minWidth: 250, width: { sm: 500, md: 700 }, height: { sm: 350, md: 525 }, border: 'none' }}>
+                      <CardMedia
+                        component="iframe"
+                        alt="green iguana"
+                        sx={{ width: { sm: 500, md: 700 }, height: { sm: 250, md: 525 } }}
+                        src="https://www.youtube.com/embed/QpSAMoEm0fc?start=36"
+                      />
+                      {/* <iframe width="560" height="315" src="https://www.youtube.com/embed/QpSAMoEm0fc?start=36" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> */}
+                      {/* <CardContent>
                       <Typography variant="h5" >
                         유투브 영상 들어갈 곳
                       </Typography>
                     </CardContent> */}
-                  </Card>
-                </div>
-                <div className="col-md-2"> {this.state.subscribers.length + 1} 명 참가
-                </div>
-                {this.state.publisher !== undefined ? (
-                  // <div className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
-                  // <div className="stream-container col-md-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
-                  <div className="col-md-5 d-flex justify-content-center" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
-                    <Card variant="outlined" sx={{ minWidth: 250, width: { sm: 500, md: 700 }, height: { sm: 350, md: 525 } }}>
-                      {/* <div style={{height:'400px'}}> */}
-                      <UserVideoComponent streamManager={this.state.publisher} />
-                      {/* </div> */}
-                      {/* <CardContent>
+                    </Card>
+                  </div>
+                  <div className="col-md-2"> {this.state.subscribers.length + 1} 명 참가
+                  </div>
+                  {this.state.publisher !== undefined ? (
+                    // <div className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
+                    // <div className="stream-container col-md-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
+                    <div className="col-md-5 d-flex justify-content-center" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
+                      <Card variant="outlined" sx={{ minWidth: 250, width: { sm: 500, md: 700 }, height: { sm: 350, md: 525 } }}>
+                        {/* <div style={{height:'400px'}}> */}
+                        <UserVideoComponent streamManager={this.state.publisher} />
+                        {/* </div> */}
+                        {/* <CardContent>
                         <Typography variant="h5" >
                           본인 여기에 카운트 들어갈까?
                         </Typography>
                       </CardContent> */}
-                    </Card>
-                  </div>
-                ) : null}
-              </div>
-              {/* <div className="d-flex flex-wrap" style={{display: 'flex', flexDirection:'row'}} > */}
-              <div className="d-flex flex-wrap">
-                {this.state.subscribers.map((sub, i) => (
-                  <div key={i} className="stream-container col-md-3 col-xs-6" style={{ display: 'flex', flexDirection: 'row' }} onClick={() => this.handleMainVideoStream(sub)}>
-                    {/* //  <div key={i} className="stream-container d-flex"  onClick={() => this.handleMainVideoStream(sub)}> */}
-                    {/* <Card sx={{ minWidth:300, width:400, minHeight:200, height: 350 }}> */}
-                    <Card sx={{ width: { sm: 250, md: 300 }, height: { sm: 200, md: 250 } }}>
-                      <CardContent>
-                        <Typography variant="h5" >
-                          다른 유저들 카운트
-                        </Typography>
-                      </CardContent>
-                      <UserVideoComponent style={{}} streamManager={sub} />
-                    </Card>
-                  </div>
-                ))}
+                      </Card>
+                    </div>
+                  ) : null}
+                </div>
+                {/* <div className="d-flex flex-wrap" style={{display: 'flex', flexDirection:'row'}} > */}
+                <div className="d-flex flex-wrap">
+                  {this.state.subscribers.map((sub, i) => (
+                    <div key={i} className="stream-container col-md-3 col-xs-6" style={{ display: 'flex', flexDirection: 'row' }} onClick={() => this.handleMainVideoStream(sub)}>
+                      {/* //  <div key={i} className="stream-container d-flex"  onClick={() => this.handleMainVideoStream(sub)}> */}
+                      {/* <Card sx={{ minWidth:300, width:400, minHeight:200, height: 350 }}> */}
+                      <Card sx={{ width: { sm: 250, md: 300 }, height: { sm: 200, md: 250 } }}>
+                        <CardContent>
+                          <Typography variant="h5" >
+                            다른 유저들 카운트
+                          </Typography>
+                        </CardContent>
+                        <UserVideoComponent style={{}} streamManager={sub} />
+                      </Card>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        ) : null}
-      </div>
-        <div style={{backgroundColor:'#D3E4CD', height:'10rem'}} className="row align-items-center justify-content-center">
-            <Box sx={{width: 600 }}>
-            <Button id="mute" style={{backgroundColor:'white', marginRight:'1rem'}} onClick={() =>{this.mute();}}>
+          ) : null}
+        </div>
+        <div style={{ backgroundColor: '#D3E4CD', height: '10rem' }} className="row align-items-center justify-content-center">
+          <Box sx={{ width: 600 }}>
+            <Button id="mute" style={{ backgroundColor: 'white', marginRight: '1rem' }} onClick={() => { this.mute(); }}>
               <FontAwesomeIcon icon={faMicrophone} size="3x" /> &nbsp; 음소거
             </Button>
-            <Button id="unmute" style={{backgroundColor:'white', marginRight:'1rem', display:'none'}} onClick={() =>{this.Unmute();}}>
+            <Button id="unmute" style={{ backgroundColor: 'white', marginRight: '1rem', display: 'none' }} onClick={() => { this.Unmute(); }}>
               <FontAwesomeIcon icon={faMicrophoneSlash} size="3x" />&nbsp; 음소거 해제
             </Button>
-            <Button id="screenmute" style={{backgroundColor:'white', marginRight:'1rem'}} onClick={() =>{this.screenMute();}}>
+            <Button id="screenmute" style={{ backgroundColor: 'white', marginRight: '1rem' }} onClick={() => { this.screenMute(); }}>
               <FontAwesomeIcon icon={faVideo} size="3x" /> &nbsp;비디오 중지
             </Button>
-            <Button id="unscreenmute" style={{backgroundColor:'white', marginRight:'1rem', display: 'none'}} onClick={() =>{this.UnscreenMute();}}>
+            <Button id="unscreenmute" style={{ backgroundColor: 'white', marginRight: '1rem', display: 'none' }} onClick={() => { this.UnscreenMute(); }}>
               <FontAwesomeIcon icon={faVideoSlash} size="3x" /> &nbsp;비디오 시작
             </Button>
-            <GoTooltip title="채팅"  placement="top" style={{color:'red'}} onClick={()=>{this.chat();}}>
-              <Button style={{backgroundColor:'white', marginRight:'1rem'}}>
+            <GoTooltip title="채팅" placement="top" style={{ color: 'red' }} onClick={() => { this.chat(); }}>
+              <Button style={{ backgroundColor: 'white', marginRight: '1rem' }}>
                 <FontAwesomeIcon icon={faComments} size="3x" />
               </Button>
             </GoTooltip>
@@ -324,6 +324,7 @@ class RoomSession extends Component {
 
 function leave(props) {
   props.setRoomId(null);
+  window.localStorage.setItem("roomId", null);
 }
 
 
