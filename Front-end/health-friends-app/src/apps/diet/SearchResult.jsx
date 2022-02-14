@@ -32,18 +32,17 @@ export default function SearchResult(props) {
     }
     axios.post(BASE_URL+'foodmanagement',data1)
     .then(()=>{
-      
       const rate = servingSize/food.servingSize
-      setList([...list, 
-        {...food, 
+      const x={...food, 
           newServing:servingSize, 
           id:lastIdx,
           kcal:Math.round(food.kcal*rate),
           carbohydrate:Math.round(food.carbohydrate*rate),
           fat:Math.round(food.fat*rate),
           protein:Math.round(food.protein*rate),
-        }])
-      console.log(list);
+        }
+      console.log(x);
+      setList([...list, x])
     })
     .catch(err=>console.log(err))
   }

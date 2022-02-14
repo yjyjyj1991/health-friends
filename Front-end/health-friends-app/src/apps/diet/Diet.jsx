@@ -1,5 +1,5 @@
-import { Button,Typography,Grid, } from '@mui/material'
-import { useState,useEffect,useContext } from 'react'
+import { Button,Typography,Grid,Box } from '@mui/material'
+import { useState,useEffect,useContext,useCallback } from 'react'
 import DietDialog from './DietGoal';
 import Calender from 'components/common/Calender';
 import axios from 'axios';
@@ -8,14 +8,38 @@ import BasicTable from 'components/common/Table';
 import SearchBar from './SearchBar'
 import Piechart from './Piechart'
 
-
 export default function Diet(){
   const userInfo = JSON.parse(localStorage.getItem('user')).userInfo
   const [dialog,setDialog]=useState(false)
   const [date, setDate] = useState(new Date());
   const [list,setList]=useState([])
 
-  useEffect(()=>getList(date),[date,])
+  useEffect(()=>{
+    const data = {
+      date:`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`,
+      userId:userInfo.id
+    }
+    axios.get(BASE_URL+'foodmanagement',{params:data})
+    .then(res=>{
+      var dailyList=[]
+      const dataList = res.data.data
+      if (dataList) {
+        dataList.forEach(el=>
+          {
+            const rate=el.newServing/el.servingSize
+            dailyList.push({...el,
+              kcal:Math.round(el.kcal*rate),
+              carbohydrate:Math.round(el.carbohydrate*rate),
+              fat:Math.round(el.fat*rate),
+              protein:Math.round(el.protein*rate),
+            }) 
+          }) 
+        }
+      else {dailyList = []}
+      setList(dailyList)
+    })
+    .catch(err=>console.log(err))
+  },[date,userInfo.id])
 
   const curr = [0,0,0]
   list.forEach(el=>{
@@ -84,13 +108,16 @@ export default function Diet(){
     <>
     <Grid container spacing={2} marginY={3}>
       <Grid item xs={6} marginBottom={5} align='center'>
+        <Box sx={{border:1,borderRadius:7,backgroundColor:'yellowgreen'}}>
+          {/* <span>현재 활동지수는 {userInfo.activePoint}입니다</span> */}
         <Typography variant='h5'>현재 활동지수는 {userInfo.activePoint}입니다</Typography>
         <Typography variant='h5'>현재 몸무게는 {userInfo.weight}입니다</Typography>
         <Typography variant='h5'>현재 목표는 {userInfo.purpose}입니다</Typography>
         <Button variant='contained' onClick={open}>수정하기</Button>
+        </Box>
       </Grid>
 
-      <Grid item xs={6} align='center' > 
+      <Grid item xs={6} align='center'> 
         <Calender setDate={handleDate} date={date} />
       </Grid>
 

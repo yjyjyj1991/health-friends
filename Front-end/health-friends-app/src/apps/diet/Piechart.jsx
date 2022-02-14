@@ -8,11 +8,11 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 export default function Piechart(props){
   const {goal,current}=props
   const data = {
-    labels: ['Red', 'Blue', ],
+    labels: ['현재섭취량', '남은 양', ],
     datasets: [
       {
         label: '# of Votes',
-        data: [current, goal-current,],
+        data: [current, Math.max(goal-current,0)],
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
