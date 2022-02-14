@@ -44,11 +44,10 @@
     ORDER BY food_id ASC
   </select>
   
-  <delete id="deleteFoodFromManagement" parameterType="foodManagementRemoveDto">
+  <delete id="deleteFoodFromFM" parameterType="foodManagementRemoveDto">
     DELETE 
     FROM tbl_fm_with_food 
     WHERE id = #{id}
-    
   </delete>
 
 </mapper>
