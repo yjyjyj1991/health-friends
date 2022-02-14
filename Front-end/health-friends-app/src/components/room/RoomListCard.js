@@ -1,65 +1,81 @@
 import React, { useState, useEffect } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-// import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea, CardActions } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { ButtonGroup, Button } from '@material-ui/core';
+import { BASE_URL } from 'common/Properties';
 import axios from 'axios';
 
 const RoomListCard = (props) => {
 
+  let [sessionListOrigin, setSessionListOrigin] = useState([]);
   let [lists, setLists] = useState([]);
+  let [typeList, setTypeList] = useState([]);
 
-  const filterResult = (selectedType) => {
-    const result = lists.data.filter(curData => curData.roomType === selectedType);
-    setLists(result);
+  const sessionFilter = (sessionType) => {
+    let sessionList = sessionListOrigin;
+    if (sessionType !== true) {
+      sessionList = sessionList.filter(curData => curData.typeId === sessionType);
+    }
+
+    setLists(sessionList);
   }
 
-
-
   useEffect(() => {
-    axios.get('https://i6d204.p.ssafy.io/api/rooms')
-      .then((Response) => {
-        setLists(Response.data);
-        console.log(Response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+    getSessionList(setSessionListOrigin, setLists);
+    getSessionTypeList(setTypeList)
   }, []);
 
   return (
     <>
       <div className='roomType'>
         <ButtonGroup>
-          <Button variant='outlined' size='large' style={{ fontSize: '15px', backgroundColor: '#F6F2D4' }} onClick={() => setLists(lists)}>All</Button>
-          <Button variant='outlined' size='large' style={{ fontSize: '15px', backgroundColor: '#F6F2D4' }} onClick={() => filterResult('헬스')}>헬스</Button>
-          <Button variant='outlined' size='large' style={{ fontSize: '15px', backgroundColor: '#F6F2D4' }} onClick={() => filterResult('요가')}>요가</Button>
-          <Button variant='outlined' size='large' style={{ fontSize: '15px', backgroundColor: '#F6F2D4' }} onClick={() => filterResult('필라테스')}>필라테스</Button>
-          <Button variant='outlined' size='large' style={{ fontSize: '15px', backgroundColor: '#F6F2D4' }} onClick={() => filterResult('기타')}>기타</Button>
+          <Button variant='outlined' size='large' style={{ fontSize: '15px', backgroundColor: '#F6F2D4' }} onClick={() => sessionFilter(true)}>All</Button>
+          {typeList && typeList.map((item, idx) => {
+            return (
+              <Button variant='outlined' size='large' style={{ fontSize: '15px', backgroundColor: '#F6F2D4' }} onClick={() => sessionFilter(item.id)}>{item.type}</Button>
+            );
+          })}
         </ButtonGroup>
       </div>
 
       <div className='roomList'>
         <Grid container >
           {
-            lists.data && lists.data.map((list, i) => {
-              //console.log(list, i);
+            lists && lists.map((list, i) => {
               return (
                 <List list={list} key={i} rootProps={props} />
               )
             })
           }
         </Grid>
-
       </div>
-
-
-
     </>
   );
+}
+
+function getSessionList(setSessionListOrigin, setLists) {
+  axios.get(BASE_URL + 'rooms')
+    .then((Response) => {
+      setSessionListOrigin(Response.data.data);
+      setLists(Response.data.data);
+      console.log(Response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+}
+
+function getSessionTypeList(setTypeList) {
+  axios.get(BASE_URL + 'room-type')
+    .then((res) => {
+      setTypeList(res.data.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
 }
 
 function List(props) {
@@ -67,12 +83,6 @@ function List(props) {
     <div>
       <Card sx={{ maxWidth: 345 }}>
         <CardActionArea>
-          {/* <CardMedia
-                    component="img"
-                    height="200"
-                    image={props.list.img}
-                    alt="pic"
-                    /> */}
           <CardContent>
             <Typography gutterBottom variant="h3" component="div">
               {props.list.title}
