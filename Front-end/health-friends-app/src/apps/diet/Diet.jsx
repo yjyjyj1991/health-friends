@@ -99,7 +99,7 @@ export default function Diet(){
             <Calender id={userInfo.id} list={list} setList={setList} />
           </Grid>
 
-          <Grid item xs={12} sx={{border:1,borderRadius:1, }} align='center'>
+          <Grid item xs={12} sx={{border:1,borderRadius:1, }} marginLeft={2} align='center'>
             <Typography variant='h3'>오늘의 식단 추가</Typography>
             <SearchBar setList={setList} list={list} />
           </Grid>
