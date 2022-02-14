@@ -5,8 +5,6 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import axios from 'axios';
 import { AuthContext } from "components/account/Auth";
 
@@ -67,8 +65,8 @@ export default function DietDialog(props) {
               label="목표"
               onChange={purposeChange}
             >
-              <MenuItem value={1}>린매스업</MenuItem>
-              <MenuItem value={2}>벌크업</MenuItem>
+              <MenuItem value={1}>유지</MenuItem>
+              <MenuItem value={2}>린매스업</MenuItem>
               <MenuItem value={3}>다이어트</MenuItem>
             </Select>
           </FormControl>

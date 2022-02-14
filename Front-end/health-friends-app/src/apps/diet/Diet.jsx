@@ -1,9 +1,9 @@
 import { Button,Typography,Grid,Box } from '@mui/material'
-import { useState,useEffect,useContext,useCallback } from 'react'
+import { useState,useEffect,useContext, } from 'react'
 import DietDialog from './DietGoal';
 import Calender from 'components/common/Calender';
-import axios from 'axios';
-import { BASE_URL } from 'common/Properties';
+// import axios from 'axios';
+// import { BASE_URL } from 'common/Properties';
 import BasicTable from 'components/common/Table';
 import SearchBar from './SearchBar'
 import Piechart from './Piechart'
@@ -13,35 +13,8 @@ import Footer from '../../components/Footer/Footer';
 export default function Diet(){
   const userInfo = JSON.parse(localStorage.getItem('user')).userInfo
   const [dialog,setDialog]=useState(false)
-  const [date, setDate] = useState(new Date());
   const [list,setList]=useState([])
 
-  useEffect(()=>{
-    const data = {
-      date:`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`,
-      userId:userInfo.id
-    }
-    axios.get(BASE_URL+'foodmanagement',{params:data})
-    .then(res=>{
-      var dailyList=[]
-      const dataList = res.data.data
-      if (dataList) {
-        dataList.forEach(el=>
-          {
-            const rate=el.newServing/el.servingSize
-            dailyList.push({...el,
-              kcal:Math.round(el.kcal*rate),
-              carbohydrate:Math.round(el.carbohydrate*rate),
-              fat:Math.round(el.fat*rate),
-              protein:Math.round(el.protein*rate),
-            }) 
-          }) 
-        }
-      else {dailyList = []}
-      setList(dailyList)
-    })
-    .catch(err=>console.log(err))
-  },[date,userInfo.id])
 
   const curr = [0,0,0]
   list.forEach(el=>{
@@ -75,9 +48,34 @@ export default function Diet(){
   function close(){
     setDialog(false)
   }
-  function handleDate(date){
-    setDate(date)
-  }
+  // function getList(){
+  //   console.log('getlist')
+  //   const data = {
+  //     date:`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`,
+  //     userId:userInfo.id
+  //   }
+  //   axios.get(BASE_URL+'foodmanagement',{params:data})
+  //   .then(res=>{
+  //     var dailyList=[]
+  //     const dataList = res.data.data
+  //     if (dataList) {
+  //       dataList.forEach(el=>
+  //         {
+  //           const rate=el.newServing/el.servingSize
+  //           dailyList.push({...el,
+  //             kcal:Math.round(el.kcal*rate),
+  //             carbohydrate:Math.round(el.carbohydrate*rate),
+  //             fat:Math.round(el.fat*rate),
+  //             protein:Math.round(el.protein*rate),
+  //           }) 
+  //         }) 
+  //       }
+  //     else {dailyList = []}
+  //     setList(dailyList)
+  //   })
+  //   .catch(err=>console.log(err))
+  // }
+
 
   return (
     <div style={{display: 'flex', flexDirection:'column', minHeight:'100%'}}>
@@ -90,16 +88,19 @@ export default function Diet(){
             <Box sx={{border:1,borderRadius:1,backgroundColor:'lightgreen' }} paddingY={5}>
               <Typography variant='h5'>현재 활동지수는 {userInfo.activePoint}입니다</Typography>
               <Typography variant='h5'>현재 몸무게는 {userInfo.weight}입니다</Typography>
-              <Typography variant='h5'>현재 목표는 {userInfo.purpose}입니다</Typography>
+              {userInfo.purposeId===1&&<Typography variant='h5'>현재 목표는 유지입니다</Typography>}
+              {userInfo.purposeId===2&&<Typography variant='h5'>현재 목표는 다이어트입니다</Typography>}
+              {userInfo.purposeId===3&&<Typography variant='h5'>현재 목표는 린매스업입니다</Typography>}
               <Button variant='contained' onClick={open} size='small'>수정하기</Button>
             </Box>
           </Grid>
 
           <Grid item xs={6} align='center' > 
-            <Calender setDate={handleDate} date={date} />
+            <Calender id={userInfo.id} list={list} setList={setList} />
           </Grid>
 
-          <Grid item xs={12} sx={{border:1,borderRadius:1,backgroundColor:'lightgreen' }}>
+          <Grid item xs={12} sx={{border:1,borderRadius:1, }} align='center'>
+            <Typography variant='h3'>오늘의 식단 추가</Typography>
             <SearchBar setList={setList} list={list} />
           </Grid>
           
@@ -108,17 +109,17 @@ export default function Diet(){
           </Grid>
           
           <Grid item container xs={12} marginBottom={10}>
-            <Grid item xs={4} padding={4}>
+            <Grid item xs={4} padding={6}>
               <Typography variant='h5' align='center'>탄수화물</Typography>
               <Piechart goal={goal[0]} current={curr[0]}/>
             </Grid>
 
-            <Grid item xs={4} padding={4}>
+            <Grid item xs={4} padding={6}>
               <Typography variant='h5' align='center'>단백질</Typography>
               <Piechart goal={goal[1]} current={curr[1]}/>
             </Grid>
 
-            <Grid item xs={4} padding={4}>
+            <Grid item xs={4} padding={6}>
               <Typography variant='h5' align='center'>지방</Typography>
               <Piechart goal={goal[2]} current={curr[2]}/>
             </Grid>
@@ -132,29 +133,3 @@ export default function Diet(){
     </div>
   )
 }
-
-
-//  <Piechart carbo goal current />
-//  <Piechart protein goal current />
-//  <Piechart fat goal current />
-
- 
-// 다이어트 할때 계산 방법
-// 단백질 : 몸무게 (파운드 값) * 1.1
-// 지방 : 몸무게 (파운드 값) * 0.3
-// 탄수화물 : (칼로리 - (단백질 *4 + 지방 * 9))/4 
-
-// 린메스업 할 때 계산 방법
-// 단백질 : 몸무게 (파운드 값) * 0.9
-// 지방 : 몸무게 (파운드 값) * 0.4
-// 탄수화물 : (칼로리 - (단백질 *4 + 지방 * 9))/4 
-
-// 유지 할때는
-// 탄수화물: (칼로리 총량의 50%) 
-// 단백질 : (칼로리 총량의 25%) 
-// 지방 : ((칼로리 총량의 * 0.25) * (4/9))
-
-// 유지 칼로리 구하는 법 : (몸무게(파운드 값으로) * 10 ) *(Active_Point DB에서 받아온 값(1.3~1.8))
-// 다이어트 칼로리 구하는 법 : (몸무게(파운드 값으로) * 10 ) *(Active_Point DB에서 받아온 값(1.3~1.8)) - 300
-// 린 메스업 칼로리 구하는 법 : (몸무게(파운드 값으로) * 10 ) *(Active_Point DB에서 받아온 값(1.3~1.8)) + 200
-  
