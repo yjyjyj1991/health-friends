@@ -1,6 +1,5 @@
 import Main from "./components/Main/Main";
 import Board from "./components/Board/Board";
-import FoodMain from "./components/food/FoodMain";
 import RoomMain from "./components/room/RoomMain";
 // import './App.css';
 import { Routes, Route } from "react-router-dom";

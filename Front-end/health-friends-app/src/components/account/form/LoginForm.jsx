@@ -21,11 +21,10 @@ export default function LoginForm(props){
     axios.post(BASE_URL+'users/login',{email: data.get('email'),password: data.get('password'),})
     .then((res)=>{
     if (res.data.success) {
-      // console.log(res.data.data)
       auth.login(res.data.data)
       navigate(location)
       setDialog(null)
-      // axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.data.accessToken}`;
+      axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.data.accessToken}`;
       } else {setMsg('이메일 또는 비밀번호를 확인해주세요')}})
     .catch((err)=>console.log(err))
     }

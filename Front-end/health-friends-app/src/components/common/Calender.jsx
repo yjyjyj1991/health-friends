@@ -13,7 +13,6 @@ export default function StaticDatePickerDemo(props) {
   const {setList,id}=props
   
   useEffect(()=>{
-    console.log('effect');
     const data = {
       date:`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`,
       userId:id

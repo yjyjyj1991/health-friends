@@ -1,5 +1,6 @@
 import * as React from "react";
 import {useNavigate,} from "react-router-dom";
+import LoginForm from "./form/LoginForm";
 
 export let AuthContext = React.createContext({
   user:localStorage.getItem('user'),
@@ -28,13 +29,11 @@ export function AuthStatus() {
   );
 }
 
-export function RequireAuth(props) {
-  // console.log('requireauth');
+export function RequireAuth({children}) {
   const auth = React.useContext(AuthContext);
   if (!auth.user) {
-    props.setDialog('login')
-    return null
+    return <LoginForm />
   }
-  return props.children;
+  return children;
 }
 
