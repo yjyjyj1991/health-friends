@@ -38,6 +38,7 @@ const RoomCreate = (props) => {
     rtc.create(data, (result) => {
       if (result && result['success']) {
         props.setRoomId(result['data']['id']);
+        window.localStorage.setItem("roomId", result['data']['id']);
         console.log(result);
         props.setOpen(false);
       } else {
