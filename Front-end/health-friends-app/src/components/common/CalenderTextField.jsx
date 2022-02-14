@@ -18,7 +18,8 @@ export default function ResponsiveDatePickers(props) {
         onChange={(newValue) => {
           setValue(newValue);
         }}
-        renderInput={(params) => <TextField {...params} sx={{margin:2}}/>}
+        renderInput={(params) => <TextField {...params} sx={{margin:2}} 
+          helperText={which==='시작날짜'?'시작날짜를 선택해주세요':'종료날짜를 선택해주세요'}/>}
       />
     </LocalizationProvider>
   );

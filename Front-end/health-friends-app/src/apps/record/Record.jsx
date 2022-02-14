@@ -16,8 +16,7 @@ export default function Record(){
     const params={
       openTime:`${open.getFullYear()}-${open.getMonth()+1}-${open.getDate()}`,
       closeTime:`${close.getFullYear()}-${close.getMonth()+1}-${close.getDate()}`,
-      // userId:userInfo.id,
-      userId:1,
+      userId:userInfo.id,
     }
     axios.get(BASE_URL+'exercise',{params:params})
     .then(res=>{
@@ -27,15 +26,17 @@ export default function Record(){
   }
   return (
     <Grid container spacing={2}>
-      <Grid item xs={4} margin={3}>
+      <Grid item xs={2} margin={3} align='center'>
         <ResponsiveDatePickers value={open} setValue={setOpen} which={'시작날짜'}/>
         <br />
         <ResponsiveDatePickers value={close} setValue={setClose} which={'종료날짜'}/>
-      </Grid>
-      <Grid item>
+        <br />
         <Button variant="contained" sx={{fontSize:20}} onClick={getRecord}>검색</Button>
       </Grid>
       <Grid item>
+       
+      </Grid>
+      <Grid item marginTop={3}>
         <BasicTable2 records={records} />
       </Grid>
     </Grid>

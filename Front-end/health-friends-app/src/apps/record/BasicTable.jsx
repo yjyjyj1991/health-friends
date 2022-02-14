@@ -12,13 +12,13 @@ export default function BasicTable2(props) {
   const {records}=props
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ minWidth: 650, backgroundColor:'lightseagreen'}} aria-label="simple table">
         <TableHead>
-          <TableRow>
-            <TableCell>종목</TableCell>
-            <TableCell>시작시각</TableCell>
-            <TableCell>종료시각</TableCell>
-            <TableCell>운동시간</TableCell>
+          <TableRow sx={{backgroundColor:'seagreen'}}>
+            <TableCell sx={{fontSize:20}}>종목</TableCell>
+            <TableCell sx={{fontSize:20}}>시작시각</TableCell>
+            <TableCell sx={{fontSize:20}}>종료시각</TableCell>
+            <TableCell sx={{fontSize:20}}>운동시간</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
