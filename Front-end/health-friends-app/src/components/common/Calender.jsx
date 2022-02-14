@@ -6,7 +6,7 @@ import StaticDatePicker from '@mui/lab/StaticDatePicker';
 import { useEffect,useState } from 'react';
 import { BASE_URL } from 'common/Properties';
 import axios from 'axios';
-
+import DatePicker from '@mui/lab/DatePicker';
 
 export default function StaticDatePickerDemo(props) {
   const [date, setDate] = useState(new Date())
@@ -42,9 +42,17 @@ export default function StaticDatePickerDemo(props) {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <StaticDatePicker
+      {/* <StaticDatePicker
         openTo="day"
         displayStaticWrapperAs="desktop"
+        value={date}
+        onChange={(newValue) => {
+          setDate(newValue);
+        }}
+        renderInput={(params) => <TextField {...params} />}
+      /> */}
+      <DatePicker
+        label="Date"
         value={date}
         onChange={(newValue) => {
           setDate(newValue);

@@ -9,9 +9,11 @@ import SearchBar from './SearchBar'
 import Piechart from './Piechart'
 import AppBar from '../../components/appbar/AppBar';
 import Footer from '../../components/Footer/Footer';
+import Container from '@mui/material/Container';
 
 export default function Diet(){
   const userInfo = JSON.parse(localStorage.getItem('user')).userInfo
+  console.log(userInfo.purpose)
   const [dialog,setDialog]=useState(false)
   const [list,setList]=useState([])
 
@@ -78,54 +80,65 @@ export default function Diet(){
 
 
   return (
-    <div style={{display: 'flex', flexDirection:'column', minHeight:'100%'}}>
+    <div style={{display: 'flex', flexDirection:'column', minHeight:'100%', }}>
       <AppBar dialog={dialog} setDialog={setDialog} />
-      <div className='container' 
-        // style={{flex:'1'}}
-      >
-        <Grid container spacing={2} marginY={3}>
-          <Grid item xs={4} marginBottom={5} align='center' >
-            <Box sx={{border:1,borderRadius:1,backgroundColor:'lightgreen' }} paddingY={5}>
-              <Typography variant='h5'>현재 활동지수는 {userInfo.activePoint}입니다</Typography>
-              <Typography variant='h5'>현재 몸무게는 {userInfo.weight}입니다</Typography>
-              {userInfo.purposeId===1&&<Typography variant='h5'>현재 목표는 유지입니다</Typography>}
-              {userInfo.purposeId===2&&<Typography variant='h5'>현재 목표는 다이어트입니다</Typography>}
-              {userInfo.purposeId===3&&<Typography variant='h5'>현재 목표는 린매스업입니다</Typography>}
-              <Button variant='contained' onClick={open} size='small'>수정하기</Button>
+      <div className='d-flex justify-content-center' style={{justifyItems:'center', flex:'1', padding:0, marginLeft: 45, marginRight:45}}>
+        <div sx={{paddingLeft:0}} marginY={3}>
+          <div align='center'>
+            <Box sx={{borderRadius:1,backgroundColor:'#D3E4CD', marginBottom:'5rem', marginTop:'3rem', height:'12rem', width:{xs:300,sm:600}}}  >
+              {userInfo.purpose && <div style={{paddingTop:'1.5rem', display:'flex', flexDirection:'column', paddingLeft:'5rem'}}>
+                {/* <Typography className="d-flex justify-content-start" variant='h4'>당신의</Typography> */}
+                {userInfo.purposeId===1&&<Typography className="d-flex justify-content-start"  variant='h5'>목표는 유지입니다.</Typography>}
+                {userInfo.purposeId===2&&<Typography className="d-flex justify-content-start" variant='h5'>목표는 다이어트입니다.</Typography>}
+                {userInfo.purposeId===3&&<Typography className="d-flex justify-content-start" variant='h5'>목표는 린매스업입니다.</Typography>}
+                <Typography className="d-flex justify-content-start" variant='h5'>당신의 활동지수는 {userInfo.activePoint}입니다.</Typography>
+                <Typography className="d-flex justify-content-start" variant='h5'>현재 몸무게는 {userInfo.weight}kg입니다.</Typography>
+                <div className="d-flex justify-content-end">
+                <Button onClick={open} sx={{width:'10rem', backgroundColor:'#ADC2A9', color:'white', weight:'bold', marginRight:'5rem' }}>다시 설정하기</Button>
+                </div>
+              </div>}
+              {!userInfo.purpose && <div style={{display:'flex', flexDirection:'column',}}>
+                <Typography variant='h3'sx={{weight:'bold', color:'black', padding:'1.5rem' }}>당신의 목표는?</Typography>
+                <div className="d-flex justify-content-center">
+                <Button onClick={open} sx={{width:'10rem', backgroundColor:'#ADC2A9', color:'white', weight:'bold', }}>목표 설정하기</Button>
+                </div>
+                </div>}
             </Box>
-          </Grid>
+          </div>
 
-          <Grid item xs={6} align='center' > 
+          <Grid item  xs={12} sx={{display:'flex', justifyContent:'center'}} marginBottom={5} > 
             <Calender id={userInfo.id} list={list} setList={setList} />
           </Grid>
-
-          <Grid item xs={12} sx={{border:1,borderRadius:1, }} marginLeft={2} align='center'>
-            <Typography variant='h3'>오늘의 식단 추가</Typography>
-            <SearchBar setList={setList} list={list} />
-          </Grid>
-          
-          <Grid item xs={12} align='center' marginBottom={5}>
-            <BasicTable list={list} setList={setList} />
-          </Grid>
-          
-          <Grid item container xs={12} marginBottom={10}>
-            <Grid item xs={4} padding={6}>
-              <Typography variant='h5' align='center'>탄수화물</Typography>
-              <Piechart goal={goal[0]} current={curr[0]}/>
+          <Grid container spacing={2} margin={1}>
+            <Grid item xs={12} lg={5} sx={{border:1,borderRadius:1,}}>
+              <Typography variant='h3'>오늘의 식단 추가</Typography>
+              <SearchBar setList={setList} list={list} />
+              <BasicTable list={list} setList={setList} />
             </Grid>
+            
+            {/* <Grid item xs={5} align='center' marginBottom={5}>
+            </Grid> */}
+            
+            <Grid item xs={12} lg={7} marginBottom={10}>
+              <Grid container spacing={3}>
+                <Grid item xs={4} padding={1}>
+                  <Typography variant='h5' align='center'>탄수화물</Typography>
+                  <Piechart goal={goal[0]} current={curr[0]}/>
+                </Grid>
 
-            <Grid item xs={4} padding={6}>
-              <Typography variant='h5' align='center'>단백질</Typography>
-              <Piechart goal={goal[1]} current={curr[1]}/>
-            </Grid>
+                <Grid item xs={4} padding={1}>
+                  <Typography variant='h5' align='center'>단백질</Typography>
+                  <Piechart goal={goal[1]} current={curr[1]}/>
+                </Grid>
 
-            <Grid item xs={4} padding={6}>
-              <Typography variant='h5' align='center'>지방</Typography>
-              <Piechart goal={goal[2]} current={curr[2]}/>
+                <Grid item xs={4} padding={1}>
+                  <Typography variant='h5' align='center'>지방</Typography>
+                  <Piechart goal={goal[2]} current={curr[2]}/>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
-        
-        </Grid>
+        </div>
         <DietDialog close={close} dialog={dialog} />
 
       </div>

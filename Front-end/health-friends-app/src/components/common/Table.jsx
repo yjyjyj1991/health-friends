@@ -23,15 +23,12 @@ export default function BasicTable(props) {
   return (
   <>
     <TableContainer component={Paper} 
-      sx={{
-        backgroundColor:'lightgreen',
-        border:1,
-          
-      }}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>음식</TableCell>
+      >
+      <Table sx={{  width:{xs:300, sm:600, lg: 600}, }} aria-label="simple table">
+        <TableHead sx={{
+        backgroundColor:'#D3E4CD', padding:10}}>
+          <TableRow >
+            <TableCell >음식</TableCell>
             <TableCell >칼로리&nbsp;(kcal)</TableCell>
             <TableCell >탄수화물&nbsp;(g)</TableCell>
             <TableCell >단백질&nbsp;(g)</TableCell>
@@ -52,7 +49,7 @@ export default function BasicTable(props) {
               <TableCell >{row.protein}</TableCell>
               <TableCell >{row.fat}</TableCell>
               <TableCell >{row.newServing}</TableCell>
-              <TableCell ><Button color='error' variant='contained' 
+              <TableCell ><Button sx ={{backgroundColor:'#ADC2A9',color:'white', '&:hover':{backgroundColor:'#D3E4CD'}}}
               size='small' onClick={()=>removeRow(index)}>
                 삭제
               </Button></TableCell>
