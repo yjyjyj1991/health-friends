@@ -9,27 +9,42 @@ const BASE_URL='https://i6d204.p.ssafy.io/api/'
 
 
 export default function SearchResult(props) {
+  const {list,setList}=props
   const userInfo = JSON.parse(localStorage.getItem('user')).userInfo
   const [food,setFood]=useState(null)
+
+  var lastIdx=list.length
 
   function select(e){
     const food = props.result.find(el=>el.foodName===e.target.innerText) 
     setFood(food)
+    console.log(food);
   }
   function addToList(e){
     e.preventDefault()
+    console.log(food);
     const data = new FormData(e.currentTarget);
-    const servingSize = data.get('servingSize')
+    const servingSize = parseInt(data.get('servingSize'))
     const data1={
       foodId:food.id,
-      servingSize:parseInt(servingSize),
+      servingSize:servingSize,
       userId:userInfo.id
     }
-    console.log(BASE_URL+'foodmanagement');
     axios.post(BASE_URL+'foodmanagement',data1)
-    .then(res=>(console.log(res)
-    //리스트에 추가 props.setList
-    ))
+    .then(()=>{
+      
+      const rate = servingSize/food.servingSize
+      setList([...list, 
+        {...food, 
+          newServing:servingSize, 
+          id:lastIdx,
+          kcal:Math.round(food.kcal*rate),
+          carbohydrate:Math.round(food.carbohydrate*rate),
+          fat:Math.round(food.fat*rate),
+          protein:Math.round(food.protein*rate),
+        }])
+      console.log(list);
+    })
     .catch(err=>console.log(err))
   }
 

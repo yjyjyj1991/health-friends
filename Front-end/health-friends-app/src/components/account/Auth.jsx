@@ -29,7 +29,7 @@ export function AuthStatus() {
 }
 
 export function RequireAuth(props) {
-  console.log('requireauth');
+  // console.log('requireauth');
   const auth = React.useContext(AuthContext);
   if (!auth.user) {
     props.setDialog('login')

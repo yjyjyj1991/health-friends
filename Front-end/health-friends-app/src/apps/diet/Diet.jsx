@@ -6,70 +6,43 @@ import axios from 'axios';
 import { BASE_URL } from 'common/Properties';
 import BasicTable from 'components/common/Table';
 import SearchBar from './SearchBar'
+import Piechart from './Piechart'
+
 
 export default function Diet(){
-  console.log('diet render');
   const userInfo = JSON.parse(localStorage.getItem('user')).userInfo
   const [dialog,setDialog]=useState(false)
   const [date, setDate] = useState(new Date());
-  const [list,setList]=useState(
-    [
-    {
-      "id": 21,
-      "foodName": "채소 초밥",
-      "carbohydrate": 88,
-      "protein": 8,
-      "brand": "삼삼한밥상(Ⅶ)",
-      "fat": 1,
-      "kcal": 393,
-      "newServing": 100,
-      "servingSize": 280
-    },
-    {
-      "id": 22,
-      "foodName": "채소 초밥",
-      "carbohydrate": 88,
-      "protein": 8,
-      "brand": "삼삼한밥상(Ⅶ)",
-      "fat": 1,
-      "kcal": 393,
-      "newServing": 100,
-      "servingSize": 280
-    },
-    {
-      "id": 23,
-      "foodName": "닭가슴살샐러드",
-      "carbohydrate": 8,
-      "protein": 11,
-      "brand": "전국(대표)",
-      "fat": 14,
-      "kcal": 203,
-      "newServing": 111,
-      "servingSize": 150
-    },
-    {
-      "id": 25,
-      "foodName": "슈팅스타",
-      "carbohydrate": 0,
-      "protein": 5,
-      "brand": "비알코리아(주)배스킨라빈스",
-      "fat": 0,
-      "kcal": 253,
-      "newServing": 111,
-      "servingSize": 115
-    },
-    {
-      "id": 26,
-      "foodName": "날치알김밥",
-      "carbohydrate": 75,
-      "protein": 16,
-      "brand": "전국(대표)",
-      "fat": 11,
-      "kcal": 461,
-      "newServing": 111,
-      "servingSize": 260
-    }
-  ])
+  const [list,setList]=useState([])
+
+  useEffect(()=>getList(date),[date,])
+
+  const curr = [0,0,0]
+  list.forEach(el=>{
+    curr[0]+=el.carbohydrate*el.newServing/el.servingSize
+    curr[1]+=el.protein*el.newServing/el.servingSize
+    curr[2]+=el.fat*el.newServing/el.servingSize
+  })
+  var cal
+  const goal=[0,0,0]
+  const LB_WEIGHT = userInfo.weight*2.20462
+  switch (userInfo.purposeId) {
+    case 1:
+      cal = LB_WEIGHT*10*userInfo.activePoint
+      goal[0]= cal/2; goal[1]=cal/4; goal[2]=cal/9
+      break;
+    case 2:
+      cal = LB_WEIGHT*10*userInfo.activePoint-300
+      goal[1]=LB_WEIGHT*1.1; goal[2]=LB_WEIGHT*0.3; goal[0]=cal-(goal[1]*4+goal[2]*9)/4
+      break;
+    case 3:
+      cal = LB_WEIGHT*10*userInfo.activePoint+200
+      goal[1]=LB_WEIGHT*0.9; goal[2]=LB_WEIGHT*0.4; goal[0]=cal-(goal[1]*4+goal[2]*9)/4
+      break
+    default:
+      break;
+  }
+
   function open(){
     setDialog(true)
   }
@@ -78,12 +51,34 @@ export default function Diet(){
   }
   function handleDate(date){
     setDate(date)
-    const data = {date:`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`, userId:userInfo.id}
+  }
+  function getList(date){
+    const data = {
+      date:`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`,
+      userId:userInfo.id
+    }
     axios.get(BASE_URL+'foodmanagement',{params:data})
-    .then(res=>console.log(res))
+    .then(res=>{
+      var dailyList=[]
+      const dataList = res.data.data
+      if (dataList) {
+        dataList.forEach(el=>
+          {
+            const rate=el.newServing/el.servingSize
+            dailyList.push({...el,
+              kcal:Math.round(el.kcal*rate),
+              carbohydrate:Math.round(el.carbohydrate*rate),
+              fat:Math.round(el.fat*rate),
+              protein:Math.round(el.protein*rate),
+            }) 
+          }) 
+        }
+      else {dailyList = []}
+      setList(dailyList)
+    })
     .catch(err=>console.log(err))
   }
-  
+    
 
   return (
     <>
@@ -100,25 +95,30 @@ export default function Diet(){
       </Grid>
 
       <Grid item xs={12}>
-        <SearchBar setList={setList}/>
+        <SearchBar setList={setList} list={list} />
       </Grid>
       
       <Grid item xs={12} align='center'>
         <BasicTable list={list} setList={setList} />
       </Grid>
       
-      <Grid item xs={4} padding={8}>
-        <Typography variant='h5' align='center'>탄수화물</Typography>
-      </Grid>
+      <Grid item container xs={12} marginBottom={10}>
+        <Grid item xs={4} padding={2}>
+          <Typography variant='h5' align='center'>탄수화물</Typography>
+          <Piechart goal={goal[0]} current={curr[0]}/>
+        </Grid>
 
-      <Grid item xs={4} padding={8}>
-        <Typography variant='h5' align='center'>단백질</Typography>
-      </Grid>
+        <Grid item xs={4} padding={2}>
+          <Typography variant='h5' align='center'>단백질</Typography>
+          <Piechart goal={goal[1]} current={curr[1]}/>
+        </Grid>
 
-      <Grid item xs={4} padding={8}>
-        <Typography variant='h5' align='center'>지방</Typography>
+        <Grid item xs={4} padding={2}>
+          <Typography variant='h5' align='center'>지방</Typography>
+          <Piechart goal={goal[2]} current={curr[2]}/>
+        </Grid>
       </Grid>
-
+    
     </Grid>
     <DietDialog close={close} dialog={dialog} />
     </>
@@ -126,6 +126,9 @@ export default function Diet(){
 }
 
 
+//  <Piechart carbo goal current />
+//  <Piechart protein goal current />
+//  <Piechart fat goal current />
 
  
 // 다이어트 할때 계산 방법
