@@ -8,16 +8,23 @@ import { post } from 'axios';
 import { BASE_URL } from 'common/Properties.js';
 import RTC from 'components/room/RTC/RTCHelper.js';
 
+
 const RoomCreate = (props) => {
   let [roomTitle, setRoomTitle] = useState('');
-  let [roomType, setRoomType] = useState(1);
+  let [roomType, setRoomType] = useState(undefined);
   let [roomContent, setRoomContent] = useState('');
   let [isPublic, setIsPublic] = useState(true);
   let [password, setPassword] = useState('');
+  let [typeList, setTypeList] = useState([]);
 
   const handlerFormSubmit = (e) => {
     console.log("handlerFormSubmit");
     e.preventDefault();
+
+    if (roomType === undefined) {
+      alert('운동 종류가 선택되지 않았습니다.');
+      return;
+    }
     var rtc = new RTC();
 
     const formData = new FormData();
@@ -27,13 +34,13 @@ const RoomCreate = (props) => {
     formData.append('content', roomContent);
     formData.append('isPublic', 1);
     formData.append('password', null);
-    formData.append('limitUser', 4);
+    formData.append('limitUser', 5);
     var object = {}
     formData.forEach(function (value, key) {
       object[key] = value
     })
     var data = JSON.stringify(object)
-
+    console.log(data);
 
     rtc.create(data, (result) => {
       if (result && result['success']) {
@@ -46,40 +53,18 @@ const RoomCreate = (props) => {
         console.log(result);
       }
     });
-
-    // addList()
-    //   .then((res) => {
-    //     console.log('do something');
-    //   })
-    //   .catch((err) => {
-    //     console.log(err + "ERRRRR");
-    //   });
-
-    // if (roomTitle && roomType && roomContent) {
-    //   console.log(roomTitle, roomType, roomContent)
-    // }
   }
 
-  const addList = () => {
-    const url = BASE_URL + 'rooms';
-    const formData = new FormData();
-    formData.append('userId', 1);
-    formData.append('typeId', roomType);
-    formData.append('title', roomTitle);
-    formData.append('content', roomContent);
-    formData.append('isPublic', 1);
-    formData.append('password', null);
-    formData.append('limitUser', 4);
+  useEffect(() => {
+    axios.get(BASE_URL + 'room-type')
+      .then((res) => {
+        setTypeList(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }, []);
 
-    var object = {}
-    formData.forEach(function (value, key) {
-      object[key] = value
-    })
-    var data = JSON.stringify(object)
-    return post(url, data, {
-      headers: { "Content-Type": `application/json` }
-    });
-  }
 
   return (
     <>
@@ -92,24 +77,13 @@ const RoomCreate = (props) => {
           <DialogContentText >
             <form onSubmit={handlerFormSubmit}>
               <select name="roomType" onChange={(e) => setRoomType(e.target.value)}>
-                <option value="">--운동 종류 선택--</option>
-                <option value="헬스">헬스</option>
-                <option value="요가">요가</option>
-                <option value="필라테스">필라테스</option>
-                <option value="기타">기타</option>
+                <option value={undefined} key={undefined}>{'<-- 종류 선택 -->'}</option>
+                {typeList && typeList.map((item, idx) => (
+                  <option value={item.id} key={item.id}>{item.type}</option>
+                ))}
               </select>
-              {/* <select name='isPublic'>
-                <option value=''>--채널 비공개--</option>
-                <option value='private' onChange={()=>setIsPublic(false)}>비공개</option>
-                <option value='public'>공개</option>
-              </select> */}
               <TextField variant='standard' fullWidth required label='방 이름' onChange={(e) => setRoomTitle(e.target.value)} />
               <TextField variant='standard' fullWidth required multiline maxRows={4} label='방 상세 설명' onChange={(e) => setRoomContent(e.target.value)} />
-              {/* {
-                isPublic===false
-                ? <TextField type='password' variant='standard' fullWidth required label='비밀번호 설정' onChange={(e) => setPassword(e.target.value)}/>
-                : null
-              } */}
 
               <DialogActions>
                 <Button variant="outlined" type="submit"> 생성 </Button>
