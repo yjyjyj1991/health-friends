@@ -31,6 +31,7 @@ const GoTooltip = styled(({ className, ...props }) => (
   },
 }));
 
+
 class RoomSession extends Component {
   constructor(props) {
     super(props);
@@ -46,6 +47,46 @@ class RoomSession extends Component {
 
     this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
   }
+  mute(){
+    this.state.publisher.publishAudio(false);   // true to unmute the audio track, false to mute it
+    document.getElementById("mute").style.display = "none";
+    document.getElementById("unmute").style.display = "block";
+  }
+  
+  screenMute(){
+      this.state.publisher.publishVideo(false);   // true to enable the video track, false to disable it
+      document.getElementById("screenmute").style.display = "none";
+      document.getElementById("unscreenmute").style.display = "block";	
+  }
+  
+  Unmute(){
+    this.state.publisher.publishAudio(true);   // true to unmute the audio track, false to mute it
+    document.getElementById("mute").style.display = "block";
+    document.getElementById("unmute").style.display = "none";
+  
+  }
+  
+  UnscreenMute(){
+      this.state.publisher.publishVideo(true);   // true to enable the video track, false to disable it
+      document.getElementById("screenmute").style.display = "block";
+      document.getElementById("unscreenmute").style.display = "none";	
+  
+  }
+  chat(){
+    this.state.session.signal({
+      data :"document.getElementById('chat_text').value 추가추가",
+      to: [],                     // Array of Connection objects (optional. Broadcast to everyone if empty)
+      type: 'my-chat'             // The type of message (optional)
+    })
+    .then(() => {
+        console.log('Message successfully sent');
+    })
+    .catch(error => {
+        console.error(error);
+    });  
+  }
+  
+  
 
   componentDidMount() {
     getSessionInfo(this.props.roomId, this.userInfo, (res) => {
@@ -94,12 +135,22 @@ class RoomSession extends Component {
   connectSession() {
     this.OV = new OpenVidu();
 
+    
+
     this.setState(
       {
         session: this.OV.initSession(),
       },
       () => {
         var session = this.state.session;
+        
+
+        session.on('signal', (event) => {
+          document.getElementById("show").value += event.data;
+          console.log(event.data); // Message
+          console.log(event.from); // Connection object of the sender
+          console.log(event.type); // The type of message
+        });
 
         session.on('streamCreated', (event) => {
           var subscriber = session.subscribe(event.stream, undefined);
@@ -131,7 +182,7 @@ class RoomSession extends Component {
             var videoDevices = devices.filter(device => device.kind === 'videoinput');
 
             console.log("#", videoDevices);
-            let publisher = this.OV.initPublisher(undefined, {
+              let publisher = this.OV.initPublisher(undefined, {
               audioSource: undefined, // The source of audio. If undefined default microphone
               videoSource: videoDevices[0].deviceId, // The source of video. If undefined default webcam
               publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
@@ -225,19 +276,19 @@ class RoomSession extends Component {
         ) : null}
         <div style={{backgroundColor:'#D3E4CD', height:'10rem'}} className="row align-items-center justify-content-center">
             <Box sx={{width: 600 }}>
-            <Button style={{backgroundColor:'white', marginRight:'1rem'}}>
+            <Button style={{backgroundColor:'white', marginRight:'1rem'}} onClick={() =>{this.mute();}}>
               <FontAwesomeIcon icon={faMicrophone} size="3x" /> &nbsp; 음소거
             </Button>
-            <Button style={{backgroundColor:'white', marginRight:'1rem'}}>
+            <Button style={{backgroundColor:'white', marginRight:'1rem'}} onClick={() =>{this.Unmute();}}>
               <FontAwesomeIcon icon={faMicrophoneSlash} size="3x" />&nbsp; 음소거 해제
             </Button>
-            <Button style={{backgroundColor:'white', marginRight:'1rem'}}>
+            <Button style={{backgroundColor:'white', marginRight:'1rem'}} onClick={() =>{this.screenMute();}}>
               <FontAwesomeIcon icon={faVideo} size="3x" /> &nbsp;비디오 중지
             </Button>
-            <Button style={{backgroundColor:'white', marginRight:'1rem'}}>
+            <Button style={{backgroundColor:'white', marginRight:'1rem'}} onClick={() =>{this.UnscreenMute();}}>
               <FontAwesomeIcon icon={faVideoSlash} size="3x" /> &nbsp;비디오 시작
             </Button>
-            <GoTooltip title="채팅"  placement="top" style={{color:'red'}}>
+            <GoTooltip title="채팅"  placement="top" style={{color:'red'}} onClick={()=>{this.chat();}}>
               <Button style={{backgroundColor:'white', marginRight:'1rem'}}>
                 <FontAwesomeIcon icon={faComments} size="3x" />
               </Button>
@@ -247,34 +298,8 @@ class RoomSession extends Component {
                 <FontAwesomeIcon icon={faDoorOpen} size="3x" /> 
               </Button>
             </GoTooltip>
-            {/* <Button size="large" style={{ backgroundColor:'white', marginRight:'1rem' }} onClick={() => {this.leaveSession();}}>
-            <FontAwesomeIcon icon={faFileExport} size="3x" />
-            </Button> */}
-            {/* <Button size="large" color="primary" variant='outlined' style={{ fontSize: '15px' }} onClick={() => {
-              this.leaveSession();
-            }}> 나가기 </Button> */}
           </Box>
         </div>
-        {/* <Button size="large" color="primary" variant='outlined' style={{ fontSize: '15px' }} onClick={() => {
-          this.leaveSession();
-        }}> 나가기 </Button>
-        {this.state.session !== undefined ? (
-          <div id="session">
-            <div id="video-container" className="col-md-6">
-              {this.state.publisher !== undefined ? (
-                <div className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
-                  <UserVideoComponent
-                    streamManager={this.state.publisher} />
-                </div>
-              ) : null}
-              {this.state.subscribers.map((sub, i) => (
-                <div key={i} className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(sub)}>
-                  <UserVideoComponent streamManager={sub} />
-                </div>
-              ))}
-            </div>
-          </div>
-        ) : null} */}
       </div>
     );
   };
@@ -297,5 +322,7 @@ function getSessionInfo(id, userInfo, callback) {
       callback(undefined);
     })
 }
+
+
 
 export default RoomSession;
