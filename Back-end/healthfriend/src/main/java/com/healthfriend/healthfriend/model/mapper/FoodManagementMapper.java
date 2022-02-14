@@ -20,7 +20,7 @@ public interface FoodManagementMapper {
 
     List<FoodReserveDto> selectFoodManagenent(FoodManagementListDto foodManagementListDto) throws SQLException;
 
-    int deleteFoodManagement(FoodManagementRemoveDto foodManagementRemoveDto) throws SQLException;
+    int deleteFoodFromFM(FoodManagementRemoveDto foodManagementRemoveDto) throws SQLException;
 
     List<FoodReserveDto> selectFoodManagement2(FoodManagementListDto foodManagementListDto) throws SQLException;
 
