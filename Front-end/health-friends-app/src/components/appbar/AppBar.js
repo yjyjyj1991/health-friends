@@ -203,22 +203,22 @@ const ResponsiveAppBar = (props) => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >    
-              {!auth.user && <>
+              {!auth.user && <div>
                 <MenuItem onClick={handleLogin} style={{fontSize:'1.5rem', fontWeight:'bold'}}>
                   로그인
                 </MenuItem><br/>
                 <MenuItem onClick={handleSignup} style={{fontSize:'1.5rem', fontWeight:'bold'}}>
                   회원가입
-                </MenuItem>
-              </> }
-              {auth.user && <>
+                </MenuItem></div>
+               }
+              {auth.user && <div>
                 <MenuItem onClick={changePw} style={{fontSize:'1.5rem', fontWeight:'bold'}}>
                   비밀번호 변경
                 </MenuItem><br/>
                 <MenuItem onClick={logout} style={{fontSize:'1.5rem', fontWeight:'bold'}}>
                   로그아웃
-                </MenuItem>
-              </> }
+                </MenuItem></div>
+               }
               </Menu>
           </Box>
               

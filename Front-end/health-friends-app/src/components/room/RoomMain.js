@@ -57,12 +57,13 @@ const RoomMain = () => {
   } else {
     return (
 
-      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100%' }}>
+      // <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100%' }}>
 
-        {/* <Container style={{minHeight:'100%'}}> */}
+        // <div style={{height:'100%'}}>
         <RoomSession roomId={roomId} setRoomId={setRoomId} />
-        {/* </Container> */}
-      </div>
+        // </div>
+      // </div>
+      
 
     );
   }
