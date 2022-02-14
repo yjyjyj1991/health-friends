@@ -23,14 +23,12 @@ const GoTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
   [`& .${tooltipClasses.tooltip}`]: {
-    // backgroundColor: theme.palette.common.white,
     backgroundColor: '#99A799',
     color: 'white',
     boxShadow: theme.shadows[1],
     fontSize: 11,
   },
 }));
-
 
 class RoomSession extends Component {
   constructor(props) {
@@ -54,24 +52,23 @@ class RoomSession extends Component {
   }
   
   screenMute(){
-      this.state.publisher.publishVideo(false);   // true to enable the video track, false to disable it
-      document.getElementById("screenmute").style.display = "none";
-      document.getElementById("unscreenmute").style.display = "block";	
+    this.state.publisher.publishVideo(false);   // true to enable the video track, false to disable it
+    document.getElementById("screenmute").style.display = "none";
+    document.getElementById("unscreenmute").style.display = "block";	
   }
   
   Unmute(){
     this.state.publisher.publishAudio(true);   // true to unmute the audio track, false to mute it
     document.getElementById("mute").style.display = "block";
     document.getElementById("unmute").style.display = "none";
-  
   }
   
   UnscreenMute(){
-      this.state.publisher.publishVideo(true);   // true to enable the video track, false to disable it
+    this.state.publisher.publishVideo(true);   // true to enable the video track, false to disable it
       document.getElementById("screenmute").style.display = "block";
       document.getElementById("unscreenmute").style.display = "none";	
-  
   }
+
   chat(){
     this.state.session.signal({
       data :"document.getElementById('chat_text').value 추가추가",
@@ -241,7 +238,6 @@ class RoomSession extends Component {
                     <CardMedia
                       component="iframe"
                       alt="green iguana"
-                      // height="450"
                       sx={{ width: { sm: 500, md: 700 }, height: { sm: 250, md: 525 } }}
                       src="https://www.youtube.com/embed/QpSAMoEm0fc?start=36"
                     />
@@ -294,16 +290,16 @@ class RoomSession extends Component {
         ) : null}
         <div style={{backgroundColor:'#D3E4CD', height:'10rem'}} className="row align-items-center justify-content-center">
             <Box sx={{width: 600 }}>
-            <Button style={{backgroundColor:'white', marginRight:'1rem'}} onClick={() =>{this.mute();}}>
+            <Button id="mute" style={{backgroundColor:'white', marginRight:'1rem'}} onClick={() =>{this.mute();}}>
               <FontAwesomeIcon icon={faMicrophone} size="3x" /> &nbsp; 음소거
             </Button>
-            <Button style={{backgroundColor:'white', marginRight:'1rem'}} onClick={() =>{this.Unmute();}}>
+            <Button id="unmute" style={{backgroundColor:'white', marginRight:'1rem', display:'none'}} onClick={() =>{this.Unmute();}}>
               <FontAwesomeIcon icon={faMicrophoneSlash} size="3x" />&nbsp; 음소거 해제
             </Button>
-            <Button style={{backgroundColor:'white', marginRight:'1rem'}} onClick={() =>{this.screenMute();}}>
+            <Button id="screenmute" style={{backgroundColor:'white', marginRight:'1rem'}} onClick={() =>{this.screenMute();}}>
               <FontAwesomeIcon icon={faVideo} size="3x" /> &nbsp;비디오 중지
             </Button>
-            <Button style={{backgroundColor:'white', marginRight:'1rem'}} onClick={() =>{this.UnscreenMute();}}>
+            <Button id="unscreenmute" style={{backgroundColor:'white', marginRight:'1rem', display: 'none'}} onClick={() =>{this.UnscreenMute();}}>
               <FontAwesomeIcon icon={faVideoSlash} size="3x" /> &nbsp;비디오 시작
             </Button>
             <GoTooltip title="채팅"  placement="top" style={{color:'red'}} onClick={()=>{this.chat();}}>
