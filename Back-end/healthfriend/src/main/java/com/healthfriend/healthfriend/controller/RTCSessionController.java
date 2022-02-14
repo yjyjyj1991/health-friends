@@ -121,7 +121,6 @@ public class RTCSessionController {
       }
     }
     if (this.mapSessionNamesTokens.get(sessionName) == null) {
-      System.out.println("?H");
       sessionInfo = null;
       roomService.closeBySessionName(sessionName);
     }
