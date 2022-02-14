@@ -8,12 +8,13 @@ import {AuthContext,RequireAuth} from "./components/account/Auth";
 // import Header from './components/Header/Header';
 // import AppBar from './components/Header/Header';
 // import Footer from './components/Footer/Footer';
-import React from "react";
-import Diet from './apps/diet/Diet'
-import { useState } from "react";
-import Record from './apps/record/Record'
+import React,{ useState, lazy, Suspense,Fragment} from "react";
 
 const BASE_URL='https://i6d204.p.ssafy.io/api/'
+
+const Record = lazy(() => import("./apps/record/Record"));
+const Diet = lazy(() => import('./apps/diet/Diet'));
+
 
 // 접근제한 거는법: RequireAuth로 감싸주면 됩니다. rooms 봐주세요.
 function App() {
@@ -31,18 +32,15 @@ function App() {
 
   return (
   <AuthContext.Provider value={{user:user,login:login,logout:logout}}> 
-    {/* <Header dialog={dialog} setDialog={setDialog} /> */}
-    {/* <AppBar dialog={dialog} setDialog={setDialog} /> */}
-
-    <Routes>
-      <Route path="/" element={<Main setDialog={setDialog}/>} />
-      {/* <Route path="/rooms" element={<RequireAuth dialog={dialog} setDialog={setDialog}><RoomMain /></RequireAuth>} /> */}
-      <Route path="/rooms" element={<RoomMain />}/>
-      <Route path="/boards" element={<Board />} />
-      <Route path="/foods" element={<FoodMain />} />
-      <Route path="/record" element={<RequireAuth setDialog={setDialog}><Record /></RequireAuth>} />
-      <Route path="/diet" element={<RequireAuth setDialog={setDialog}><Diet/></RequireAuth>} />
-    </Routes>
+    <Suspense fallback={<Fragment />}>  
+      <Routes>
+        <Route path="/" element={<Main setDialog={setDialog}/>} />
+        <Route path="/rooms" element={<RoomMain />}/>
+        <Route path="/boards" element={<Board />} />
+        <Route path="/record" element={<RequireAuth setDialog={setDialog}><Record /></RequireAuth>} />
+        <Route path="/diet" element={<RequireAuth setDialog={setDialog}><Diet/></RequireAuth>} />
+      </Routes>    
+    </Suspense>
     {/* <Footer/> */}
   </AuthContext.Provider>
   );
