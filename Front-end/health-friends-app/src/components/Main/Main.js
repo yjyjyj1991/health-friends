@@ -25,24 +25,19 @@ const Main = (props) => {
       <div style={{flex:'1'}}>
         <Container maxWidth="xl" style={{ mb:'2rem', display:'flex', flexDirection:'column', alignItems:'center', justifyItems:'center'}} >
           <div style={{height:'75vh', minHeight: 600, maxHeight:650}}>
-            <Typography variant="h1" color="inherit" align="center"  marked="center" 
-             sx={{ mb:'10rem', mt:{xs:'4rem', sm: '15rem'},fontSize:'8rem', fontWeight:'bold'}}>
-            {/* style={{ marginBottom:'10rem', marginTop:{xs:'4rem', sm: '17rem'},fontSize:'8rem', fontWeight:'bold',}}> */}
-              HEALTH, WORK OUT, <br/> WITH &nbsp;
-                <Typography variant="h1"style={{color: '#99A799',fontSize:'9rem',  fontWeight:'bold'}}>HEALTH FRIENDS</Typography>
-            </Typography>
-              {/* {auth.user && <Link to='/rooms' style={{textDecoration:'none', display:'flex', justifyContent:'center'}}>
-                <button align="end" style={{color:'black', marginBottom:'0', marginTop:'0'}} className="start_btn">운동하러 가기</button>
-              </Link>} */}
-              {auth.user && 
-              <div className="d-flex justify-content-center">
-                <Button href="/rooms" style={{backgroundColor:'#D3E4CD', border:'0ch', borderRadius:'34px', height: '5rem', width:'23rem', fontSize:'large', color:'black', fontWeight:'bold' }}>운동하러 가기</Button>
-                </div>
-                  }
-              {!auth.user && 
-                <div style={{textDecoration:'none', display:'flex', justifyContent:'center'}}>
-                  <button align="end" style={{color:'black', marginBottom:'0', marginTop:'0'}} onClick={handleLogin} className="start_btn">운동하러 가기</button>
-                </div>}
+            <Box align="center" marked="center" sx={{ mb:'10rem', mt:{xs:'4rem', sm: '17rem'}}}>
+                <Typography variant="h1"style={{color: 'inherit',fontSize:'9rem',  fontWeight:'bold', marginBottom:'4rem'}}>HEALTH, WORK OUT,</Typography>
+                <Typography variant="h1"style={{color: '#99A799',fontSize:'9rem',  fontWeight:'bold'}}><span style={{color:'black'}}>WITH&nbsp;</span>HEALTH FRIENDS</Typography>
+            </Box>
+            {auth.user && 
+            <div className="d-flex justify-content-center">
+              <Button href="/rooms" style={{backgroundColor:'#D3E4CD', border:'0ch', borderRadius:'34px', height: '5rem', width:'23rem', fontSize:'large', color:'black', fontWeight:'bold' }}>운동하러 가기</Button>
+              </div>
+                }
+            {!auth.user && 
+              <div style={{textDecoration:'none', display:'flex', justifyContent:'center'}}>
+                <button align="end" style={{color:'black', marginBottom:'0', marginTop:'0'}} onClick={handleLogin} className="start_btn">운동하러 가기</button>
+              </div>}
           </div>
           </Container>
           {/* <Box style={{backgroundColor:'#D3E4CD', height:'10rem', marginTop:'12rem'}}> </Box> */}

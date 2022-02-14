@@ -72,9 +72,11 @@ export default function CollapsibleTable() {
       .get('https://i6d204.p.ssafy.io/api/boards')
       .then(({data})=>{
         setPosts(data)
-        console.log(data);})
-      .catch((Error)=>{
-        console.log(Error);})
+        // console.log(data);
+      })
+      // .catch((Error)=>{
+      //   console.log(Error);
+      // })
   },[]);
   return (
 
