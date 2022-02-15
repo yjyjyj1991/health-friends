@@ -2,56 +2,31 @@ import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import StaticDatePicker from '@mui/lab/StaticDatePicker';
 import { useEffect,useState } from 'react';
 import { BASE_URL } from 'common/Properties';
 import axios from 'axios';
 import DatePicker from '@mui/lab/DatePicker';
 
 export default function StaticDatePickerDemo(props) {
-  const [date, setDate] = useState(new Date())
-  const {setList,id}=props
+  const {setList, userId, date, setDate}=props
   
   useEffect(()=>{
     const data = {
       date:`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`,
-      userId:id
+      userId:userId,
     }
     axios.get(BASE_URL+'foodmanagement',{params:data})
     .then(res=>{
-      var dailyList=[]
-      const dataList = res.data.data
-      if (dataList) {
-        dataList.forEach(el=>
-          {
-            const rate=el.newServing/el.servingSize
-            dailyList.push({...el,
-              kcal:Math.round(el.kcal*rate),
-              carbohydrate:Math.round(el.carbohydrate*rate),
-              fat:Math.round(el.fat*rate),
-              protein:Math.round(el.protein*rate),
-            }) 
-          }) 
-        }
-      else {dailyList = []}
-      setList(dailyList)
+      if (res.data.data) {setList(res.data.data)}
+      else {setList([])}
     })
     .catch(err=>console.log(err))
-  },[id,setList,date])
-
+  },[setList,date,userId])
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      {/* <StaticDatePicker
-        openTo="day"
-        displayStaticWrapperAs="desktop"
-        value={date}
-        onChange={(newValue) => {
-          setDate(newValue);
-        }}
-        renderInput={(params) => <TextField {...params} />}
-      /> */}
       <DatePicker
+        // openTo="day"
         label="Date"
         value={date}
         onChange={(newValue) => {

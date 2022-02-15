@@ -7,8 +7,7 @@ import axios from 'axios';
 const BASE_URL='https://i6d204.p.ssafy.io/api/'
 
 export default function SearchBar(props){
-  // console.log('searchBar render');
-  const {list,setList}=props
+  const {setList,date,userId}=props
 
   const [checked, setChecked] = useState(false);
   const [result,setResult]=useState([])
@@ -22,10 +21,9 @@ export default function SearchBar(props){
     const data = new FormData(e.currentTarget);
     const data1 = {
       key:checked?'brand':'food_name',
-      spp:1000,
+      spp:500,
       word:data.get('word')
     }
-    // console.log(data1);
     axios.get(BASE_URL+'foods', {params:data1} )
     .then(res=>setResult(res.data.data))
     .catch(err=>console.log(err))
@@ -51,7 +49,7 @@ export default function SearchBar(props){
           </InputAdornment>
     }}
     />
-    {result.length>0 && <SearchResult result={result} setList={setList} list={list} />}
+    {result.length>0 && <SearchResult result={result} setList={setList} date={date} userId={userId} />}
   </Box>
   )
 }

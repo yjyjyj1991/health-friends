@@ -9,36 +9,50 @@ import SearchBar from './SearchBar'
 import Piechart from './Piechart'
 import AppBar from '../../components/appbar/AppBar';
 import Footer from '../../components/Footer/Footer';
-import Container from '@mui/material/Container';
 
 export default function Diet(){
   const userInfo = JSON.parse(localStorage.getItem('user')).userInfo
-  console.log(userInfo.purpose)
+  const userId = userInfo.id
   const [dialog,setDialog]=useState(false)
   const [list,setList]=useState([])
+  const [date,setDate]=useState(new Date())
 
+  const computedList=list.map(el=>{
+    const rate=el.newServing/el.servingSize
+    return {
+      id:el.id,
+      foodName:el.foodName,
+      servingSize:el.servingSize,
+      newServing:el.newServing,
+      kcal:Math.round(el.kcal*rate),
+      fat: Math.round(el.fat*rate),
+      protein:Math.round(el.protein*rate),
+      carbohydrate:Math.round(el.carbohydrate*rate),
+    }
+  })
 
   const curr = [0,0,0]
-  list.forEach(el=>{
-    curr[0]+=el.carbohydrate*el.newServing/el.servingSize
-    curr[1]+=el.protein*el.newServing/el.servingSize
-    curr[2]+=el.fat*el.newServing/el.servingSize
+  computedList.forEach(el=>{
+    curr[0]+=el.carbohydrate
+    curr[1]+=el.protein
+    curr[2]+=el.fat
   })
+
   var cal
   const goal=[0,0,0]
   const LB_WEIGHT = userInfo.weight*2.20462
   switch (userInfo.purposeId) {
     case 1:
       cal = LB_WEIGHT*10*userInfo.activePoint
-      goal[0]= cal/2; goal[1]=cal/4; goal[2]=cal/9
+      goal[0]= cal/8; goal[1]=cal/16; goal[2]=cal/36
       break;
     case 2:
       cal = LB_WEIGHT*10*userInfo.activePoint-300
-      goal[1]=LB_WEIGHT*1.1; goal[2]=LB_WEIGHT*0.3; goal[0]=cal-(goal[1]*4+goal[2]*9)/4
+      goal[1]=LB_WEIGHT*1.1; goal[2]=LB_WEIGHT*0.3; goal[0]=(cal-(goal[1]*4+goal[2]*9))/4
       break;
     case 3:
       cal = LB_WEIGHT*10*userInfo.activePoint+200
-      goal[1]=LB_WEIGHT*0.9; goal[2]=LB_WEIGHT*0.4; goal[0]=cal-(goal[1]*4+goal[2]*9)/4
+      goal[1]=LB_WEIGHT*0.9; goal[2]=LB_WEIGHT*0.4; goal[0]=(cal-(goal[1]*4+goal[2]*9))/4
       break
     default:
       break;
@@ -50,33 +64,6 @@ export default function Diet(){
   function close(){
     setDialog(false)
   }
-  // function getList(){
-  //   console.log('getlist')
-  //   const data = {
-  //     date:`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`,
-  //     userId:userInfo.id
-  //   }
-  //   axios.get(BASE_URL+'foodmanagement',{params:data})
-  //   .then(res=>{
-  //     var dailyList=[]
-  //     const dataList = res.data.data
-  //     if (dataList) {
-  //       dataList.forEach(el=>
-  //         {
-  //           const rate=el.newServing/el.servingSize
-  //           dailyList.push({...el,
-  //             kcal:Math.round(el.kcal*rate),
-  //             carbohydrate:Math.round(el.carbohydrate*rate),
-  //             fat:Math.round(el.fat*rate),
-  //             protein:Math.round(el.protein*rate),
-  //           }) 
-  //         }) 
-  //       }
-  //     else {dailyList = []}
-  //     setList(dailyList)
-  //   })
-  //   .catch(err=>console.log(err))
-  // }
 
 
   return (
@@ -107,17 +94,15 @@ export default function Diet(){
           </div>
 
           <Grid item  xs={12} sx={{display:'flex', justifyContent:'center'}} marginBottom={5} > 
-            <Calender id={userInfo.id} list={list} setList={setList} />
+            <Calender userId={userId} setList={setList} setDate={setDate} date={date} />
           </Grid>
           <Grid container spacing={2} margin={1}>
             <Grid item xs={12} lg={5} sx={{border:1,borderRadius:1,}}>
               <Typography variant='h3'>오늘의 식단 추가</Typography>
-              <SearchBar setList={setList} list={list} />
-              <BasicTable list={list} setList={setList} />
+              <SearchBar setList={setList} date={date} userId={userId} />
+              <BasicTable date={date} computedList={computedList} setList={setList} userId={userId}/>
             </Grid>
             
-            {/* <Grid item xs={5} align='center' marginBottom={5}>
-            </Grid> */}
             
             <Grid item xs={12} lg={7} marginBottom={10}>
               <Grid container spacing={3}>
@@ -125,18 +110,17 @@ export default function Diet(){
                   <Typography variant='h5' align='center'>탄수화물</Typography>
                   <Piechart goal={goal[0]} current={curr[0]}/>
                 </Grid>
-
                 <Grid item xs={4} padding={1}>
                   <Typography variant='h5' align='center'>단백질</Typography>
                   <Piechart goal={goal[1]} current={curr[1]}/>
                 </Grid>
-
                 <Grid item xs={4} padding={1}>
                   <Typography variant='h5' align='center'>지방</Typography>
                   <Piechart goal={goal[2]} current={curr[2]}/>
                 </Grid>
               </Grid>
             </Grid>
+
           </Grid>
         </div>
         <DietDialog close={close} dialog={dialog} />

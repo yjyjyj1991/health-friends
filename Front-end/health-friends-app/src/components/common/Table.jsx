@@ -11,14 +11,22 @@ import axios from 'axios';
 import { BASE_URL } from 'common/Properties';
 
 export default function BasicTable(props) {
-  const {list,setList}=props
+  const {computedList,setList,date,userId}=props
   function removeRow(index){
-    // console.log(list[index].id);
-    axios.delete(BASE_URL+'foodmanagement',{data:{id:list[index].id}})
+    if (date.getDate()!==new Date().getDate()){
+      alert('오늘의 식단만 삭제할 수 있습니다.')
+      return
+    }
+    axios.delete(BASE_URL+'foodmanagement',{data:{id:computedList[index].id}})
+    .then(()=>{
+      axios.get(BASE_URL+'foodmanagement',{params:{userId:userId, date:`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`}})
+      .then((res)=>{
+        if (res.data.data) {setList(res.data.data)}
+        else {setList([])}
+      })
+      .catch(err=>console.log(err))
+    })
     .catch(err=>console.log(err))
-    const newList=list
-    newList.splice(index,1)
-    setList([...newList])
   }
   return (
   <>
@@ -38,7 +46,7 @@ export default function BasicTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.list.map((row,index) => (
+          {computedList.map((row,index) => (
             <TableRow
               key={row.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

@@ -9,40 +9,31 @@ const BASE_URL='https://i6d204.p.ssafy.io/api/'
 
 
 export default function SearchResult(props) {
-  const {list,setList}=props
-  const userInfo = JSON.parse(localStorage.getItem('user')).userInfo
+  const {setList,result,date,userId}=props
   const [food,setFood]=useState(null)
 
-  var lastIdx=list.length
-
   function select(e){
-    const food = props.result.find(el=>el.foodName===e.target.innerText) 
+    const food = result.find(el=>el.foodName===e.target.innerText) 
     setFood(food)
-    // console.log(food);
   }
   function addToList(e){
     e.preventDefault()
-    // console.log(food);
+    if (date.getDate()!==new Date().getDate()){alert('오늘의 식단만 삭제할 수 있습니다.'); return}
     const data = new FormData(e.currentTarget);
     const servingSize = parseInt(data.get('servingSize'))
     const data1={
       foodId:food.id,
       servingSize:servingSize,
-      userId:userInfo.id
+      userId:userId
     }
     axios.post(BASE_URL+'foodmanagement',data1)
     .then(()=>{
-      const rate = servingSize/food.servingSize
-      const x={...food, 
-          newServing:servingSize, 
-          id:lastIdx,
-          kcal:Math.round(food.kcal*rate),
-          carbohydrate:Math.round(food.carbohydrate*rate),
-          fat:Math.round(food.fat*rate),
-          protein:Math.round(food.protein*rate),
-        }
-      // console.log(x);
-      setList([...list, x])
+      axios.get(BASE_URL+'foodmanagement',{params:{userId:userId, date:`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`}})
+      .then((res)=>{
+        if (res.data.data) {setList(res.data.data)}
+        else {setList([])}
+      })
+      .catch(err=>console.log(err))
     })
     .catch(err=>console.log(err))
   }
