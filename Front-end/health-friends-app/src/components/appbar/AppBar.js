@@ -60,7 +60,7 @@ const ResponsiveAppBar = (props) => {
 
   return (
     <AppBar position="static" sx={{ backgroundColor:'#D3E4CD', boxShadow:'none', paddingBottom:'1rem', paddingTop:'1rem'}}>
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" sx={{backgroundColor:'#D3E4CD'}}>
         <Toolbar disableGutters>
           <Typography
             variant="h6"

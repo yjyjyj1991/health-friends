@@ -31,18 +31,18 @@ const RoomListCard = (props) => {
   return (
     <>
       <div className='roomType'>
-        <ButtonGroup>
-          <Button variant='outlined' size='large' style={{ fontSize: '15px', backgroundColor: '#F6F2D4' }} onClick={() => sessionFilter(true)}>All</Button>
+        <ButtonGroup style={{display:'flex', justifyContent:'center'}}>
+          <Button variant='outlined' size='large' style={{ fontSize:'15px', backgroundColor:'white', color:'black', borderColor:'#ADC2A9', '&:hover': {backgroundColor: '#D3E4CD'},'&:focus':{backgroundColor:'#D3E4CD'} ,'&:active':{backgroundColor:'#D3E4CD'}}} onClick={() => sessionFilter(true)}>All</Button>
           {typeList && typeList.map((item, idx) => {
             return (
-              <Button variant='outlined' size='large' style={{ fontSize: '15px', backgroundColor: '#F6F2D4' }} onClick={() => sessionFilter(item.id)}>{item.type}</Button>
-            );
-          })}
+              <Button key={idx} variant='outlined' size='large' style={{ fontSize:'15px', backgroundColor:'white', color:'black', borderColor:'#ADC2A9','&:hover': {backgroundColor: '#D3E4CD'},'&:focus':{backgroundColor:'#D3E4CD'} ,'&:active':{backgroundColor:'#D3E4CD'}}} onClick={() => sessionFilter(item.id)}>{item.type}</Button>
+              );
+            })}
         </ButtonGroup>
       </div>
 
-      <div className='roomList'>
-        <Grid container >
+      <div className='roomList' style={{marginTop: '2rem'}}>
+        <Grid container className="d-flex justify-content-evenly" >
           {
             lists && lists.map((list, i) => {
               return (
@@ -81,27 +81,27 @@ function getSessionTypeList(setTypeList) {
 function List(props) {
   return (
     <div>
-      <Card sx={{ maxWidth: 345 }}>
-        <CardActionArea>
-          <CardContent>
-            <Typography gutterBottom variant="h3" component="div">
-              {props.list.title}
-            </Typography>
-            <Typography variant="h5" color="text.secondary">
-              {props.list.roomType}
-            </Typography>
-            <Typography variant="h5" color="text.secondary">
-              {props.list.host}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          <Button size="large" color="primary" variant='outlined' style={{ fontSize: '15px' }} onClick={() => {
-            props.rootProps.setRoomId(props.list.id);
-            window.localStorage.setItem("roomId", props.list.id);
-          }}> 입장하기 </Button>
-          <Button size="large" color="primary" variant='outlined' style={{ fontSize: '15px' }}> 상세보기 </Button>
-        </CardActions>
+      <Card sx={{ width: 250, marginTop:'1rem', }} >
+        <CardActionArea sx={{ '&:hover':{backgroundColor:'#ADC2A9'},display: 'flex', flexDirection: 'column', }}>
+            <CardContent sx={{paddingLeft:0}}>
+              <Typography gutterBottom variant="h3" >
+                {props.list.title}
+              </Typography>
+              <Typography variant="h5" color="text.secondary">
+                종류 : {props.list.roomType}
+              </Typography>
+              <Typography variant="h5" color="text.secondary">
+                방장 : {props.list.host}
+              </Typography>
+            </CardContent>
+            <CardContent sx={{display:'flex', justifyContent:'center', }}>
+              <Button size="large" style={{ fontSize: '15px', backgroundColor:'#D3E4CD',  color:'black','&:hover':{backgroundColor:'#ADC2A9'}, borderColor:'#D3E4CD' }} onClick={() => {
+                props.rootProps.setRoomId(props.list.id);
+                window.localStorage.setItem("roomId", props.list.id);
+              }}> 입장하기 </Button>
+              {/* <Button size="large" style={{ fontSize: '15px',  color:'black','&:hover':{backgroundColor:'#D3E4CD'}, borderColor:'#D3E4CD' }}> 상세보기 </Button> */}
+            </CardContent>
+          </CardActionArea>
       </Card>
     </div>
   )

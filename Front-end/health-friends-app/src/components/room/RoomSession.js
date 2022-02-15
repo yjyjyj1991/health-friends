@@ -58,6 +58,7 @@ class RoomSession extends Component {
     this.state.publisher.publishAudio(false);   // true to unmute the audio track, false to mute it
     document.getElementById("mute").style.display = "none";
     document.getElementById("unmute").style.display = "block";
+    console.log(this.userInfo, this.sessionInfo)
   }
 
   screenMute() {
