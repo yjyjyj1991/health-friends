@@ -50,9 +50,9 @@
   </select> 
 
   <select id="selectSessionInfo" parameterType="int" resultType="RTCSessionInfoDto">
-    SELECT id, session_name, limit_user, close_time, type_id  
-    FROM tbl_room
-    WHERE id = #{id}
+    SELECT room.id, room.session_name, room.limit_user, room.close_time, room.type_id, type.type  
+    FROM tbl_room AS room, tbl_room_type AS type
+    WHERE room.id = #{id} AND room.type_id = type.id
   </select>
 
   <update id="closeBySessionName" parameterType="String">
