@@ -10,7 +10,7 @@
     </insert>
     
     <select id="selectPointTop5" resultType="pointResponseDto">
-      SELECT user_id,sum(POINT) AS point FROM tbl_point GROUP BY user_id ORDER BY sum(POINT) DESC LIMIT 5
+      SELECT u.nickname ,sum(POINT) AS point FROM tbl_point p JOIN tbl_user u ON (p.user_id = u.id)  GROUP BY user_id ORDER BY sum(POINT) DESC LIMIT 5
     </select>
 
 
