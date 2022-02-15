@@ -27,6 +27,12 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 
+import {Helmet} from "react-helmet";
+
+const tmPose = window.tmPose;
+let model, webcam, ctx, labelContainer, maxPredictions;
+var status = "stand"
+var count = 0;
 
 const GoTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -173,6 +179,127 @@ class RoomSession extends Component {
     }
   }
 
+ // More API functions here:
+        // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
+    
+        // the link to your model provided by Teachable Machine export panel
+    
+        async lunge_init() {
+            const modelURL = "./lunge_model/" + "model.json";
+            const metadataURL = "./lunge_model/" + "metadata.json";
+            var ifrm = document.getElementById("Utube");
+            ifrm.src = ""
+            // load the model and metadata
+            // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
+            // Note: the pose library adds a tmPose object to your window (window.tmPose)
+            model = await tmPose.load(modelURL, metadataURL);
+            maxPredictions = model.getTotalClasses();
+    
+            // Convenience function to setup a webcam
+            const size = 200;
+            const flip = true; // whether to flip the webcam
+            webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
+            await webcam.setup(); // request access to the webcam
+            await webcam.play();
+            window.requestAnimationFrame(loop);
+    
+            // append/get elements to the DOM
+            const canvas = document.getElementById("canvas");
+            canvas.width = size; canvas.height = size;
+            ctx = canvas.getContext("2d");
+            labelContainer = document.getElementById("label-container");
+            for (let i = 0; i < maxPredictions; i++) { // and class labels
+                labelContainer.appendChild(document.createElement("div"));
+            }
+        }
+    
+        async squat_init() {
+          const modelURL = "./squat_model/" + "model.json";
+          const metadataURL = "./squat_model/" + "metadata.json";
+          var ifrm = document.getElementById("Utube");
+          ifrm.src = "https://www.youtube.com/embed/QpSAMoEm0fc?start=36"
+          // load the model and metadata
+          // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
+          // Note: the pose library adds a tmPose object to your window (window.tmPose)
+          model = await tmPose.load(modelURL, metadataURL);
+          maxPredictions = model.getTotalClasses();
+  
+          // Convenience function to setup a webcam
+          const size = 200;
+          const flip = true; // whether to flip the webcam
+          webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
+          await webcam.setup(); // request access to the webcam
+          await webcam.play();
+          window.requestAnimationFrame(loop);
+  
+          // append/get elements to the DOM
+          const canvas = document.getElementById("canvas");
+          canvas.width = size; canvas.height = size;
+          ctx = canvas.getContext("2d");
+          labelContainer = document.getElementById("label-container");
+          for (let i = 0; i < maxPredictions; i++) { // and class labels
+              labelContainer.appendChild(document.createElement("div"));
+          }
+      }
+
+      async plank_init() {
+        const modelURL = "./plank_model/" + "model.json";
+        const metadataURL = "./plank_model/" + "metadata.json";
+
+        // load the model and metadata
+        // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
+        // Note: the pose library adds a tmPose object to your window (window.tmPose)
+        model = await tmPose.load(modelURL, metadataURL);
+        maxPredictions = model.getTotalClasses();
+
+        // Convenience function to setup a webcam
+        const size = 200;
+        const flip = true; // whether to flip the webcam
+        webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
+        await webcam.setup(); // request access to the webcam
+        await webcam.play();
+        window.requestAnimationFrame(loop);
+
+        // append/get elements to the DOM
+        const canvas = document.getElementById("canvas");
+        canvas.width = size; canvas.height = size;
+        ctx = canvas.getContext("2d");
+        labelContainer = document.getElementById("label-container");
+        for (let i = 0; i < maxPredictions; i++) { // and class labels
+            labelContainer.appendChild(document.createElement("div"));
+        }
+    }
+    async pushup_init() {
+      const modelURL = "./pushup_model/" + "model.json";
+      const metadataURL = "./pushup_model/" + "metadata.json";
+      var ifrm = document.getElementById("Utube");
+      ifrm.src = "https://www.youtube.com/embed/DP8LBgo9l2Q"
+
+      
+      // load the model and metadata
+      // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
+      // Note: the pose library adds a tmPose object to your window (window.tmPose)
+      model = await tmPose.load(modelURL, metadataURL);
+      maxPredictions = model.getTotalClasses();
+
+      // Convenience function to setup a webcam
+      const size = 200;
+      const flip = true; // whether to flip the webcam
+      webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
+      await webcam.setup(); // request access to the webcam
+      await webcam.play();
+      window.requestAnimationFrame(loop);
+
+      // append/get elements to the DOM
+      const canvas = document.getElementById("canvas");
+      canvas.width = size; canvas.height = size;
+      ctx = canvas.getContext("2d");
+      labelContainer = document.getElementById("label-container");
+      for (let i = 0; i < maxPredictions; i++) { // and class labels
+          labelContainer.appendChild(document.createElement("div"));
+      }
+  }
+
   connectSession() {
     this.OV = new OpenVidu();
     this.setState(
@@ -261,6 +388,7 @@ class RoomSession extends Component {
                   <div className="col-md-5 p-0 d-flex justify-content-center">
                     <Card sx={{ minWidth: 250, width: { sm: 500, md: 700 }, height: { sm: 350, md: 525 }, border: 'none' }}>
                       <CardMedia
+                        id = "Utube"
                         component="iframe"
                         alt="green iguana"
                         sx={{ width: { sm: 500, md: 700 }, height: { sm: 250, md: 525 } }}
@@ -351,9 +479,25 @@ class RoomSession extends Component {
                 <FontAwesomeIcon icon={faDoorOpen} size="3x" />
               </Button>
             </GoTooltip>
-          </Box>
+            <Button style={{backgroundColor:'white', marginRight:'1rem'}} onClick={() =>{this.lunge_init();}}>
+              <FontAwesomeIcon icon={faMicrophone} size="3x" /> &nbsp; 런지
+            </Button>
+            <Button style={{backgroundColor:'white', marginRight:'1rem'}} onClick={() =>{this.squat_init();}}>
+              <FontAwesomeIcon icon={faMicrophone} size="3x" /> &nbsp; 스쿼트
+            </Button>
+            <Button style={{backgroundColor:'white', marginRight:'1rem'}} onClick={() =>{this.plank_init();}}>
+              <FontAwesomeIcon icon={faMicrophone} size="3x" /> &nbsp; 플랭크
+            </Button>
+            <Button style={{backgroundColor:'white', marginRight:'1rem'}} onClick={() =>{this.pushup_init();}}>
+              <FontAwesomeIcon icon={faMicrophone} size="3x" /> &nbsp; 푸쉬업
+            </Button>
+         </Box>
+         <div><canvas style={{visibility: "visible"}} id="canvas"></canvas></div> 
+          <div id="label-container"></div>
         </div>
+
       </div>
+      
     );
   };
 }
@@ -376,5 +520,52 @@ function getSessionInfo(id, userInfo, callback) {
       callback(undefined);
     })
 }
+
+
+async function loop(timestamp) {
+  webcam.update(); // update the webcam frame
+  await predict();
+  window.requestAnimationFrame(loop);
+}
+async function predict() {
+  // Prediction #1: run input through posenet
+  // estimatePose can take in an image, video or canvas html element
+  const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
+  // Prediction 2: run input through teachable machine classification model
+  const prediction = await model.predict(posenetOutput);
+  if(prediction[0].probability.toFixed(2) >= 1.00){
+      status = "lunge"
+  } else if(prediction[1].probability.toFixed(2) >= 1.00){
+      if(status == "lunge"){
+          count++;
+          console.log(count);
+          //document.write('횟수 :' + count + '<br>');
+      }
+      status = "stand"
+  } 
+  for (let i = 0; i < maxPredictions; i++) {
+      const classPrediction =
+          prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+      labelContainer.childNodes[i].innerHTML = classPrediction;
+  }
+
+  // finally draw the poses
+  drawPose(pose);
+}
+
+function drawPose(pose) {
+  if (webcam.canvas) {
+      ctx.drawImage(webcam.canvas, 0, 0);
+      // draw the keypoints and skeleton
+      if (pose) {
+          const minPartConfidence = 0.5;
+          tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx);
+          tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx);
+      }
+  }
+}
+
+    
+
 
 export default RoomSession;
