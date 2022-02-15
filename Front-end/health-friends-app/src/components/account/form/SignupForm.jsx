@@ -29,6 +29,11 @@ export default function SignupForm(props){
         } 
         setIsEmailValid('유효하지않음')
         break;
+      case 'nickname':
+        if (!value) {setIsNicknameValid(null); return} 
+        else if (value.length>10) {setIsNicknameValid('10자 이내로 지어주세요'); return} 
+        else {setIsNicknameValid(null)}
+        break;
       case 'pw':
         if (!value || (/\d/.test(value) && /[A-Za-z]/.test(value) && /\W/.test(value) && 
         value.length>=8 && value.length<=16) ) {
@@ -39,11 +44,11 @@ export default function SignupForm(props){
         break;
       case 'pw2':
         if (!value) {setIsPw2Valid(null); return
-      } else if (value!==pw) {setIsPw2Valid('invalid'); return
-      } else {
-        setIsPw2Valid(null);
-      }
-        break;
+        } else if (value!==pw) {setIsPw2Valid('invalid'); return
+        } else {
+          setIsPw2Valid(null);
+        }
+        break
       default:
         break;
     }
@@ -55,8 +60,9 @@ export default function SignupForm(props){
     validate(e)
   }
   function handleNicknameChange(e){
-    setNickname(e.target.value)
     setIsNicknameValid(null)
+    setNickname(e.target.value)
+    validate(e)
   }
   function handlePwChange(e){
     setPw(e.target.value)
@@ -69,10 +75,11 @@ export default function SignupForm(props){
   }
   function verifyEmail(e){
     axios.get(BASE_URL+'users/exists/email', {params:{email:email}})
-    .then((res) => { console.log(res); res.status===200 && setIsEmailValid('사용가능')})
+    .then((res) => {res.status===200 && setIsEmailValid('사용가능')})
     .catch((err) => {console.log(err); setIsEmailValid('사용중');})
   }
   function verifyNickname(e){
+    if (nickname.length>10) return
     axios.get(BASE_URL+'users/exists/nickname', {params:{nickname:nickname}})
     .then((response) => response.status===200 && setIsNicknameValid('사용가능'))
     .catch(() => {setIsNicknameValid('사용중');})
@@ -86,10 +93,10 @@ export default function SignupForm(props){
     axios.get(BASE_URL+'users/verify', {params:{email:email}})
     .then((res) => {setCode(res.data.data)})
     .catch((err)=>console.log(err) )
-  
   }
     
   function checkCode(e){
+    if (code!==e.target.value) return
     axios.post(BASE_URL+'users',{nickname:nickname,email:email,name:'홍길동',password:pw})
     .then(res=>{alert('회원등록완료')
     setDialog('login')} )
@@ -128,7 +135,7 @@ export default function SignupForm(props){
           name='nickname'
           fullWidth
           onChange={handleNicknameChange}
-          error={isNicknameValid==='사용중입니다'}
+          error={isNicknameValid==='사용중입니다' || isNicknameValid==='10자 이내로 지어주세요'}
           helperText={isNicknameValid}
           InputProps={{
             endAdornment: <InputAdornment position="end">

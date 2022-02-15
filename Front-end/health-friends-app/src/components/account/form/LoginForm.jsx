@@ -29,13 +29,9 @@ export default function LoginForm(props){
     .catch((err)=>console.log(err))
     }
 
-  function renderResetForm(){
-    navigate('/')
-    setDialog('reset')
-  }
-
   return (
     <Grid 
+      maxWidth={500}
       container
       spacing={2}
       padding={2}
