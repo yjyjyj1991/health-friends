@@ -1,11 +1,13 @@
 import ResponsiveDatePickers from "components/common/CalenderTextField"
-import {Button, Grid, Box} from '@mui/material'
+import {Button, Grid, Box, Typography} from '@mui/material'
 import { useState,  } from "react"
 import axios from "axios"
 import BasicTable2 from "./BasicTable"
 import AppBar from '../../components/appbar/AppBar';
 import Footer from '../../components/Footer/Footer';
 import Rank from '../../components/room/Rank';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCrown } from "@fortawesome/free-solid-svg-icons";
 
 export default function Record(){
   const userInfo=JSON.parse(localStorage.getItem('user')).userInfo
@@ -31,8 +33,28 @@ export default function Record(){
     <div style={{display: 'flex', flexDirection:'column', minHeight:'100%', }}>
       <AppBar dialog={dialog} setDialog={setDialog} />
       <div className="container" style={{flex:'1'}}>
-        <Rank/>
-        <Grid container spacing={2} margintTop={3}>
+        <Grid container spacing={2} marginTop={5}>
+          <Grid item xs={12} lg={8} align="center">
+          <Box sx={{ border:1,borderRadius:1,borderColor:'#D3E4CD', marginBottom:'5rem', marginTop:'3rem', height:'12rem', width:{xs:300,sm:600}}}  >
+              <div style={{paddingTop:'1.5rem', display:'flex', flexDirection:'column', paddingLeft:'5rem'}}>
+                <Typography className="d-flex justify-content-start"  variant='h5'>당신의 점수는?</Typography>
+                <div className="d-flex justify-content-end">
+                <Button onClick={open} style={{width:'10rem', backgroundColor:'#ADC2A9', color:'white', weight:'bold', marginRight:'5rem' }}>점수 쌓으러가기</Button>
+                </div>
+              </div>
+            </Box>
+          </Grid>
+          <Grid item xs={12} lg={4}>
+          <div className='text-center'>
+            <h1 style={{ fontSize: '2.5rem', marginBottom:'1rem', fontWeight:'bold' }}><FontAwesomeIcon icon={faCrown}/> 연간 랭킹 Top 5</h1>
+          </div>
+            <Rank/>
+          </Grid>
+        </Grid>
+        <div className='text-center'>
+        <h1 style={{ fontSize: '3rem', marginTop:'4rem', marginBottom:'1rem', fontWeight:'bold' }}>나의 운동기록 검색하기</h1>
+      </div>
+        <Grid container spacing={2} margintTop={0} marginBottom={3}>
           <Grid item  xs={12} lg={3} marginTop={2}  align='center' >
             <ResponsiveDatePickers value={open} setValue={setOpen} which={'시작날짜'}/>
             <br />

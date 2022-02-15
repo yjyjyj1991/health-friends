@@ -29,7 +29,7 @@ const RoomMain = () => {
           {/* <AppBar /> */}
           <AppBar dialog={dialog} setDialog={setDialog} />
           <div className='top' style={{ flex: '1', }}>
-              <Rank></Rank>
+              {/* <Rank></Rank> */}
             <div style={{ flex: '1', display: 'flex', justifyContent:'center', margin:'5rem' }}>
               <Button size='large' style={{ fontSize:'15px', backgroundColor:'#ADC2A9', color:'white', '&:hover':{backgroundColor:'#D3E4CD',}}} onClick={() => { setOpen(true) }} >방 생성하기</Button>
               <RoomCreate open={open} setOpen={setOpen} setRoomId={setRoomId} roomId={roomId} />

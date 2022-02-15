@@ -37,7 +37,7 @@ class Rank extends Component {
          this.setState({
            rows : data.data
          })
-         console.log(this.userInfo);
+         console.log('point', this.userInfo);
       })
       .catch((Error)=>{
          console.warn(Error);
@@ -45,22 +45,23 @@ class Rank extends Component {
   };
   render() {
   return (
+        
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 250 }} aria-label="simple table">
           <TableHead>
-            <TableRow sx={{backgroundColor:"beige", fontSize: "20"}}>
-              <TableCell align="center">유저</TableCell>
-              <TableCell align="center">점수</TableCell>
+            <TableRow sx={{backgroundColor:"#D3E4CD", }}>
+              <TableCell sx={{fontSize:{sx:'1rem',md:'1.5rem'}, fontWeight: 'bold'}} align="center">유저</TableCell>
+              <TableCell sx={{fontSize:{sx:'1rem',md:'1.5rem'}, fontWeight: 'bold'}} align="center">점수</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {this.state.rows.map((row) => (
               <TableRow
                 key={row.title}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 }, backgroundColor: "#FEF5ED", fontSize:"20"}}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 }, backgroundColor: "white", }}
               >
-                <TableCell align="center">{row.nickname} </TableCell>
-                <TableCell align="center">{row.point}</TableCell>
+                <TableCell sx={{fontSize:{sx:'0.5rem',md:'1.2rem'}, fontWeight: 'bold'}} align="center">{row.nickname} </TableCell>
+                <TableCell sx={{fontSize:{sx:'0.5rem',md:'1.2rem'}, fontWeight: 'bold'}} align="center">{row.point}</TableCell>
               </TableRow>
             ))}
           </TableBody>
