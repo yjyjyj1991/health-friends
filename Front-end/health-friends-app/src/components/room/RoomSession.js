@@ -201,17 +201,14 @@ class RoomSession extends Component {
 
   sendMessage() {
     if (this.state.session) {
-      this.state.session.signal(
-        {
-          data: 'start',
-          to: []
-        }).
-        then(() => {
-          console.log("SEND MESSAGE");
-        }).
-        catch((err) => {
-          console.error(err);
-        })
+      this.state.session.signal({
+        data: 'start',
+        to: []
+      }).then(() => {
+        console.log("SEND MESSAGE");
+      }).catch((err) => {
+        console.error(err);
+      })
     }
   }
 
