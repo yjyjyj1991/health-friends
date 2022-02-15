@@ -93,7 +93,7 @@ class RoomSession extends Component {
   savePoint(point) {
     console.log(this.state.sessionInfo.type);
     axios.post(
-      'https://i6d204.p.ssafy.io/api/' + 'point',
+      BASE_URL + 'point',
       {
         point: point,
         reason: this.state.sessionInfo.type,
@@ -185,7 +185,7 @@ class RoomSession extends Component {
   }
   getYoutubeId() {
     axios
-      .get('https://i6d204.p.ssafy.io/api/youtube', { params: { typeId: this.state.sessionInfo.typeId } })
+      .get(BASE_URL + 'youtube', { params: { typeId: this.state.sessionInfo.typeId } })
       .then(({ data }) => {
         this.setState({
           youTubeId: data.data[0].youtubeId,
