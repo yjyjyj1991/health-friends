@@ -20,11 +20,6 @@ import { styled } from '@mui/material/styles';
 import './RoomSession.css';
 import YoutubeVideo from './YoutubeVideo';
 
-const tmPose = window.tmPose;
-let model, webcam, ctx, labelContainer, maxPredictions;
-var status = "stand"
-var count = 0;
-
 const GoTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
@@ -37,10 +32,11 @@ const GoTooltip = styled(({ className, ...props }) => (
 }));
 
 class RoomSession extends Component {
-
   constructor(props) {
     super(props);
     this.userInfo = JSON.parse(localStorage.getItem('user'))['userInfo'];
+    this.videoRef = React.createRef();
+
     this.state = {
       sessionInfo: undefined,
       myUserName: this.userInfo['nickname'],
@@ -49,10 +45,11 @@ class RoomSession extends Component {
       publisher: undefined,
       subscribers: [],
       componentWillUnmountable: true,
-      youTubeId : undefined,
+      youTubeId: undefined
     };
 
     this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
+    this.savePoint = this.savePoint.bind(this);
   }
   mute() {
     this.state.publisher.publishAudio(false);   // true to unmute the audio track, false to mute it
@@ -91,6 +88,22 @@ class RoomSession extends Component {
       .catch(error => {
         console.error(error);
       });
+  }
+
+  savePoint(point) {
+    console.log(this.state.sessionInfo.type);
+    axios.post(
+      'https://i6d204.p.ssafy.io/api/' + 'point',
+      {
+        point: point,
+        reason: this.state.sessionInfo.type,
+        userId: this.userInfo.id
+      }
+    ).then((res) => {
+      console.log(res);
+    }).catch((err) => {
+      console.error(err);
+    })
   }
 
   componentDidMount() {
@@ -144,7 +157,6 @@ class RoomSession extends Component {
       session.disconnect();
     }
 
-    // Empty all properties...
     this.OV = null;
     if (this.state.sessionInfo !== undefined && this.state.sessionInfo['closeTime'] === null) {
       axios.post(
@@ -158,31 +170,53 @@ class RoomSession extends Component {
         resetRoomId(this.props);
         this.setState({
           sessionInfo: undefined,
-          session: undefined,
-          subscribers: [],
           myUserName: undefined,
+          session: undefined,
           mainStreamManager: undefined,
-          publisher: undefined
+          publisher: undefined,
+          subscribers: [],
+          componentWillUnmountable: true,
+          youTubeId: undefined
         });
       }).catch((err) => {
         console.warn(err);
       });
     }
   }
-  getYoutubeId(){
+  getYoutubeId() {
     axios
-      .get('https://i6d204.p.ssafy.io/api/youtube',{params:{typeId:this.state.sessionInfo.typeId}})
-      .then(({data})=>{
-         this.setState({
-           youTubeId : data.data[0].youtubeId,
-         })
-         console.warn(data.data[0].youTubeId);
-         console.warn(data.data);
+      .get('https://i6d204.p.ssafy.io/api/youtube', { params: { typeId: this.state.sessionInfo.typeId } })
+      .then(({ data }) => {
+        this.setState({
+          youTubeId: data.data[0].youtubeId,
+        })
+        console.warn(data.data[0].youTubeId);
+        console.warn(data.data);
 
       })
-      .catch((Error)=>{
-         console.warn(Error);
+      .catch((Error) => {
+        console.warn(Error);
       })
+  }
+
+  sendMessage() {
+    if (this.state.session) {
+      this.state.session.signal(
+        {
+          data: 'start',
+          to: []
+        }).
+        then(() => {
+          console.log("SEND MESSAGE");
+        }).
+        catch((err) => {
+          console.error(err);
+        })
+    }
+  }
+
+  doPlay() {
+    this.videoRef.current.play();
   }
 
   connectSession() {
@@ -194,12 +228,15 @@ class RoomSession extends Component {
       () => {
         var session = this.state.session;
 
-
         session.on('signal', (event) => {
-          document.getElementById("show").value += event.data;
-          console.log(event.data); // Message
-          console.log(event.from); // Connection object of the sender
-          console.log(event.type); // The type of message
+          if (event.data === 'start') {
+            this.doPlay();
+          } else {
+            //document.getElementById("show").value += event.data;
+            console.log(event.data); // Message
+            console.log(event.from); // Connection object of the sender
+            console.log(event.type); // The type of message
+          }
         });
 
         session.on('streamCreated', (event) => {
@@ -233,21 +270,18 @@ class RoomSession extends Component {
 
             console.log("#", videoDevices);
             let publisher = this.OV.initPublisher(undefined, {
-              audioSource: undefined, // The source of audio. If undefined default microphone
-              videoSource: videoDevices[0].deviceId, // The source of video. If undefined default webcam
-              publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
-              publishVideo: true, // Whether you want to start publishing with your video enabled or not
-              resolution: '640x480', // The resolution of your video
-              frameRate: 30, // The frame rate of your video
-              insertMode: 'APPEND', // How the video is inserted in the target element 'video-container'
-              mirror: false, // Whether to mirror your local video or not
+              audioSource: undefined,
+              videoSource: videoDevices[0].deviceId,
+              publishAudio: true,
+              publishVideo: true,
+              resolution: '640x480',
+              frameRate: 30,
+              insertMode: 'APPEND',
+              mirror: false,
             });
-            console.log("#####");
-            // --- 6) Publish your stream ---
 
             session.publish(publisher);
 
-            // Set the main video in the page to display our webcam and store our Publisher
             this.setState({
               currentVideoDevice: videoDevices[0],
               mainStreamManager: publisher,
@@ -262,6 +296,7 @@ class RoomSession extends Component {
   }
 
   render() {
+
     return (
       <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100%' }}>
 
@@ -274,30 +309,25 @@ class RoomSession extends Component {
                     <Card sx={{ minWidth: 250, width: { sm: 500, md: 700 }, height: { sm: 350, md: 525 }, border: 'none' }}>
                       <div>
                         {
-                          this.state.youTubeId !== undefined ? 
-                          <YoutubeVideo youTubeId = {this.state.youTubeId} /> : null
+                          this.state.youTubeId !== undefined ?
+                            <YoutubeVideo youTubeId={this.state.youTubeId} savePoint={this.savePoint} ref={this.videoRef} /> : null
                         }
-                        </div>
+                      </div>
                     </Card>
                   </div>
                   <div className="col-md-2"> {this.state.subscribers.length + 1} 명 참가</div>
                   {this.state.publisher !== undefined ? (
-                    // <div className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
-                    // <div className="stream-container col-md-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
                     <div className="col-md-5 d-flex justify-content-center" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
                       <Card variant="outlined" sx={{ minWidth: 250, width: { sm: 500, md: 700 }, height: { sm: 350, md: 525 } }}>
-                        
+
                         <UserVideoComponent streamManager={this.state.publisher} />
                       </Card>
                     </div>
-                ) : null}
+                  ) : null}
                 </div>
-                {/* <div className="d-flex flex-wrap" style={{display: 'flex', flexDirection:'row'}} > */}
                 <div className="d-flex flex-wrap">
                   {this.state.subscribers.map((sub, i) => (
                     <div key={i} className="stream-container col-md-3 col-xs-6" style={{ display: 'flex', flexDirection: 'row' }} onClick={() => this.handleMainVideoStream(sub)}>
-                      {/* //  <div key={i} className="stream-container d-flex"  onClick={() => this.handleMainVideoStream(sub)}> */}
-                      {/* <Card sx={{ minWidth:300, width:400, minHeight:200, height: 350 }}> */}
                       <Card sx={{ width: { sm: 250, md: 300 }, height: { sm: 200, md: 250 } }}>
                         <CardContent>
                           <Typography variant="h5" >
@@ -315,6 +345,9 @@ class RoomSession extends Component {
         </div>
         <div style={{ backgroundColor: '#D3E4CD', height: '10rem' }} className="row align-items-center justify-content-center">
           <Box sx={{ width: 600 }}>
+            <Button style={{ backgroundColor: 'white', marginRight: '1rem' }} onClick={() => { this.sendMessage() }}>
+              시작
+            </Button>
             <Button id="mute" style={{ backgroundColor: 'white', marginRight: '1rem' }} onClick={() => { this.mute(); }}>
               <FontAwesomeIcon icon={faMicrophone} size="3x" /> &nbsp; 음소거
             </Button>
@@ -327,7 +360,7 @@ class RoomSession extends Component {
             <Button id="unscreenmute" style={{ backgroundColor: 'white', marginRight: '1rem', display: 'none' }} onClick={() => { this.UnscreenMute(); }}>
               <FontAwesomeIcon icon={faVideoSlash} size="3x" /> &nbsp;비디오 시작
             </Button>
-          
+
             <GoTooltip title="채팅" placement="top" style={{ color: 'red' }} onClick={() => { this.chat(); }}>
               <Button style={{ backgroundColor: 'white', marginRight: '1rem' }}>
                 <FontAwesomeIcon icon={faComments} size="3x" />
@@ -341,28 +374,16 @@ class RoomSession extends Component {
                 <FontAwesomeIcon icon={faDoorOpen} size="3x" />
               </Button>
             </GoTooltip>
-            {/* <Button style={{backgroundColor:'white', marginRight:'1rem'}} onClick={() =>{this.lunge_init();}}>
-              <FontAwesomeIcon icon={faMicrophone} size="3x" /> &nbsp; 런지
-            </Button>
-            <Button style={{backgroundColor:'white', marginRight:'1rem'}} onClick={() =>{this.squat_init();}}>
-              <FontAwesomeIcon icon={faMicrophone} size="3x" /> &nbsp; 스쿼트
-            </Button>
-            <Button style={{backgroundColor:'white', marginRight:'1rem'}} onClick={() =>{this.pushup_init();}}>
-              <FontAwesomeIcon icon={faMicrophone} size="3x" /> &nbsp; 푸쉬업
-            </Button> */}
-         </Box>
-         <div><canvas style={{visibility: "visible"}} id="canvas"></canvas></div> 
+          </Box>
+          <div><canvas style={{ visibility: "visible" }} id="canvas"></canvas></div>
           <div id="label-container"></div>
         </div>
 
       </div>
-      
+
     );
   };
 }
-
-
-
 
 function resetRoomId(props) {
   props.setRoomId(null);
