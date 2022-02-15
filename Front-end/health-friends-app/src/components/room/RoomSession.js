@@ -242,33 +242,7 @@ class RoomSession extends Component {
           }
       }
 
-      async plank_init() {
-        const modelURL = "./plank_model/" + "model.json";
-        const metadataURL = "./plank_model/" + "metadata.json";
 
-        // load the model and metadata
-        // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
-        // Note: the pose library adds a tmPose object to your window (window.tmPose)
-        model = await tmPose.load(modelURL, metadataURL);
-        maxPredictions = model.getTotalClasses();
-
-        // Convenience function to setup a webcam
-        const size = 200;
-        const flip = true; // whether to flip the webcam
-        webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
-        await webcam.setup(); // request access to the webcam
-        await webcam.play();
-        window.requestAnimationFrame(loop);
-
-        // append/get elements to the DOM
-        const canvas = document.getElementById("canvas");
-        canvas.width = size; canvas.height = size;
-        ctx = canvas.getContext("2d");
-        labelContainer = document.getElementById("label-container");
-        for (let i = 0; i < maxPredictions; i++) { // and class labels
-            labelContainer.appendChild(document.createElement("div"));
-        }
-    }
     async pushup_init() {
       const modelURL = "./pushup_model/" + "model.json";
       const metadataURL = "./pushup_model/" + "metadata.json";
@@ -392,7 +366,7 @@ class RoomSession extends Component {
                         component="iframe"
                         alt="green iguana"
                         sx={{ width: { sm: 500, md: 700 }, height: { sm: 250, md: 525 } }}
-                        src="https://www.youtube.com/embed/QpSAMoEm0fc?start=36"
+                        src="https://www.youtube.com/embed/QpSAMoEm0fc?start=36&end=46"
                       />
                       {/* <iframe width="560" height="315" src="https://www.youtube.com/embed/QpSAMoEm0fc?start=36" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> */}
                       {/* <CardContent>
@@ -449,23 +423,7 @@ class RoomSession extends Component {
             <Button id="unscreenmute" style={{ backgroundColor: 'white', marginRight: '1rem', display: 'none' }} onClick={() => { this.UnscreenMute(); }}>
               <FontAwesomeIcon icon={faVideoSlash} size="3x" /> &nbsp;비디오 시작
             </Button>
-          {/* </div>
-        ) : null}
-      </div>
-        <div style={{backgroundColor:'#D3E4CD', height:'10rem'}} className="container-fluid m-0 p-0 row align-items-center justify-content-center">
-          <Box sx={{width: 600 }} className="d-flex justify-content-evenly"  >
-            <Button id="mute" style={{backgroundColor:'white', marginRight:'1rem', width:'15rem', height:'5rem', fontSize:'1.5rem', fontWeight:'bold'}} onClick={() =>{this.mute();}}>
-              <FontAwesomeIcon icon={faMicrophone} size="2x" /> &nbsp; 음소거
-            </Button>
-            <Button id="unmute" style={{backgroundColor:'white', marginRight:'1rem', display:'none', width:'15rem', height:'5rem', fontSize:'1.5rem', fontWeight:'bold'}} onClick={() =>{this.Unmute();}}>
-              <FontAwesomeIcon icon={faMicrophoneSlash} size="2x" />&nbsp;음소거 해제
-            </Button>
-            <Button id="screenmute" style={{backgroundColor:'white', marginRight:'1rem', width:'15rem', height:'5rem', fontSize:'1.5rem', fontWeight:'bold'}} onClick={() =>{this.screenMute();}}>
-              <FontAwesomeIcon icon={faVideo} size="2x" /> &nbsp;비디오 중지
-            </Button>
-            <Button id="unscreenmute" style={{backgroundColor:'white', marginRight:'1rem', display: 'none', width:'15rem', height:'5rem', fontSize:'1.5rem', fontWeight:'bold'}} onClick={() =>{this.UnscreenMute();}}>
-              <FontAwesomeIcon icon={faVideoSlash} size="2x" /> &nbsp;비디오 시작
-            </Button> */}
+          
             <GoTooltip title="채팅" placement="top" style={{ color: 'red' }} onClick={() => { this.chat(); }}>
               <Button style={{ backgroundColor: 'white', marginRight: '1rem' }}>
                 <FontAwesomeIcon icon={faComments} size="3x" />
@@ -484,9 +442,6 @@ class RoomSession extends Component {
             </Button>
             <Button style={{backgroundColor:'white', marginRight:'1rem'}} onClick={() =>{this.squat_init();}}>
               <FontAwesomeIcon icon={faMicrophone} size="3x" /> &nbsp; 스쿼트
-            </Button>
-            <Button style={{backgroundColor:'white', marginRight:'1rem'}} onClick={() =>{this.plank_init();}}>
-              <FontAwesomeIcon icon={faMicrophone} size="3x" /> &nbsp; 플랭크
             </Button>
             <Button style={{backgroundColor:'white', marginRight:'1rem'}} onClick={() =>{this.pushup_init();}}>
               <FontAwesomeIcon icon={faMicrophone} size="3x" /> &nbsp; 푸쉬업
@@ -536,7 +491,7 @@ async function predict() {
   if(prediction[0].probability.toFixed(2) >= 1.00){
       status = "lunge"
   } else if(prediction[1].probability.toFixed(2) >= 1.00){
-      if(status == "lunge"){
+      if(status === "lunge"){
           count++;
           console.log(count);
           //document.write('횟수 :' + count + '<br>');
