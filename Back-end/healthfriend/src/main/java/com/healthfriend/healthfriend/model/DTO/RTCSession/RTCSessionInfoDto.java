@@ -14,4 +14,5 @@ public class RTCSessionInfoDto {
   private Integer limitUser;
   private Integer userCount;
   private String closeTime;
+  private String type;
 }
