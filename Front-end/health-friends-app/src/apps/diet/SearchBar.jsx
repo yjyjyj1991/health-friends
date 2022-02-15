@@ -36,9 +36,10 @@ export default function SearchBar(props){
     <FormControlLabel 
       control={<Checkbox checked={checked} onChange={handleChange}/>} 
       label={label} 
-      sx={{marginBottom:2, marginLeft:2}}  
+      sx={{marginBottom:2, marginLeft:2,}}  
     />
     <TextField
+      
       component='form'
       onSubmit={search}
       required
@@ -46,8 +47,8 @@ export default function SearchBar(props){
       name='word'
       fullWidth
       InputProps={{
-        endAdornment: <InputAdornment position="end">
-          <Button sx ={{backgroundColor:'#ADC2A9',color:'white', '&:hover':{backgroundColor:'#D3E4CD'}}} type='submit'>검색</Button>
+        endAdornment: <InputAdornment  position="end">
+          <Button style ={{backgroundColor:'#ADC2A9',color:'white', '&:hover':{backgroundColor:'#D3E4CD'}}} type='submit'>검색</Button>
           </InputAdornment>
     }}
     />

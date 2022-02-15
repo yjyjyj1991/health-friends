@@ -12,13 +12,13 @@ export default function BasicTable2(props) {
   const {records}=props
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650, backgroundColor:'lightseagreen'}} aria-label="simple table">
+      <Table style={{  backgroundColor:'#white', borderColr:'#99A799'}} aria-label="simple table">
         <TableHead>
-          <TableRow sx={{backgroundColor:'seagreen'}}>
-            <TableCell sx={{fontSize:20}}>종목</TableCell>
-            <TableCell sx={{fontSize:20}}>시작시각</TableCell>
-            <TableCell sx={{fontSize:20}}>종료시각</TableCell>
-            <TableCell sx={{fontSize:20}}>운동시간</TableCell>
+          <TableRow style={{backgroundColor:'#ADC2A9',}}>
+            <TableCell sx={{fontSize:{sx:'1rem',md:'2rem'}, fontWeight: 'bold', textAlign: 'center' }}>종목</TableCell>
+            <TableCell sx={{fontSize:{sx:'1rem',md:'2rem'},fontWeight: 'bold',  textAlign: 'center'}}>시작시각</TableCell>
+            <TableCell sx={{fontSize:{sx:'1rem',md:'2rem'},fontWeight: 'bold', textAlign: 'center'}}>종료시각</TableCell>
+            <TableCell sx={{fontSize:{sx:'1rem',md:'2rem'},fontWeight: 'bold', textAlign: 'center'}}>운동시간</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -27,12 +27,12 @@ export default function BasicTable2(props) {
               key={record.openTime}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
+              <TableCell component="th" scope="row" sx={{fontSize:{sx:'0.5rem',md:'1.5rem'}, fontWeight: 'bold', textAlign: 'center' }}> 
                 {record.type}
               </TableCell>
-              <TableCell >{record.openTime}</TableCell>
-              <TableCell >{record.closeTime}</TableCell>
-              <TableCell >{Math.round((Date.parse(record.closeTime)-Date.parse(record.openTime))/3600000)}</TableCell>
+              <TableCell sx={{fontSize:{sx:'0.5rem',md:'1.5rem'}, fontWeight: 'bold', textAlign: 'center' }}>{record.openTime}</TableCell>
+              <TableCell sx={{fontSize:{sx:'0.5rem',md:'1.5rem'}, fontWeight: 'bold', textAlign: 'center' }}>{record.closeTime}</TableCell>
+              <TableCell sx={{fontSize:{sx:'0.5rem',md:'1.5rem'}, fontWeight: 'bold', textAlign: 'center' }}>{Math.round((Date.parse(record.closeTime)-Date.parse(record.openTime))/3600000)}</TableCell>
             </TableRow>
           ))}
         </TableBody>
