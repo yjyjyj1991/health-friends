@@ -18,7 +18,7 @@ export default function SearchResult(props) {
   }
   function addToList(e){
     e.preventDefault()
-    if (date.getDate()!==new Date().getDate()){alert('오늘의 식단만 삭제할 수 있습니다.'); return}
+    if (date.getDate()!==new Date().getDate()){alert('오늘의 식단만 추가할 수 있습니다.'); return}
     const data = new FormData(e.currentTarget);
     const servingSize = parseInt(data.get('servingSize'))
     const data1={

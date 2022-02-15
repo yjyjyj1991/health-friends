@@ -18,12 +18,12 @@ export default function FormDialog(props) {
   };
 
   const handleClose = () => {
-    navigate('/')
+    // navigate('/')
     setDialog(false);
   };
 
   function forgotPw(){
-    navigate('/')
+    // navigate('/')
     setDialog('reset')
   }
 

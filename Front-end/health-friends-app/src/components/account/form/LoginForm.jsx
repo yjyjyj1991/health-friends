@@ -40,6 +40,7 @@ export default function LoginForm(props){
       spacing={2}
       padding={2}
       component='form' onSubmit={handleSubmit}
+      sx={{ maxWidth: 'sm' }}
     > 
       <Grid item xs={12}><Typography align="center" variant="h2">로그인</Typography></Grid>
       <Grid item xs={12}>

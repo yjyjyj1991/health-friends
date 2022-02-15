@@ -36,8 +36,8 @@ function App() {
         <Route path="/" element={<Main setDialog={setDialog}/>} />
         <Route path="/rooms" element={<RoomMain />}/>
         <Route path="/boards" element={<Board />} />
-        <Route path="/record" element={<RequireAuth setDialog={setDialog}><Record /></RequireAuth>} />
-        <Route path="/diet" element={<RequireAuth setDialog={setDialog}><Diet/></RequireAuth>} />
+        <Route path="/record" element={<RequireAuth><Record /></RequireAuth>} />
+        <Route path="/diet" element={<RequireAuth><Diet/></RequireAuth>} />
       </Routes>    
     </Suspense>
     {/* <Footer/> */}
