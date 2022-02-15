@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PointResponseDto {
-  Integer userId;
+  String nickname;
   Integer point;
 }
