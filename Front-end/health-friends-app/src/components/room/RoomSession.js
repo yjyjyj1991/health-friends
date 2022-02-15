@@ -185,7 +185,9 @@ class RoomSession extends Component {
         // the link to your model provided by Teachable Machine export panel
     
         async lunge_init() {
+            // eslint-disable-next-line no-useless-concat
             const modelURL = "./lunge_model/" + "model.json";
+            // eslint-disable-next-line no-useless-concat
             const metadataURL = "./lunge_model/" + "metadata.json";
             var ifrm = document.getElementById("Utube");
             ifrm.src = ""
@@ -214,7 +216,9 @@ class RoomSession extends Component {
         }
     
         async squat_init() {
+          // eslint-disable-next-line no-useless-concat
           const modelURL = "./squat_model/" + "model.json";
+          // eslint-disable-next-line no-useless-concat
           const metadataURL = "./squat_model/" + "metadata.json";
           var ifrm = document.getElementById("Utube");
           ifrm.src = "https://www.youtube.com/embed/QpSAMoEm0fc?start=36"
@@ -244,7 +248,9 @@ class RoomSession extends Component {
 
 
     async pushup_init() {
+      // eslint-disable-next-line no-useless-concat
       const modelURL = "./pushup_model/" + "model.json";
+      // eslint-disable-next-line no-useless-concat
       const metadataURL = "./pushup_model/" + "metadata.json";
       var ifrm = document.getElementById("Utube");
       ifrm.src = "https://www.youtube.com/embed/DP8LBgo9l2Q"
