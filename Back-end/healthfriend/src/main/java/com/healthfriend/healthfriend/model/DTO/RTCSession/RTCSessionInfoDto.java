@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class RTCSessionInfoDto {
   private int id;
+  private int typeId;
   private String nickname;
   private String sessionName;
   private String token = null;
