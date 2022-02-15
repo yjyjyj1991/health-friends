@@ -59,7 +59,7 @@ const ResponsiveAppBar = (props) => {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor:'#D3E4CD', boxShadow:'none', paddingBottom:'1rem', paddingTop:'1rem'}}>
+    <div position="static" style={{ backgroundColor:'#D3E4CD', boxShadow:'none', paddingBottom:'1rem', paddingTop:'1rem'}}>
       <Container maxWidth="lg" sx={{backgroundColor:'#D3E4CD'}}>
         <Toolbar disableGutters>
           <Typography
@@ -225,7 +225,7 @@ const ResponsiveAppBar = (props) => {
         </Toolbar>
       </Container>
       <FormDialog setDialog={setDialog} dialog={dialog} />
-    </AppBar>
+    </div>
   );
 };
 export default ResponsiveAppBar;

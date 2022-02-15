@@ -13,6 +13,8 @@ import Footer from '../../components/Footer/Footer';
 export default function Diet(){
   const userInfo = JSON.parse(localStorage.getItem('user')).userInfo
   const userId = userInfo.id
+  // console.log(userInfo.purpose)
+  const [dietDialog,setDietDialog]=useState(false)
   const [dialog,setDialog]=useState(false)
   const [list,setList]=useState([])
   const [date,setDate]=useState(new Date())
@@ -59,10 +61,10 @@ export default function Diet(){
   }
 
   function open(){
-    setDialog(true)
+    setDietDialog(true)
   }
   function close(){
-    setDialog(false)
+    setDietDialog(false)
   }
 
 
@@ -70,7 +72,7 @@ export default function Diet(){
     <div style={{display: 'flex', flexDirection:'column', minHeight:'100%', }}>
       <AppBar dialog={dialog} setDialog={setDialog} />
       <div className='d-flex justify-content-center' style={{justifyItems:'center', flex:'1', padding:0, marginLeft: 45, marginRight:45}}>
-        <div sx={{paddingLeft:0}} marginY={3}>
+        <div style={{paddingLeft:0}} >
           <div align='center'>
             <Box sx={{borderRadius:1,backgroundColor:'#D3E4CD', marginBottom:'5rem', marginTop:'3rem', height:'12rem', width:{xs:300,sm:600}}}  >
               {userInfo.purpose && <div style={{paddingTop:'1.5rem', display:'flex', flexDirection:'column', paddingLeft:'5rem'}}>
@@ -81,13 +83,13 @@ export default function Diet(){
                 <Typography className="d-flex justify-content-start" variant='h5'>당신의 활동지수는 {userInfo.activePoint}입니다.</Typography>
                 <Typography className="d-flex justify-content-start" variant='h5'>현재 몸무게는 {userInfo.weight}kg입니다.</Typography>
                 <div className="d-flex justify-content-end">
-                <Button onClick={open} sx={{width:'10rem', backgroundColor:'#ADC2A9', color:'white', weight:'bold', marginRight:'5rem' }}>다시 설정하기</Button>
+                <Button onClick={open} style={{width:'10rem', backgroundColor:'#ADC2A9', color:'white', weight:'bold', marginRight:'5rem' }}>다시 설정하기</Button>
                 </div>
               </div>}
               {!userInfo.purpose && <div style={{display:'flex', flexDirection:'column',}}>
-                <Typography variant='h3'sx={{weight:'bold', color:'black', padding:'1.5rem' }}>당신의 목표는?</Typography>
+                <Typography variant='h3'style={{weight:'bold', color:'black', padding:'1.5rem' }}>당신의 목표는?</Typography>
                 <div className="d-flex justify-content-center">
-                <Button onClick={open} sx={{width:'10rem', backgroundColor:'#ADC2A9', color:'white', weight:'bold', }}>목표 설정하기</Button>
+                <Button onClick={open} style={{width:'10rem', backgroundColor:'#ADC2A9', color:'white', weight:'bold' }}>목표 설정하기</Button>
                 </div>
                 </div>}
             </Box>
@@ -123,7 +125,7 @@ export default function Diet(){
 
           </Grid>
         </div>
-        <DietDialog close={close} dialog={dialog} />
+        <DietDialog close={close} dialog={dietDialog} />
 
       </div>
       <Footer/>
