@@ -24,15 +24,15 @@ export default function BasicTable2(props) {
         <TableBody>
           {records.map((record) => (
             <TableRow
-              key={record.openTime}
+              key={record.startTime}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row" sx={{fontSize:{sx:'0.5rem',md:'1.5rem'}, fontWeight: 'bold', textAlign: 'center' }}> 
-                {record.type}
+                {record.reason}
               </TableCell>
-              <TableCell sx={{fontSize:{sx:'0.5rem',md:'1.5rem'}, fontWeight: 'bold', textAlign: 'center' }}>{record.openTime}</TableCell>
-              <TableCell sx={{fontSize:{sx:'0.5rem',md:'1.5rem'}, fontWeight: 'bold', textAlign: 'center' }}>{record.closeTime}</TableCell>
-              <TableCell sx={{fontSize:{sx:'0.5rem',md:'1.5rem'}, fontWeight: 'bold', textAlign: 'center' }}>{Math.round((Date.parse(record.closeTime)-Date.parse(record.openTime))/3600000)}</TableCell>
+              <TableCell sx={{fontSize:{sx:'0.5rem',md:'1.5rem'}, fontWeight: 'bold', textAlign: 'center' }}>{record.startTime}</TableCell>
+              <TableCell sx={{fontSize:{sx:'0.5rem',md:'1.5rem'}, fontWeight: 'bold', textAlign: 'center' }}>{record.endTime}</TableCell>
+              <TableCell sx={{fontSize:{sx:'0.5rem',md:'1.5rem'}, fontWeight: 'bold', textAlign: 'center' }}>{record.timeGap}</TableCell>
             </TableRow>
           ))}
         </TableBody>
