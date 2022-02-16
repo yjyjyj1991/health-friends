@@ -245,9 +245,9 @@ class RoomSession extends Component {
         session.on('signal', (event) => {
           if (event.data === 'start') {
             this.doPlay();
-          } else if (event.date === 'pause') {
+          } else if (event.data === 'pause') {
             this.doPause();
-          } else if (event.date === 'stop') {
+          } else if (event.data === 'stop') {
             this.doStop();
           }
           else {
