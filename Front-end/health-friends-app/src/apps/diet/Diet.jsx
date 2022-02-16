@@ -75,7 +75,7 @@ export default function Diet(){
         <div style={{paddingLeft:0}} >
           <div align='center'>
             <Box sx={{borderRadius:1,backgroundColor:'#D3E4CD', marginBottom:'5rem', marginTop:'3rem', height:'12rem', width:{xs:300,sm:600}}}  >
-              {userInfo.purpose && <div style={{paddingTop:'1.5rem', display:'flex', flexDirection:'column', paddingLeft:'5rem'}}>
+              {userInfo.purposeId && <div style={{paddingTop:'1.5rem', display:'flex', flexDirection:'column', paddingLeft:'5rem'}}>
                 {/* <Typography className="d-flex justify-content-start" variant='h4'>당신의</Typography> */}
                 {userInfo.purposeId===1&&<Typography className="d-flex justify-content-start"  variant='h5'>목표는 유지입니다.</Typography>}
                 {userInfo.purposeId===2&&<Typography className="d-flex justify-content-start" variant='h5'>목표는 다이어트입니다.</Typography>}
@@ -86,7 +86,7 @@ export default function Diet(){
                 <Button onClick={open} style={{width:'10rem', backgroundColor:'#ADC2A9', color:'white', weight:'bold', marginRight:'5rem' }}>다시 설정하기</Button>
                 </div>
               </div>}
-              {!userInfo.purpose && <div style={{display:'flex', flexDirection:'column',}}>
+              {!userInfo.purposeId && <div style={{display:'flex', flexDirection:'column',}}>
                 <Typography variant='h3'style={{weight:'bold', color:'black', padding:'1.5rem' }}>당신의 목표는?</Typography>
                 <div className="d-flex justify-content-center">
                 <Button onClick={open} style={{width:'10rem', backgroundColor:'#ADC2A9', color:'white', weight:'bold' }}>목표 설정하기</Button>
