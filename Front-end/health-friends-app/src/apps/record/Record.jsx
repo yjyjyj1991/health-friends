@@ -30,7 +30,7 @@ export default function Record(){
   function getRecord(){
     const params={
       startTime:`${open.getFullYear()}-${open.getMonth()+1}-${open.getDate()}`,
-      endTime:`${close.getFullYear()}-${close.getMonth()+1}-${close.getDate()}`,
+      endTime:`${close.getFullYear()}-${close.getMonth()+1}-${close.getDate()+1}`,
       userId:userInfo.id,
     }
     axios.get(BASE_URL+'exercise',{params:params})
