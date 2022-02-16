@@ -55,15 +55,15 @@ const Main = (props) => {
                               </div>
                           </div>
                           <div className="col-sm-6">
-                              <div className="single_service_right">
+                              <div className="single_service_right" style={{marginTop:'5rem'}}>
                                   <div className="single_service">
                                       <div className="single_service_icon">
                                           <i className="lnr lnr-laptop-phone"></i>
                                       </div>
                                       <div className="single_service_content">
-                                          <h3>Web Design</h3>
-                                          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod 
-                                              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, </p>
+                                          <h3>나만을 위한 카운트</h3>
+                                          <p>모션 트래킹을 이용해 올바른 자세를 취했을 경우 운동 카운트를 해줍니다. <br/>
+                                            카운트는 헬스프렌즈에게 맡겨주세요! </p>
                                       </div>
                                   </div>
                                   <div className="single_service">
@@ -71,9 +71,9 @@ const Main = (props) => {
                                           <i className="lnr lnr-screen"></i>
                                       </div>
                                       <div className="single_service_content">
-                                          <h3>UI/UX Design</h3>
-                                          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod 
-                                              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, </p>
+                                          <h3>그날의 나의 운동기록</h3>
+                                          <p>다이어리에 기록을 멈추세요! <br/>
+                                          어떤 운동을 얼마나 하였는지 헬스 프렌즈가 알려드립니다. </p>
                                       </div>
                                   </div>
                                   <div className="single_service">
@@ -81,12 +81,12 @@ const Main = (props) => {
                                           <i className="lnr lnr-picture"></i>
                                       </div>
                                       <div className="single_service_content">
-                                          <h3>Photography</h3>
-                                          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod 
-                                              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, </p>
+                                          <h3>나의 식단 관리</h3>
+                                          <p>관리를 위해 섭취해야할 영양소가 궁금하신가요?? <br/>
+                                          헬스 프렌즈에선 목표에 맞게 필요한 칼로리를 알려드립니다.  </p>
                                       </div>
                                   </div>
-                                  <div className="single_service">
+                                  {/* <div className="single_service">
                                       <div className="single_service_icon">
                                           <i className="lnr lnr-laptop-phone"></i>
                                       </div>
@@ -95,7 +95,7 @@ const Main = (props) => {
                                           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod 
                                               tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, </p>
                                       </div>
-                                  </div>
+                                  </div> */}
                               </div>
                           </div>
                       </div>
