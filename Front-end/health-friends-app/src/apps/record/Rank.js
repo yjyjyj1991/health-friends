@@ -15,7 +15,6 @@ class Rank extends Component {
 
   constructor(props) {
     super(props);
-    this.userInfo = JSON.parse(localStorage.getItem('user'))['userInfo'];
     this.state = {
       point: [],
       userId: [],

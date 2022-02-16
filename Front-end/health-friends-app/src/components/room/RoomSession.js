@@ -210,10 +210,10 @@ class RoomSession extends Component {
       })
   }
 
-  sendMessage() {
+  sendMessage(msg) {
     if (this.state.session) {
       this.state.session.signal({
-        data: 'start',
+        data: msg,
         to: []
       }).then(() => {
         console.log("SEND MESSAGE");
@@ -245,7 +245,12 @@ class RoomSession extends Component {
         session.on('signal', (event) => {
           if (event.data === 'start') {
             this.doPlay();
-          } else {
+          } else if (event.data === 'pause') {
+            this.doPause();
+          } else if (event.data === 'stop') {
+            this.doStop();
+          }
+          else {
             //document.getElementById("show").value += event.data;
             console.log(event.data); // Message
             console.log(event.from); // Connection object of the sender
@@ -358,28 +363,28 @@ class RoomSession extends Component {
           ) : null}
         </div>
         <div style={{ backgroundColor: '#D3E4CD', }} className="d-flex flex-row justify-content-center">
-        {/* <div style={{ backgroundColor: '#D3E4CD', height:'10rem'}}> */}
+          {/* <div style={{ backgroundColor: '#D3E4CD', height:'10rem'}}> */}
           {/* <Container sx={{backgroundColor:'#D3E4CD',}} > */}
-          <ButtonGroup  aria-label="large button group" sx={{marginTop:'2rem', marginBottom:'2rem'}} >
-            <Button style={{ backgroundColor: 'white',border:1, borderColor:'black', marginRight:'1rem' }} size='large' onClick={() => { this.sendMessage() }}>
-            <FontAwesomeIcon icon={faPlay} size="3x"/>&nbsp; 시작
+          <ButtonGroup aria-label="large button group" sx={{ marginTop: '2rem', marginBottom: '2rem' }} >
+            <Button style={{ backgroundColor: 'white', border: 1, borderColor: 'black', marginRight: '1rem' }} size='large' onClick={() => { this.sendMessage('start') }}>
+              <FontAwesomeIcon icon={faPlay} size="3x" />&nbsp; 시작
             </Button>
-            <Button style={{ backgroundColor: 'white',marginRight:'1rem' }} size='large' onClick={() => { this.doPause() }}>
-            <FontAwesomeIcon icon={faPause} size="3x"/>&nbsp; 일시정지
+            <Button style={{ backgroundColor: 'white', marginRight: '1rem' }} size='large' onClick={() => { this.sendMessage('pause') }}>
+              <FontAwesomeIcon icon={faPause} size="3x" />&nbsp; 일시정지
             </Button>
-            <Button style={{ backgroundColor: 'white',marginRight:'1rem' }} size='large' onClick={() => { this.doStop() }}>
-            <FontAwesomeIcon icon={faStop} size="3x"/>&nbsp; 정지
+            <Button style={{ backgroundColor: 'white', marginRight: '1rem' }} size='large' onClick={() => { this.sendMessage('stop') }}>
+              <FontAwesomeIcon icon={faStop} size="3x" />&nbsp; 정지
             </Button>
-            <Button id="mute" style={{ backgroundColor: 'white',marginRight:'1rem' }} size='large' onClick={() => { this.mute(); }}>
+            <Button id="mute" style={{ backgroundColor: 'white', marginRight: '1rem' }} size='large' onClick={() => { this.mute(); }}>
               <FontAwesomeIcon icon={faMicrophone} size="3x" /> &nbsp; 음소거
             </Button>
-            <Button id="unmute" style={{ backgroundColor: 'white', display: 'none', marginRight:'1rem' }} size='large' onClick={() => { this.Unmute(); }}>
+            <Button id="unmute" style={{ backgroundColor: 'white', display: 'none', marginRight: '1rem' }} size='large' onClick={() => { this.Unmute(); }}>
               <FontAwesomeIcon icon={faMicrophoneSlash} size="3x" />&nbsp; 음소거 해제
             </Button>
-            <Button id="screenmute" style={{ backgroundColor: 'white', marginRight:'1rem' }} size='large' onClick={() => { this.screenMute(); }}>
+            <Button id="screenmute" style={{ backgroundColor: 'white', marginRight: '1rem' }} size='large' onClick={() => { this.screenMute(); }}>
               <FontAwesomeIcon icon={faVideo} size="3x" /> &nbsp;비디오 중지
             </Button>
-            <Button id="unscreenmute" style={{ backgroundColor: 'white', display: 'none', marginRight:'1rem' }} size='large' onClick={() => { this.UnscreenMute(); }}>
+            <Button id="unscreenmute" style={{ backgroundColor: 'white', display: 'none', marginRight: '1rem' }} size='large' onClick={() => { this.UnscreenMute(); }}>
               <FontAwesomeIcon icon={faVideoSlash} size="3x" /> &nbsp;비디오 시작
             </Button>
 
