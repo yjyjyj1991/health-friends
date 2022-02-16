@@ -2,6 +2,7 @@ package com.healthfriend.healthfriend.model.service;
 
 import java.util.List;
 
+import com.healthfriend.healthfriend.model.DTO.Point.PointMyResponseDto;
 import com.healthfriend.healthfriend.model.DTO.Point.PointRequestDto;
 import com.healthfriend.healthfriend.model.DTO.Point.PointResponseDto;
 import com.healthfriend.healthfriend.model.mapper.PointMapper;
@@ -22,4 +23,7 @@ public class PointServiceImpl implements PointService{
     return sqlSession.getMapper(PointMapper.class).selectPointTop5();
   }
   
+  public PointMyResponseDto findMyPoint(int userId) throws Exception{
+    return sqlSession.getMapper(PointMapper.class).selectMyPoint(userId);
+  }
 }

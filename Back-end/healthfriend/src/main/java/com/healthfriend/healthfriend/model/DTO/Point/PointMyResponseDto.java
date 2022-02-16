@@ -5,10 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PointRequestDto {
+public class PointMyResponseDto {
   Integer point;
-  Integer userId;
-  String reason;
-  String openTime;
-  String closeTime;
 }
