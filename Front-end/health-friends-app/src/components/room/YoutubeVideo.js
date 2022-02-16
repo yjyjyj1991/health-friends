@@ -93,6 +93,8 @@ class YouTubeVideo extends Component {
 
   onStop(event) {
     console.log("onStop");
+    if (!this.state.isPlaying)
+      return;
     this.setState({
       isPlaying: false
     })

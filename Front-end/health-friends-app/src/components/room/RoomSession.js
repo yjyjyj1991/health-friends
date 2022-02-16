@@ -334,7 +334,7 @@ class RoomSession extends Component {
                       </div>
                     </Card>
                   </div>
-                  <div className="col-md-2"> Hit count :  {this.state.count}</div>
+                  <Typography className="col-md-2" variant="h3" style={{display:'flex', justifyContent:'center'}}> Hit count :  {this.state.count}</Typography>
                   {this.state.publisher !== undefined ? (
                     <div className="col-md-5 d-flex justify-content-center" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
                       <Card variant="outlined" sx={{ minWidth: 250, width: { sm: 500, md: 700 }, height: { sm: 350, md: 525 } }} style={{ border: "none", boxShadow: "none" }}>
@@ -348,11 +348,11 @@ class RoomSession extends Component {
                   {this.state.subscribers.map((sub, i) => (
                     <div key={i} className="stream-container col-md-3 col-xs-6" style={{ display: 'flex', flexDirection: 'row' }} onClick={() => this.handleMainVideoStream(sub)}>
                       <Card sx={{ width: { sm: 250, md: 300 }, height: { sm: 200, md: 250 } }} style={{ border: "none", boxShadow: "none" }}>
-                        <CardContent>
+                        {/* <CardContent>
                           <Typography variant="h5" >
                             다른 유저들 카운트
                           </Typography>
-                        </CardContent>
+                        </CardContent> */}
                         <UserVideoComponent style={{}} streamManager={sub} />
                       </Card>
                     </div>

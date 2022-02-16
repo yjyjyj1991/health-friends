@@ -33,7 +33,7 @@ function Row(props) {
             </IconButton>
           </TableCell>
 
-          <TableCell align="center" style={{ fontSize:'1.5rem', fontWeight:'bold', border:'none' }}>{row.id}</TableCell>
+          <TableCell align="center" style={{ fontSize:'1.5rem', fontWeight:'bold', border:'none' }}>1</TableCell>
           <TableCell align="left" style={{ fontSize:'1.5rem', fontWeight:'bold', border:'none' }} >{row.title}</TableCell>
           <TableCell align="center" style={{ fontSize:'1.5rem', fontWeight:'bold', border:'none' }}>
           <Moment format="YYYY-MM-DD">{row.date}</Moment></TableCell>
@@ -49,7 +49,7 @@ function Row(props) {
                       <TableRow>
                       <TableCell className='col-2' style={{ border: 'none' }}></TableCell>
                         <TableCell className='col-8' style={{ border: 'none', fontSize:'1.5rem', height:'10rem' }}>
-                        <pre style={{ backgroundColor:'white', border:'none' }}>{row.content}</pre> </TableCell>
+                        <pre style={{ backgroundColor:'white', border:'none' }}>&nbsp;{row.content}</pre> </TableCell>
                         <TableCell  className='col-2'  style={{ border: 'none' }}></TableCell>
                       </TableRow>
                     </TableHead>
