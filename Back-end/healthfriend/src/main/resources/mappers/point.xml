@@ -5,13 +5,19 @@
 <mapper namespace="com.healthfriend.healthfriend.model.mapper.PointMapper">
 
     <insert id="createPoint" parameterType="pointRequestDto">
-      INSERT INTO tbl_point ( user_id, point, reason, regist_time)
-      VALUES (#{userId}, #{point}, #{reason},now())
+      INSERT INTO tbl_point ( user_id, point, reason, regist_time,open_time,close_time)
+      VALUES (#{userId}, #{point}, #{reason},now(),#{open_time},#{close_time})
     </insert>
     
     <select id="selectPointTop5" resultType="pointResponseDto">
       SELECT u.nickname ,sum(POINT) AS point FROM tbl_point p JOIN tbl_user u ON (p.user_id = u.id)  GROUP BY user_id ORDER BY sum(POINT) DESC LIMIT 5
     </select>
 
+    <select id="selectMyPoint" parameterType="int" resultType="pointMyResponseDto">      
+      SELECT SUM(point) AS point 
+      FROM tbl_point 
+      GROUP BY user_id 
+      HAVING user_id = #{userId}
+    </select>
 
 </mapper>

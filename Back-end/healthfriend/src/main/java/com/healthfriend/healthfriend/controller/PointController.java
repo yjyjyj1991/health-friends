@@ -4,6 +4,7 @@ package com.healthfriend.healthfriend.controller;
 import java.util.List;
 
 import com.healthfriend.healthfriend.message.Message;
+import com.healthfriend.healthfriend.model.DTO.Point.PointMyResponseDto;
 import com.healthfriend.healthfriend.model.DTO.Point.PointRequestDto;
 import com.healthfriend.healthfriend.model.DTO.Point.PointResponseDto;
 import com.healthfriend.healthfriend.model.service.PointService;
@@ -58,5 +59,20 @@ public class PointController {
 
     return new ResponseEntity<Message>(message, status);
 	}
+
+	@GetMapping("/my")
+	public ResponseEntity<Message> MyPointList(@RequestParam int userId) throws Exception{
+		Message message = new Message();
+    HttpStatus status = HttpStatus.NO_CONTENT;
+
+    PointMyResponseDto dto = pointService.findMyPoint(userId);
+    message.setSuccess(true);
+    message.setData(dto);
+
+    status = HttpStatus.OK;
+
+    return new ResponseEntity<Message>(message, status);
+	}
+	
 
 }
