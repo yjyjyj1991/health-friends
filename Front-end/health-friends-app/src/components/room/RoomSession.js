@@ -14,11 +14,12 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import CardMedia from '@mui/material/CardMedia';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faComments, faDoorOpen, faMicrophone, faMicrophoneSlash, faVideo, faVideoSlash, } from "@fortawesome/free-solid-svg-icons";
+import { faCircle, faComments, faDoorOpen, faMicrophone, faMicrophoneSlash, faPause, faPlay, faStop, faVideo, faVideoSlash, } from "@fortawesome/free-solid-svg-icons";
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import './RoomSession.css';
 import YoutubeVideo from './YoutubeVideo';
+import { ButtonGroup, Container } from "@mui/material";
 
 const GoTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -55,7 +56,7 @@ class RoomSession extends Component {
     this.state.publisher.publishAudio(false);   // true to unmute the audio track, false to mute it
     document.getElementById("mute").style.display = "none";
     document.getElementById("unmute").style.display = "block";
-    console.log(this.userInfo, this.sessionInfo)
+    // console.log(this.userInfo, this.sessionInfo)
   }
 
   screenMute() {
@@ -215,6 +216,12 @@ class RoomSession extends Component {
   doPlay() {
     this.videoRef.current.play();
   }
+  doPause() {
+    this.videoRef.current.pause();
+  }
+  doStop() {
+    this.videoRef.current.stop();
+  }
 
   connectSession() {
     this.OV = new OpenVidu();
@@ -340,40 +347,48 @@ class RoomSession extends Component {
             </div>
           ) : null}
         </div>
-        <div style={{ backgroundColor: '#D3E4CD', height: '10rem' }} className="row align-items-center justify-content-center">
-          <Box sx={{ width: 600 }}>
-            <Button style={{ backgroundColor: 'white', marginRight: '1rem' }} onClick={() => { this.sendMessage() }}>
-              시작
+        <div style={{ backgroundColor: '#D3E4CD', }} className="d-flex flex-row justify-content-center">
+        {/* <div style={{ backgroundColor: '#D3E4CD', height:'10rem'}}> */}
+          {/* <Container sx={{backgroundColor:'#D3E4CD',}} > */}
+          <ButtonGroup  aria-label="large button group" sx={{marginTop:'2rem', marginBottom:'2rem'}} >
+            <Button style={{ backgroundColor: 'white',border:1, borderColor:'black', marginRight:'1rem' }} size='large' onClick={() => { this.sendMessage() }}>
+            <FontAwesomeIcon icon={faPlay} size="3x"/>&nbsp; 시작
             </Button>
-            <Button id="mute" style={{ backgroundColor: 'white', marginRight: '1rem' }} onClick={() => { this.mute(); }}>
+            <Button style={{ backgroundColor: 'white',marginRight:'1rem' }} size='large' onClick={() => { this.doPause() }}>
+            <FontAwesomeIcon icon={faPause} size="3x"/>&nbsp; 일시정지
+            </Button>
+            <Button style={{ backgroundColor: 'white',marginRight:'1rem' }} size='large' onClick={() => { this.doStop() }}>
+            <FontAwesomeIcon icon={faStop} size="3x"/>&nbsp; 정지
+            </Button>
+            <Button id="mute" style={{ backgroundColor: 'white',marginRight:'1rem' }} size='large' onClick={() => { this.mute(); }}>
               <FontAwesomeIcon icon={faMicrophone} size="3x" /> &nbsp; 음소거
             </Button>
-            <Button id="unmute" style={{ backgroundColor: 'white', marginRight: '1rem', display: 'none' }} onClick={() => { this.Unmute(); }}>
+            <Button id="unmute" style={{ backgroundColor: 'white', display: 'none', marginRight:'1rem' }} size='large' onClick={() => { this.Unmute(); }}>
               <FontAwesomeIcon icon={faMicrophoneSlash} size="3x" />&nbsp; 음소거 해제
             </Button>
-            <Button id="screenmute" style={{ backgroundColor: 'white', marginRight: '1rem' }} onClick={() => { this.screenMute(); }}>
+            <Button id="screenmute" style={{ backgroundColor: 'white', marginRight:'1rem' }} size='large' onClick={() => { this.screenMute(); }}>
               <FontAwesomeIcon icon={faVideo} size="3x" /> &nbsp;비디오 중지
             </Button>
-            <Button id="unscreenmute" style={{ backgroundColor: 'white', marginRight: '1rem', display: 'none' }} onClick={() => { this.UnscreenMute(); }}>
+            <Button id="unscreenmute" style={{ backgroundColor: 'white', display: 'none', marginRight:'1rem' }} size='large' onClick={() => { this.UnscreenMute(); }}>
               <FontAwesomeIcon icon={faVideoSlash} size="3x" /> &nbsp;비디오 시작
             </Button>
 
-            <GoTooltip title="채팅" placement="top" style={{ color: 'red' }} onClick={() => { this.chat(); }}>
-              <Button style={{ backgroundColor: 'white', marginRight: '1rem' }}>
+            {/* <GoTooltip title="채팅" placement="top" style={{ color: 'red', marginRight:'1rem' }} size='large' onClick={() => { this.chat(); }}>
+              <Button style={{ backgroundColor: 'white' }}>
                 <FontAwesomeIcon icon={faComments} size="3x" />
               </Button>
-            </GoTooltip>
+            </GoTooltip> */}
             <GoTooltip title="나가기" placement="top">
-              <Button size="large" style={{ backgroundColor: 'white', marginRight: '1rem' }} onClick={() => {
+              <Button size="large" style={{ backgroundColor: 'white' }} onClick={() => {
                 this.setState({ componentWillUnmountable: false });
                 this.leaveSession();
               }}>
                 <FontAwesomeIcon icon={faDoorOpen} size="3x" />
               </Button>
             </GoTooltip>
-          </Box>
-          <div><canvas style={{ visibility: "visible" }} id="canvas"></canvas></div>
-          <div id="label-container"></div>
+          </ButtonGroup>
+          {/* <div><canvas style={{ visibility: "visible" }} id="canvas"></canvas></div>
+          <div id="label-container"></div> */}
         </div>
 
       </div>
