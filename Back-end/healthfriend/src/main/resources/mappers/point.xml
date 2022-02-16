@@ -5,8 +5,8 @@
 <mapper namespace="com.healthfriend.healthfriend.model.mapper.PointMapper">
 
     <insert id="createPoint" parameterType="pointRequestDto">
-      INSERT INTO tbl_point ( user_id, point, reason, regist_time,open_time,close_time)
-      VALUES (#{userId}, #{point}, #{reason},now(),#{open_time},#{close_time})
+      INSERT INTO tbl_point ( user_id, point, reason, regist_time,start_time,end_time)
+      VALUES (#{userId}, #{point}, #{reason},now(),#{startTime},#{endTime})
     </insert>
     
     <select id="selectPointTop5" resultType="pointResponseDto">

@@ -9,6 +9,6 @@ public class PointRequestDto {
   Integer point;
   Integer userId;
   String reason;
-  String openTime;
-  String closeTime;
+  String startTime;
+  String endTime;
 }
