@@ -4,7 +4,7 @@ import DietDialog from './DietGoal';
 import Calender from 'components/common/Calender';
 // import axios from 'axios';
 // import { BASE_URL } from 'common/Properties';
-import BasicTable from 'components/common/Table';
+import BasicTable from 'apps/diet/Table';
 import SearchBar from './SearchBar'
 import Piechart from './Piechart'
 import AppBar from '../../components/appbar/AppBar';
@@ -98,15 +98,17 @@ export default function Diet(){
           <Grid item  xs={12} sx={{display:'flex', justifyContent:'center'}} marginBottom={5} > 
             <Calender userId={userId} setList={setList} setDate={setDate} date={date} />
           </Grid>
-          <Grid container spacing={2} margin={1}>
-            <Grid item xs={12} lg={5} sx={{border:1,borderRadius:1,borderColor:'#ADC2A9'}}>
+          {userInfo.purposeId &&
+          <Grid container spacing={2} margin={1} justifyContent='center'>
+            <Grid item xs={11} sx={{border:1,borderRadius:1,borderColor:'#ADC2A9'}}>
               <Typography variant='h3'>오늘의 식단 추가</Typography>
               <SearchBar setList={setList} date={date} userId={userId} />
-              <BasicTable date={date} computedList={computedList} setList={setList} userId={userId}/>
             </Grid>
+            <Grid item xs={8} alignItems='center'>
+              <BasicTable date={date} computedList={computedList} setList={setList} userId={userId}/>
+            </Grid >
             
-            
-            <Grid item xs={12} lg={7} marginBottom={10}>
+            <Grid item xs={12} lg={7} marginTop={5}>
               <Grid container spacing={3}>
                 <Grid item xs={4} padding={1}>
                   <Typography variant='h5' align='center'>탄수화물</Typography>
@@ -123,7 +125,7 @@ export default function Diet(){
               </Grid>
             </Grid>
 
-          </Grid>
+          </Grid>}
         </div>
         <DietDialog close={close} dialog={dietDialog} />
 

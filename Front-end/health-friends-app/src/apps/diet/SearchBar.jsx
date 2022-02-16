@@ -21,7 +21,7 @@ export default function SearchBar(props){
     const data = new FormData(e.currentTarget);
     const data1 = {
       key:checked?'brand':'food_name',
-      spp:500,
+      spp:100,
       word:data.get('word')
     }
     axios.get(BASE_URL+'foods', {params:data1} )
