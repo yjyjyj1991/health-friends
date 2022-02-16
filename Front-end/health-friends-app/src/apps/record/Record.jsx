@@ -5,22 +5,26 @@ import axios from "axios"
 import BasicTable2 from "./BasicTable"
 import AppBar from '../../components/appbar/AppBar';
 import Footer from '../../components/Footer/Footer';
-import Rank from '../../components/room/Rank';
+import Rank from './Rank';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown } from "@fortawesome/free-solid-svg-icons";
+import {useNavigate} from 'react-router-dom'
 
 export default function Record(){
   const userInfo=JSON.parse(localStorage.getItem('user')).userInfo
+  const BASE_URL='https://i6d204.p.ssafy.io/api/'
   const [open,setOpen]=useState(new Date())
   const [close,setClose]=useState(new Date())
   const [records,setRecords]=useState([])
-  const BASE_URL='https://i6d204.p.ssafy.io/api/'
   const [dialog,setDialog]=useState(false)
+
+
+  const navigate=useNavigate()
 
   function getRecord(){
     const params={
-      openTime:`${open.getFullYear()}-${open.getMonth()+1}-${open.getDate()}`,
-      closeTime:`${close.getFullYear()}-${close.getMonth()+1}-${close.getDate()}`,
+      startTime:`${open.getFullYear()}-${open.getMonth()+1}-${open.getDate()}`,
+      endTime:`${close.getFullYear()}-${close.getMonth()+1}-${close.getDate()}`,
       userId:userInfo.id,
     }
     axios.get(BASE_URL+'exercise',{params:params})
@@ -29,6 +33,8 @@ export default function Record(){
     })
     .catch(err=>console.log(err))
   }
+
+  
   return (
     <div style={{display: 'flex', flexDirection:'column', minHeight:'100%', }}>
       <AppBar dialog={dialog} setDialog={setDialog} />
@@ -39,7 +45,7 @@ export default function Record(){
               <div style={{paddingTop:'1.5rem', display:'flex', flexDirection:'column', paddingLeft:'5rem'}}>
                 <Typography className="d-flex justify-content-start"  variant='h5'>당신의 점수는?</Typography>
                 <div className="d-flex justify-content-end">
-                <Button onClick={open} style={{width:'10rem', backgroundColor:'#ADC2A9', color:'white', weight:'bold', marginRight:'5rem' }}>점수 쌓으러가기</Button>
+                <Button onClick={()=>navigate('/rooms')} style={{width:'10rem', backgroundColor:'#ADC2A9', color:'white', weight:'bold', marginRight:'5rem' }}>점수 쌓으러가기</Button>
                 </div>
               </div>
             </Box>

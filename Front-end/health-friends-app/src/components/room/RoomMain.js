@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Container } from '@material-ui/core';
 import { Button } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import Rank from './Rank';
+import Rank from '../../apps/record/Rank';
 import RoomListCard from './RoomListCard';
 import RoomCreate from './RoomCreate';
 
