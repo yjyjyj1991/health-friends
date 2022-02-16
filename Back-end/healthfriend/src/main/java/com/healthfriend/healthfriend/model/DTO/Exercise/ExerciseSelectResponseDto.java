@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class ExerciseSelectResponseDto {
   String type;
-  String openTime;
-  String closeTime;
+  String startTime;
+  String endTime;
+  String timeGap;
 }
