@@ -27,6 +27,7 @@ export default function StaticDatePickerDemo(props) {
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DatePicker
         // openTo="day"
+        inputFormat={'yyyy-MM-dd'}
         label="Date"
         value={date}
         onChange={(newValue) => {
