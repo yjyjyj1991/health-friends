@@ -57,9 +57,11 @@ export default function Record(){
         <Grid container spacing={2} margintTop={0} marginBottom={3}>
           <Grid item  xs={12} lg={3} marginTop={2}  align='center' >
             <ResponsiveDatePickers value={open} setValue={setOpen} which={'시작날짜'}/>
+            <br/>
             <br />
             <ResponsiveDatePickers value={close} setValue={setClose} which={'종료날짜'}/>
             <br />
+            <br/>
             <Button size="large" style ={{backgroundColor:'#ADC2A9',color:'white', '&:hover':{backgroundColor:'#D3E4CD', fontSize:'2rem'}}} onClick={getRecord}>검색</Button>
           </Grid>
 
