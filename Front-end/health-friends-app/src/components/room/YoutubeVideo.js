@@ -43,6 +43,7 @@ class YouTubeVideo extends Component {
   stop() {
     if (this.state.player !== undefined) {
       this.state.player.target.stopVideo();
+      this.onStop(this.state.player);
     }
   }
 
