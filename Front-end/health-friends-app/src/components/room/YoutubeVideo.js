@@ -8,18 +8,23 @@ var status = "stand"
 var startTime = 0;
 var endTime = 0;
 var point = 0;
-var count = 0;
 class YouTubeVideo extends Component {
   constructor(props) {
     super(props);
     console.warn(props);
     this.state = {
-      player: undefined
+      player: undefined,
+      requestId: undefined,
+      count: 0,
+      isPlaying: false
     };
 
     this.onPlay = this.onPlay.bind(this);
     this.onStop = this.onStop.bind(this);
     this.onReady = this.onReady.bind(this);
+    this.predict = this.predict.bind(this);
+    this.init = this.init.bind(this);
+    this.loop = this.loop.bind(this);
   }
 
   play() {
@@ -66,19 +71,44 @@ class YouTubeVideo extends Component {
     })
   }
 
+  setCount(count) {
+    this.setState({
+      count: count
+    });
+
+    this.props.setCount(count);
+  }
+
   onPlay(event) {
     console.log("onPlay");
-    startTime = new Date().getTime();
+    this.setCount(0);
+    this.setState({
+      isPlaying: true
+    })
+
+    const date = new Date();
+    startTime = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
   }
 
   onStop(event) {
     console.log("onStop");
-    endTime = new Date().getTime();
-    console.log((endTime - startTime) / 1000);
-    console.log(count);
-    point = (count / 10) * ((endTime - startTime) / 1000);
-    console.log(point);
-    this.props.savePoint(point);
+    this.setState({
+      isPlaying: false
+    })
+
+    const date = new Date();
+    endTime = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    const timeDiff = Date.parse(endTime) - Date.parse(startTime);
+    const count = this.state.count;
+    point = (count / 10) * (timeDiff / 1000);
+
+    const data =
+    {
+      point: point,
+      startTime: startTime,
+      endTime: endTime
+    }
+    this.props.saveHistory(data);
   }
 
   async init() {
@@ -93,8 +123,10 @@ class YouTubeVideo extends Component {
     webcam = new tmPose.Webcam(size, size, flip);
     await webcam.setup();
     await webcam.play();
-    window.requestAnimationFrame(loop);
-
+    const requestId = window.requestAnimationFrame(this.loop);
+    this.setState({
+      requestId: requestId
+    })
 
     const canvas = document.getElementById("canvas");
     canvas.width = size; canvas.height = size;
@@ -104,41 +136,47 @@ class YouTubeVideo extends Component {
       labelContainer.appendChild(document.createElement("div"));
     }
   }
-}
-async function loop(timestamp) {
-  webcam.update();
-  await predict();
-  window.requestAnimationFrame(loop);
-}
-async function predict() {
-  const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
-  const prediction = await model.predict(posenetOutput);
-  if (prediction[0].probability.toFixed(2) >= 1.00) {
-    status = "lunge"
-  } else if (prediction[1].probability.toFixed(2) >= 1.00) {
-    if (status === "lunge") {
-      ++count;
-      console.log(count);
-    }
-    status = "stand"
-  }
-  for (let i = 0; i < maxPredictions; i++) {
-    const classPrediction =
-      prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-    labelContainer.childNodes[i].innerHTML = classPrediction;
-  }
 
-  drawPose(pose);
-}
-
-function drawPose(pose) {
-  if (webcam.canvas) {
-    ctx.drawImage(webcam.canvas, 0, 0);
-    if (pose) {
-      const minPartConfidence = 0.5;
-      tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx);
-      tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx);
+  async loop(timestamp) {
+    webcam.update();
+    await this.predict();
+    if (this.state.isPlaying) {
+      window.requestAnimationFrame(this.loop);
     }
   }
+
+  async predict() {
+    const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
+    const prediction = await model.predict(posenetOutput);
+    if (prediction[0].probability.toFixed(2) >= 1.00) {
+      status = "lunge"
+    } else if (prediction[1].probability.toFixed(2) >= 1.00) {
+      if (status === "lunge") {
+        const count = this.state.count + 1;
+        this.setCount(count);
+        console.log(count);
+      }
+      status = "stand"
+    }
+    for (let i = 0; i < maxPredictions; i++) {
+      const classPrediction =
+        prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+      labelContainer.childNodes[i].innerHTML = classPrediction;
+    }
+
+    this.drawPose(pose);
+  }
+
+  drawPose(pose) {
+    if (webcam.canvas) {
+      ctx.drawImage(webcam.canvas, 0, 0);
+      if (pose) {
+        const minPartConfidence = 0.5;
+        tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx);
+        tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx);
+      }
+    }
+  }
 }
+
 export default YouTubeVideo;

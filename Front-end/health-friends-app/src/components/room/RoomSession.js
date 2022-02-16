@@ -45,12 +45,21 @@ class RoomSession extends Component {
       publisher: undefined,
       subscribers: [],
       componentWillUnmountable: true,
-      youTubeId: undefined
+      youTubeId: undefined,
+      count: 0
     };
 
     this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
-    this.savePoint = this.savePoint.bind(this);
+    this.saveHistory = this.saveHistory.bind(this);
+    this.setCount = this.setCount.bind(this);
   }
+
+  setCount(count) {
+    this.setState({
+      count: count
+    })
+  }
+
   mute() {
     this.state.publisher.publishAudio(false);   // true to unmute the audio track, false to mute it
     document.getElementById("mute").style.display = "none";
@@ -90,12 +99,13 @@ class RoomSession extends Component {
       });
   }
 
-  savePoint(point) {
-    console.log(this.state.sessionInfo.type);
+  saveHistory(history) {
     axios.post(
       BASE_URL + 'point',
       {
-        point: point,
+        point: history['point'],
+        startTime: history['startTime'],
+        endTime: history['endTime'],
         reason: this.state.sessionInfo.type,
         userId: this.userInfo.id
       }
@@ -303,21 +313,21 @@ class RoomSession extends Component {
               <div id="video-container" style={{ display: 'flex', flexDirection: 'column' }} >
                 <div className="row align-items-start " style={{ marginTop: '1rem', marginLeft: 0, marginRight: 0, marginBottom: 0 }}>
                   <div className="col-md-5 p-0 d-flex justify-content-center">
-                    <Card sx={{ minWidth: 250, width: { sm: 500, md: 700 }, height: { sm: 350, md: 525 }, border: 'none' }}>
+                    <Card sx={{ minWidth: 250, width: { sm: 500, md: 700 }, height: { sm: 350, md: 525 }, border: 'none' }} style={{ border: "none", boxShadow: "none" }}>
                       <div>
                         {
                           this.state.youTubeId !== undefined ?
-                            <YoutubeVideo youTubeId={this.state.youTubeId} savePoint={this.savePoint} ref={this.videoRef} /> : null
+                            <YoutubeVideo youTubeId={this.state.youTubeId} saveHistory={this.saveHistory} setCount={this.setCount} ref={this.videoRef} /> : null
                         }
                       </div>
                     </Card>
                   </div>
-                  <div className="col-md-2"> {this.state.subscribers.length + 1} 명 참가</div>
+                  <div className="col-md-2"> Hit count :  {this.state.count}</div>
                   {this.state.publisher !== undefined ? (
                     <div className="col-md-5 d-flex justify-content-center" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
-                      <Card variant="outlined" sx={{ minWidth: 250, width: { sm: 500, md: 700 }, height: { sm: 350, md: 525 } }}>
+                      <Card variant="outlined" sx={{ minWidth: 250, width: { sm: 500, md: 700 }, height: { sm: 350, md: 525 } }} style={{ border: "none", boxShadow: "none" }}>
 
-                        <UserVideoComponent streamManager={this.state.publisher} />
+                        <UserVideoComponent className='video' streamManager={this.state.publisher} />
                       </Card>
                     </div>
                   ) : null}
@@ -325,7 +335,7 @@ class RoomSession extends Component {
                 <div className="d-flex flex-wrap">
                   {this.state.subscribers.map((sub, i) => (
                     <div key={i} className="stream-container col-md-3 col-xs-6" style={{ display: 'flex', flexDirection: 'row' }} onClick={() => this.handleMainVideoStream(sub)}>
-                      <Card sx={{ width: { sm: 250, md: 300 }, height: { sm: 200, md: 250 } }}>
+                      <Card sx={{ width: { sm: 250, md: 300 }, height: { sm: 200, md: 250 } }} style={{ border: "none", boxShadow: "none" }}>
                         <CardContent>
                           <Typography variant="h5" >
                             다른 유저들 카운트
