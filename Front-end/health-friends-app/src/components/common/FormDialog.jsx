@@ -8,6 +8,7 @@ import ChangePwForm from '../account/form/ChangePwForm';
 import LoginForm from '../account/form/LoginForm'
 import SignupForm from '../account/form/SignupForm';
 import ResetForm from '../account/form/ResetForm'
+import { flexbox } from '@mui/system';
 
 export default function FormDialog(props) {
   
@@ -29,7 +30,10 @@ export default function FormDialog(props) {
 
   return (
     <div>
-      <Dialog open={Boolean(dialog)} onClose={handleClose}>
+      <Dialog open={Boolean(dialog)} onClose={handleClose}
+        fullWidth
+        maxWidth="sm"
+      >
         {dialog==='changePw' && <ChangePwForm setDialog={setDialog}/> }
         {dialog==='login' && <LoginForm setDialog={setDialog}/>}
         {dialog==='signup' && <SignupForm setDialog={setDialog}/>}

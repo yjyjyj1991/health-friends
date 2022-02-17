@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Health friends",
+  "name": "Health friends",
   
   "start_url": ".",
   "display": "standalone",

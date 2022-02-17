@@ -25,7 +25,7 @@ export default function ResetForm(props){
   }
 
   return (
-    <Grid container>
+    <Grid container width='300px' alignSelf='center' marginTop={5}>
       <Grid item xs={12}>
         <TextField
           required

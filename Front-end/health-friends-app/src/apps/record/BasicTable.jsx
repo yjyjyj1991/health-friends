@@ -18,7 +18,7 @@ export default function BasicTable2(props) {
             <TableCell sx={{fontSize:{sx:'1rem',md:'2rem'}, fontWeight: 'bold', textAlign: 'center' }}>종목</TableCell>
             <TableCell sx={{fontSize:{sx:'1rem',md:'2rem'},fontWeight: 'bold',  textAlign: 'center'}}>시작시각</TableCell>
             <TableCell sx={{fontSize:{sx:'1rem',md:'2rem'},fontWeight: 'bold', textAlign: 'center'}}>종료시각</TableCell>
-            <TableCell sx={{fontSize:{sx:'1rem',md:'2rem'},fontWeight: 'bold', textAlign: 'center'}}>운동시간</TableCell>
+            <TableCell sx={{fontSize:{sx:'1rem',md:'2rem'},fontWeight: 'bold', textAlign: 'center'}}>운동시간(초)</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
