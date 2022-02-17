@@ -13,9 +13,6 @@
 Health Friend 는 아래와 같은 환경에서 실행 중입니다.
 
   OS : Ubuntu 20.04 LTS (GNU/Linux 4.15.0-72-generic x86_64)
-  Cpu 모델 : Intel(R) Xeon(R) CPU E5-2686 v4 @ 2.30GHz //수정 필요
-  Total Memory: 16396056 kB //수정 필요
-  물리 cpu 개수 : 4 cpu당 물리 코어 : 4 논리 코어 수 : 32 //수정 필요
 
 ### 시스템 구성
 
