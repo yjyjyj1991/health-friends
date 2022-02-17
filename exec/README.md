@@ -1,10 +1,3 @@
-# 헬스프렌드 (Health Friend)
-<div align="center">
-
-![image](https://user-images.githubusercontent.com/87481266/151474591-837f81bf-cf37-4ad1-a8d8-e940484fb6c8.png)
-
-</div>
-
 ## 💼 주요 기술 스택
 
 | 사용 단 | 기술 |
@@ -13,29 +6,6 @@
 | 백엔드 | Java 17, SpringBoot 2.4.5, OpenVidu, JWT 0.9.1, Lombok, myBatis, SMTP, SWAGGER |
 | DB | MySQL : 8.0.27  |
 | 운영체제, 서버, Infra | Ubuntu 20.04, Kurent, Coturn, Openvidu, AWS EC2 |
-|  |  |
-
-
-## 🦺 주요 기능 정리
-
-- 운동 및 식단 통합 플랫폼
-
-- 라이브 스트리밍 그룹운동 및 인공지능 자세 교정
-
-- 운동 데이터 관리
-
-- 맞춤형 식단 제공 (사용자 몸무게와 활동량 기반으로 계산 합니다.)
-
-## 🔧 기술 정리
-
-- JWT 토큰을 이용해서 보안성을 높였습니다.
-
-- Jenkins를 이용하여서 배포를 자동화 하였습니다.
-
-- 난수 생성 및 SMTP를 통한 이메일 인증, 패스워드 초기화를 제공합니다.
-
-- OpenVidu를 통해서 실시간 화상 회의 시스템 구현
-
 
 ## ⚙️ Install and Usage
 
@@ -200,11 +170,3 @@ sudo docker ps
 
 https://i6d204.p.ssafy.io/
 
-
-## 🤝🏻 팀원
-
-**프론트엔드** : 권영준, 홍지원
-      
-**백엔드** : 김수호, 김형우
-     
-**인프라** : 김수호, 김형우
