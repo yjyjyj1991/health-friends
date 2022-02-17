@@ -95,6 +95,8 @@ class YouTubeVideo extends Component {
     console.log("onStop");
     if (!this.state.isPlaying)
       return;
+
+    webcam.stop();
     this.setState({
       isPlaying: false
     })
