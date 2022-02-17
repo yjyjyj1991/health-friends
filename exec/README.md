@@ -1,3 +1,12 @@
+## 💼 주요 기술 스택
+
+| 사용 단 | 기술 |
+| ------ | ------ |
+| 프론트엔드 | React.js 17.0.2, CSS, JavaScript, HTML5, OpenVidu, Teachable Machine, Axios 0.25.0, Router 6.2.1, MUI  |
+| 백엔드 | Java 17, SpringBoot 2.4.5, OpenVidu, JWT 0.9.1, Lombok, myBatis, SMTP, SWAGGER |
+| DB | MySQL : 8.0.27  |
+| 운영체제, 서버, Infra | Ubuntu 20.04, Kurent, Coturn, Openvidu, AWS EC2 |
+
 ## ⚙️ Install and Usage
 
 ### 시스템 환경
