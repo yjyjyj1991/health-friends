@@ -157,6 +157,13 @@ sudo docker ps
  sudo service coturn restart
 ```
 
+### REST API service
+
+```
+ sudo service api start
+```
+
+
 ### 🛢 DB
 
 - Back-end\healthfriend\src\main\resources\application.properties
