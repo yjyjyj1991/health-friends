@@ -184,6 +184,45 @@ sudo docker ps
  sudo service api start # api(REST 서버).service 실행
 ```
 
+### nginx
+```
+ sudo apt-get install nginx
+ sudo vi /etc/nginx/sites-enabled/default
+```
+```
+server {
+        listen 443 ssl default_server;
+        listen [::]:443 ssl default_server;
+
+        ssl_certificate /home/ubuntu/cert/live/i6d204.p.ssafy.io/fullchain.pem; #인증서 fullchain.pem 경로
+        ssl_certificate_key /home/ubuntu/cert/live/i6d204.p.ssafy.io/privkey.pem; #인증서 privkey.pem 경로
+        ssl_session_cache shared:le_nginx_SSL:10m;
+        ssl_session_timeout 1440m;
+        ssl_session_tickets off;
+        ssl_protocols TLSv1.2 TLSv1.3;
+        ssl_prefer_server_ciphers off;
+        ssl_ciphers "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA3";
+        
+        server_name _;
+
+        location / {
+                root /home/ubuntu/project/build/front; # 프론트 프로젝트 경로
+                index index.html index.htm index.nginx-debian.html; # 프론트 프로젝트 index 파일명
+                try_files $uri $uri/ /index.html =404;
+        }
+        location /api{
+                proxy_pass http://i6d204.p.ssafy.io:8000/; # api 서버 주소
+        }
+
+
+        location /openvidu {
+                proxy_pass https://i6d204.p.ssafy.io:4443/; # openvidu 서버 주소
+        }
+}
+```
+```
+ sudo service nginx restart
+```
 
 ### 🛢 DB
 
