@@ -22,10 +22,11 @@ Health Friend 는 아래와 같은 환경에서 실행 중입니다.
 
   docker-compose : docker-compose version 1.29.2
 
-### Ubuntu 설치 및 업데이트 시 필요 사항
+### Ubuntu 내 설치 및 업데이트 시 필요 사항
 
 ```
   sudo apt-get update
+  sudo apt-get install openjdk-17
   sudo apt-get install nodejs
   sudo apt-get install npm
 ```
@@ -57,7 +58,7 @@ Health Friend 는 아래와 같은 환경에서 실행 중입니다.
 ### OpenVidu 설치 [설치 방법](https://docs.openvidu.io/en/2.19.0/deployment/ce/on-premises/#close-ports-to-avoid-external-attacks)
 
 
-#### 1. port 열어 주기
+#### 1. 방화벽 설정 
 
 ```
   ufw allow ssh
@@ -91,7 +92,7 @@ Health Friend 는 아래와 같은 환경에서 실행 중입니다.
 #### 3. .env 수정
 
 ```
-  cd openvidu
+  cd /opt/openvidu
   sudo vi .env
 ```
 
@@ -100,7 +101,7 @@ Health Friend 는 아래와 같은 환경에서 실행 중입니다.
 
   OPENVIDU_SECRET=MY_SECRET # OPENVIDU 비밀번호
 
-  CERTIFICATE_TYPE=selfsigned #자가 서명형태
+  CERTIFICATE_TYPE=letsencrypt # 인증서 사용, 만약 자가 서명을 사용한다면 selfsigned
 
   LETSENCRYPT_EMAIL=user@example.com # 만일 Cert type : LETSENCRYPT 로 서명시 사용
 ```
@@ -108,6 +109,7 @@ Health Friend 는 아래와 같은 환경에서 실행 중입니다.
 #### 4. OpenVidu 서버 실행
 
 ```
+cd /opt/openvidu
 sudo ./openvidu start
 ```
 
@@ -166,4 +168,3 @@ sudo docker ps
 ## 💾 배포 주소
 
 https://i6d204.p.ssafy.io/
-
