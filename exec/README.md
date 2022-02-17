@@ -160,7 +160,28 @@ sudo docker ps
 ### REST API service
 
 ```
- sudo service api start
+ sudo vi /etc/systemd/system/api.service
+```
+```
+  [Unit]
+  Description=Health Friends API server
+  After=syslog.target network.target nginx.service
+  
+  [Service]
+  ExecStart=/bin/bash -c "exec java -jar /home/ubuntu/project/build/backend/healthfriend.jar >> /home/ubuntu/project/log/log.log 2>&1" #jar 파일 경로 기입
+  Restart=always
+  RestartSec=10
+
+  User=root
+  Group=root
+
+  [Install]
+  WantedBy=multi-user.target
+```  
+```
+ sudo systemctl daemon-reload #서비스 데몬 리로드
+ sudo systemctl enable api.service # 서버 리부팅 시 api.servcie 로드
+ sudo service api start # api(REST 서버).service 실행
 ```
 
 
