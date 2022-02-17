@@ -53,6 +53,7 @@ class RoomSession extends Component {
     this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
     this.saveHistory = this.saveHistory.bind(this);
     this.setCount = this.setCount.bind(this);
+    this.leaveSession = this.leaveSession.bind(this);
   }
 
   setCount(count) {
@@ -161,7 +162,9 @@ class RoomSession extends Component {
     }
   }
 
-  leaveSession() {
+  async leaveSession() {
+    console.log("leaveSession")
+    await this.doStop();
     const session = this.state.session;
 
     if (session) {
@@ -178,7 +181,6 @@ class RoomSession extends Component {
         }
       ).then((res) => {
         console.log(res);
-        resetRoomId(this.props);
         this.setState({
           sessionInfo: undefined,
           myUserName: undefined,
@@ -186,9 +188,9 @@ class RoomSession extends Component {
           mainStreamManager: undefined,
           publisher: undefined,
           subscribers: [],
-          componentWillUnmountable: true,
           youTubeId: undefined
         });
+        resetRoomId(this.props);
       }).catch((err) => {
         console.warn(err);
       });
@@ -230,6 +232,7 @@ class RoomSession extends Component {
     this.videoRef.current.pause();
   }
   doStop() {
+    console.log("doStop")
     this.videoRef.current.stop();
   }
 
@@ -334,7 +337,7 @@ class RoomSession extends Component {
                       </div>
                     </Card>
                   </div>
-                  <Typography className="col-md-2" variant="h3" style={{display:'flex', justifyContent:'center'}}> Hit count :  {this.state.count}</Typography>
+                  <Typography className="col-md-2" variant="h3" style={{ display: 'flex', justifyContent: 'center' }}> Hit count :  {this.state.count}</Typography>
                   {this.state.publisher !== undefined ? (
                     <div className="col-md-5 d-flex justify-content-center" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
                       <Card variant="outlined" sx={{ minWidth: 250, width: { sm: 500, md: 700 }, height: { sm: 350, md: 525 } }} style={{ border: "none", boxShadow: "none" }}>
