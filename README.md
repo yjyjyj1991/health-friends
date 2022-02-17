@@ -8,8 +8,8 @@
 
 | 사용 단 | 기술 |
 | ------ | ------ |
-| 프론트엔드 | React.js 17.0.2, CSS, JavaScript, HTML5  |
-| 백엔드 | Java 17, SpringBoot 2.4.5 |
+| 프론트엔드 | React.js 17.0.2, CSS, JavaScript, HTML5, Teachable Machine, openvidu client  |
+| 백엔드 | Java 17, SpringBoot 2.4.5, JWT 0.9.1, lombok, mybatis, SMTP, Swagger, openvidu client |
 | DB | MySQL : 8.0.27  |
 | 운영체제, 서버 | Ubuntu 20.04 |
 
@@ -32,8 +32,6 @@
 - Jenkins를 이용하여서 백엔드 배포를 자동화 하였습니다.
 
 - 난수 생성 및 SMTP를 통한 이메일 인증, 패스워드 초기화를 제공합니다.
-
-## 4. 미구현 사항
 
 - teachable machine을 이용한 자세 체크를 할 예정입니다.
 
