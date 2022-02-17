@@ -66,8 +66,8 @@ export default function DietDialog(props) {
               onChange={purposeChange}
             >
               <MenuItem value={1}>유지</MenuItem>
-              <MenuItem value={2}>린매스업</MenuItem>
-              <MenuItem value={3}>다이어트</MenuItem>
+              <MenuItem value={2}>다이어트</MenuItem>
+              <MenuItem value={3}>린매스업</MenuItem>
             </Select>
           </FormControl>
         </Grid>

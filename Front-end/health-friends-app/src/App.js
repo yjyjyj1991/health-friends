@@ -37,6 +37,7 @@ function App() {
         <Route path="/boards" element={<Board />} />
         <Route path="/record" element={<RequireAuth><Record /></RequireAuth>} />
         <Route path="/diet" element={<RequireAuth><Diet/></RequireAuth>} />
+        {/* <Route path="/diet" element={<Diet/>} /> */}
       </Routes>    
     </Suspense>
     {/* <Footer/> */}

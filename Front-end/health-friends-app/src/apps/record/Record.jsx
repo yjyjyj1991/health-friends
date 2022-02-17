@@ -49,8 +49,8 @@ export default function Record(){
           <Grid item xs={12} lg={8} align="center">
           <Box sx={{ border:1,borderRadius:1,borderColor:'#D3E4CD', marginBottom:'5rem', marginTop:'3rem', height:'12rem', width:{xs:300,sm:600}}}  >
               <div style={{paddingTop:'1.5rem', display:'flex', flexDirection:'column', paddingLeft:'5rem'}}>
-                <Typography className="d-flex justify-content-start"  variant='h5'>당신의 점수는</Typography>
-                <Typography className="d-flex justify-content-start"  variant='h5'>{myscore}점입니다</Typography>
+              <h1 style={{ fontSize: '2.5rem', marginBottom:'0.5rem', fontWeight:'bold' }}>당신의 점수는</h1>
+              <h1 style={{ fontSize: '2.5rem', marginBottom:'0.5rem', fontWeight:'bold' }}>{myscore}점입니다</h1>
                 <div className="d-flex justify-content-end">
                 <Button onClick={()=>navigate('/rooms')} style={{width:'10rem', backgroundColor:'#ADC2A9', color:'white', weight:'bold', marginRight:'5rem' }}>점수 쌓으러가기</Button>
                 </div>

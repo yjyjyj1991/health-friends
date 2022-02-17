@@ -4,7 +4,7 @@ import DietDialog from './DietGoal';
 import Calender from 'components/common/Calender';
 // import axios from 'axios';
 // import { BASE_URL } from 'common/Properties';
-import BasicTable from 'components/common/Table';
+import BasicTable from 'apps/diet/Table';
 import SearchBar from './SearchBar'
 import Piechart from './Piechart'
 import AppBar from '../../components/appbar/AppBar';
@@ -75,7 +75,7 @@ export default function Diet(){
         <div style={{paddingLeft:0}} >
           <div align='center'>
             <Box sx={{borderRadius:1,backgroundColor:'#D3E4CD', marginBottom:'5rem', marginTop:'3rem', height:'12rem', width:{xs:300,sm:600}}}  >
-              {userInfo.purpose && <div style={{paddingTop:'1.5rem', display:'flex', flexDirection:'column', paddingLeft:'5rem'}}>
+              {userInfo.purposeId && <div style={{paddingTop:'1.5rem', display:'flex', flexDirection:'column', paddingLeft:'5rem'}}>
                 {/* <Typography className="d-flex justify-content-start" variant='h4'>당신의</Typography> */}
                 {userInfo.purposeId===1&&<Typography className="d-flex justify-content-start"  variant='h5'>목표는 유지입니다.</Typography>}
                 {userInfo.purposeId===2&&<Typography className="d-flex justify-content-start" variant='h5'>목표는 다이어트입니다.</Typography>}
@@ -86,7 +86,7 @@ export default function Diet(){
                 <Button onClick={open} style={{width:'10rem', backgroundColor:'#ADC2A9', color:'white', weight:'bold', marginRight:'5rem' }}>다시 설정하기</Button>
                 </div>
               </div>}
-              {!userInfo.purpose && <div style={{display:'flex', flexDirection:'column',}}>
+              {!userInfo.purposeId && <div style={{display:'flex', flexDirection:'column',}}>
                 <Typography variant='h3'style={{weight:'bold', color:'black', padding:'1.5rem' }}>당신의 목표는?</Typography>
                 <div className="d-flex justify-content-center">
                 <Button onClick={open} style={{width:'10rem', backgroundColor:'#ADC2A9', color:'white', weight:'bold' }}>목표 설정하기</Button>
@@ -98,15 +98,17 @@ export default function Diet(){
           <Grid item  xs={12} sx={{display:'flex', justifyContent:'center'}} marginBottom={5} > 
             <Calender userId={userId} setList={setList} setDate={setDate} date={date} />
           </Grid>
-          <Grid container spacing={2} margin={1}>
-            <Grid item xs={12} lg={5} sx={{border:1,borderRadius:1,borderColor:'#ADC2A9'}}>
+          {userInfo.purposeId &&
+          <Grid container spacing={2} margin={1} justifyContent='center'>
+            <Grid item xs={11} sx={{border:1,borderRadius:1,borderColor:'#ADC2A9'}}>
               <Typography variant='h3'>오늘의 식단 추가</Typography>
               <SearchBar setList={setList} date={date} userId={userId} />
-              <BasicTable date={date} computedList={computedList} setList={setList} userId={userId}/>
             </Grid>
+            <Grid item xs={8} alignItems='center'>
+              <BasicTable date={date} computedList={computedList} setList={setList} userId={userId}/>
+            </Grid >
             
-            
-            <Grid item xs={12} lg={7} marginBottom={10}>
+            <Grid item xs={12} lg={7} marginTop={5}>
               <Grid container spacing={3}>
                 <Grid item xs={4} padding={1}>
                   <Typography variant='h5' align='center'>탄수화물</Typography>
@@ -123,7 +125,7 @@ export default function Diet(){
               </Grid>
             </Grid>
 
-          </Grid>
+          </Grid>}
         </div>
         <DietDialog close={close} dialog={dietDialog} />
 
