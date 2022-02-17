@@ -1,6 +1,5 @@
 package com.healthfriend.healthfriend.config;
 
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,22 +12,23 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
 public class SwaggerConfig {
-  
-    @Bean
-    public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
-                .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.any())
-                .build();
-    }
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-                .title("Health Friend")
-                .version("1.0")
-                .description("Health Friend")
-                .license("MIT")
-                .build();
-    }
+
+  @Bean
+  public Docket api() {
+    return new Docket(DocumentationType.SWAGGER_2)
+        .apiInfo(apiInfo())
+        .select()
+        .apis(RequestHandlerSelectors.any())
+        .paths(PathSelectors.any())
+        .build();
+  }
+
+  private ApiInfo apiInfo() {
+    return new ApiInfoBuilder()
+        .title("Health Friend")
+        .version("1.0")
+        .description("Health Friend")
+        .license("MIT")
+        .build();
+  }
 }

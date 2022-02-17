@@ -4,8 +4,8 @@
 
 <mapper namespace="com.healthfriend.healthfriend.model.mapper.RoomMapper">
   <insert id="insertRoom" parameterType="RoomDto">
-    INSERT INTO tbl_room (type_id, user_id, title, content, is_public, password, open_time, limit_user)
-    VALUES (#{typeId}, #{userId}, #{title},  #{content}, #{isPublic}, #{password}, now(), #{limitUser});
+    INSERT INTO tbl_room (type_id, user_id, title, content, is_public, password, open_time, limit_user, session_name)
+    VALUES (#{typeId}, #{userId}, #{title},  #{content}, #{isPublic}, #{password}, now(), #{limitUser}, #{sessionName});
   </insert>
 
   <select id="selectRoom" resultType="RoomResponseDto">
@@ -27,7 +27,7 @@
   </update>
 
   <select id="selectRoomById" parameterType="int" resultType="RoomDetailResponseDto">
-    SELECT room.id, room.type_id, room.user_id, room_type.`type`, `user`.nickname AS `host`, room.title, room.content, room.is_public, room.password, room.open_time, room.close_time, room.limit_user
+    SELECT room.id, room.type_id, room.user_id, room_type.`type`, `user`.nickname AS `host`, room.title, room.content, room.is_public, room.password, room.open_time, room.close_time, room.limit_user, room.session_name
     FROM tbl_room AS room, tbl_room_type AS room_type, tbl_user AS `user`
     WHERE room.type_id = room_type.id AND room.user_id = `user`.id AND room.id = #{id}
   </select> 
@@ -42,4 +42,22 @@
     INSERT INTO tbl_room_join_user (user_id, room_id)
     VALUES (#{userId}, #{roomId});
   </insert>
+
+  <select id="selectRoomBySessionName" parameterType="String" resultType="RoomDetailResponseDto">
+    SELECT room.id, room.type_id, room.user_id, room_type.`type`, `user`.nickname AS `host`, room.title, room.content, room.is_public, room.password, room.open_time, room.close_time, room.limit_user, room.session_name
+    FROM tbl_room AS room, tbl_room_type AS room_type, tbl_user AS `user`
+    WHERE room.type_id = room_type.id AND room.user_id = `user`.id AND room.session_name = #{sessionName}
+  </select> 
+
+  <select id="selectSessionInfo" parameterType="int" resultType="RTCSessionInfoDto">
+    SELECT room.id, room.session_name, room.limit_user, room.close_time, room.type_id, type.type  
+    FROM tbl_room AS room, tbl_room_type AS type
+    WHERE room.id = #{id} AND room.type_id = type.id
+  </select>
+
+  <update id="closeBySessionName" parameterType="String">
+    UPDATE tbl_room
+    SET close_time = NOW()
+    WHERE session_name = #{sessionName} AND close_time IS NULL;
+  </update>
 </mapper>

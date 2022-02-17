@@ -13,10 +13,6 @@ public class UserModifyRequest {
   public Integer id;
   @ApiModelProperty(value = "사용자의 운동 목적 고유 값")
   public Integer purposeId;
-  @ApiModelProperty(value = "사용자 닉네임")
-  public String nickname;
-  @ApiModelProperty(value = "사용자 패스워드")
-  public String password;
   @ApiModelProperty(value = "사용자 체중")
   public Double weight;
   @ApiModelProperty(value = "사용자 활동량")

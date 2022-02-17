@@ -2,6 +2,7 @@ package com.healthfriend.healthfriend.model.service;
 
 import java.util.List;
 
+import com.healthfriend.healthfriend.model.DTO.RTCSession.RTCSessionInfoDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomDetailResponseDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomJoinUserDto;
@@ -51,5 +52,20 @@ public class RoomServiceImpl implements RoomService {
   @Override
   public boolean joinUser(RoomJoinUserDto roomJoinUserDto) throws Exception {
     return sqlSession.getMapper(RoomMapper.class).joinUser(roomJoinUserDto);
+  }
+
+  @Override
+  public RoomDetailResponseDto findRoomBySessionName(String sessionName) throws Exception {
+    return sqlSession.getMapper(RoomMapper.class).selectRoomBySessionName(sessionName);
+  }
+
+  @Override
+  public RTCSessionInfoDto findSessionInfo(int id) throws Exception {
+    return sqlSession.getMapper(RoomMapper.class).selectSessionInfo(id);
+  }
+
+  @Override
+  public boolean closeBySessionName(String sessionName) throws Exception {
+    return sqlSession.getMapper(RoomMapper.class).closeBySessionName(sessionName);
   }
 }

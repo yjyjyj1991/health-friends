@@ -45,6 +45,7 @@ public class BoardServiceImpl implements BoardService {
     if (boardDetailDto.getTitle() == null || boardDetailDto.getContent() == null) {
       throw new Exception();
     }
+    //boardDetailDto.setContent(boardDetailDto.getContent().replace("\r\n","\n"));
     return sqlSession.getMapper(BoardMapper.class).createBoard(boardDetailDto) == 1;
   }
 
@@ -79,13 +80,11 @@ public class BoardServiceImpl implements BoardService {
 
   @Override
   public boolean addComment(CommentAddDto commentAddDto) throws Exception {
-    // TODO Auto-generated method stub
     return sqlSession.getMapper(CommentMapper.class).createComment(commentAddDto) == 1;
   }
 
   @Override
   public List<CommentAddDto> findCommentDetail(int boardid) throws Exception {
-    // TODO Auto-generated method stub
     return sqlSession.getMapper(CommentMapper.class).selectComment(boardid);
   }
 

@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class ExerciseSelectRequestDto {
   Integer userId;
-  String openTime;
-  String closeTime;
+  String startTime;
+  String endTime;
 }

@@ -1,8 +1,4 @@
-.container_main {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-}
+
 
 .first_main {
   width: 100%;
@@ -16,16 +12,18 @@
 }
 
 .start_btn {
+  /* display: flex; */
   background-color: #D3E4CD;
-  justify-content: center;
+  /* justify-items: center; */
+  /* align-items: center; */
   border: 0ch;
   border-radius: 34px;
-  height: 6rem;
-  width: 25rem;
+  height: 5rem;
+  width: 23rem;
   font-size: large;
   font-weight: bold;
-  margin-top: 12rem;
-  margin-bottom: 15rem;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 a {
   text-decoration: none;

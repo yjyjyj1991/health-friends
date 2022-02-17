@@ -19,8 +19,8 @@ public class ExerciseServiceImpl implements ExerciseService {
   @Override
   public List<ExerciseSelectResponseDto> findExercise(ExerciseSelectRequestDto exerciseSelectRequestDto)
       throws Exception {
-    if (exerciseSelectRequestDto.getUserId() == null || exerciseSelectRequestDto.getOpenTime() == null
-        || exerciseSelectRequestDto.getCloseTime() == null)
+    if (exerciseSelectRequestDto.getUserId() == null || exerciseSelectRequestDto.getStartTime() == null
+        || exerciseSelectRequestDto.getEndTime() == null)
       throw new Exception();
     return sqlSession.getMapper(ExerciseMapper.class).selectExercise(exerciseSelectRequestDto);
   }

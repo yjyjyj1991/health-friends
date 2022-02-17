@@ -5,27 +5,27 @@
 <mapper namespace="com.healthfriend.healthfriend.model.mapper.BoardMapper">
 
     <select id="selectBoard" parameterType="map" resultType="boardDto">
-      SELECT id, type_id, user_id, title , isPublic
-      FROM tbl_board
-      <if test="word != null and word != ''">
+        SELECT id, type_id, user_id, title , isPublic, date, content
+        FROM tbl_board
+        <if test="word != null and word != ''">
 			<if test="key == 'title'">
-				where title like concat('%', #{word}, '%')
+				WHERE title like concat('%', #{word}, '%')
 			</if>
 			<if test="key != 'title'">
-				where ${key} = #{word}
+				WHERE ${key} = #{word}
 			</if>
 		</if>
-      ORDER BY id DESC
-      LIMIT #{start}, #{spp}
+        ORDER BY id DESC
+        LIMIT #{start}, #{spp} 
     </select>
 
     <insert id="createBoard" parameterType="boardDto">
-      <!-- select key 이용해서 제일 최고 앞의 ID 값 보다 +1 한 값으로 들어가기 -->
-      <selectKey resultType="int" keyProperty="id" order="BEFORE">
-      SELECT MAX(id)+1 FROM tbl_board        
-      </selectKey>    
-      INSERT INTO tbl_board (id, type_id, user_id, title, content, isPublic, password)
-      VALUES (#{id}, #{typeId}, #{userId}, #{title}, #{content},#{isPublic}, #{password})
+        <!-- select key 이용해서 제일 최고 앞의 ID 값 보다 +1 한 값으로 들어가기 -->
+        <!-- <selectKey resultType="int" keyProperty="id" order="BEFORE">
+            SELECT MAX(id)+1 FROM tbl_board        
+        </selectKey>     -->
+        INSERT INTO tbl_board ( type_id, user_id, title, content, isPublic, password, date)
+		VALUES ( #{typeId}, #{userId}, #{title}, #{content},#{isPublic}, #{password}, now())
     </insert>
 
     <delete id="deleteBoard" parameterType="int">

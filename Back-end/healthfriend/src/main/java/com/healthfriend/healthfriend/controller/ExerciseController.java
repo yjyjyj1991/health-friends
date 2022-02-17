@@ -24,20 +24,19 @@ import io.swagger.annotations.ApiOperation;
 @CrossOrigin
 @Api("운동 일정 컨트롤러  API V1")
 public class ExerciseController {
-    @Autowired
-    private ExerciseService exerciseService;
-    private static final Logger logger = LoggerFactory.getLogger(ExerciseController.class);
+  @Autowired
+  private ExerciseService exerciseService;
+  private static final Logger logger = LoggerFactory.getLogger(ExerciseController.class);
 
-    @ApiOperation(value = "운동 목록", notes = "나의 운동 정보를 반환한다.", response = List.class)
-    @GetMapping()
-    public ResponseEntity<Message> exerciseList(ExerciseSelectRequestDto exerciseSelectRequestDto) throws Exception {
-
-        logger.info("exerciseList - 호출");
-        HttpStatus status = HttpStatus.OK;
-        Message message = new Message();
-        message.setData(exerciseService.findExercise(exerciseSelectRequestDto));
-        message.setSuccess(true);
-        return new ResponseEntity<Message>(message, status);
-    }
+  @ApiOperation(value = "운동 목록", notes = "나의 운동 정보를 반환한다.", response = List.class)
+  @GetMapping()
+  public ResponseEntity<Message> exerciseList(ExerciseSelectRequestDto exerciseSelectRequestDto) throws Exception {
+    logger.info("exerciseList - 호출");
+    HttpStatus status = HttpStatus.OK;
+    Message message = new Message();
+    message.setData(exerciseService.findExercise(exerciseSelectRequestDto));
+    message.setSuccess(true);
+    return new ResponseEntity<Message>(message, status);
+  }
 
 }

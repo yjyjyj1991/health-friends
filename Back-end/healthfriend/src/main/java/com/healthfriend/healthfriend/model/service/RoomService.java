@@ -2,6 +2,7 @@ package com.healthfriend.healthfriend.model.service;
 
 import java.util.List;
 
+import com.healthfriend.healthfriend.model.DTO.RTCSession.RTCSessionInfoDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomDetailResponseDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomDto;
 import com.healthfriend.healthfriend.model.DTO.Room.RoomJoinUserDto;
@@ -19,7 +20,14 @@ public interface RoomService {
 
   public RoomDetailResponseDto findRoom(int id) throws Exception;
 
+  public RoomDetailResponseDto findRoomBySessionName(String sessionName) throws Exception;
+
   public boolean removeRoom(int id) throws Exception;
 
   public boolean joinUser(RoomJoinUserDto roomJoinUserDto) throws Exception;
+
+  public RTCSessionInfoDto findSessionInfo(int id) throws Exception;
+
+  public boolean closeBySessionName(String sessionName) throws Exception;
+
 }

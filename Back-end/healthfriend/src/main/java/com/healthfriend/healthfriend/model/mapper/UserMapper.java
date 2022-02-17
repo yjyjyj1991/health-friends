@@ -14,7 +14,7 @@ public interface UserMapper {
 
     public int updateDUser(UserWithdraw userWithdraw) throws SQLException;
 
-    public int updateUserPassword(UserAccountRequest userAccountRequest) throws SQLException;
+    public int updateUserRandomPassword(UserAccountRequest userAccountRequest) throws SQLException;
 
     public boolean isExistsEmail(String email) throws SQLException;
 
@@ -25,4 +25,10 @@ public interface UserMapper {
     public UserResponse selectUserInfo(String email) throws SQLException;
 
     public int updateLogin(UserTokenDto userTokenDto) throws SQLException;
+
+    public UserResponse selectUserByIdAndPassword(UserPasswordChangeRequest passwordChangeRequest) throws SQLException;
+
+    public UserResponse selectUserById(int id) throws SQLException;
+
+    public int updateUserPassword(UserPasswordChangeRequest passwordChangeRequest) throws SQLException;
 }

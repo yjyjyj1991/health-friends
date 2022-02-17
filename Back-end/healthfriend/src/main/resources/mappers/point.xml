@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.healthfriend.healthfriend.model.mapper.PointMapper">
+
+    <insert id="createPoint" parameterType="pointRequestDto">
+      INSERT INTO tbl_point ( user_id, point, reason, regist_time,start_time,end_time,time_gap)
+      VALUES (#{userId}, #{point}, #{reason},now(),#{startTime},#{endTime},timediff(#{endTime},#{startTime}))
+    </insert>
+    
+    <select id="selectPointTop5" resultType="pointResponseDto">
+      SELECT u.nickname ,sum(POINT) AS point FROM tbl_point p JOIN tbl_user u ON (p.user_id = u.id)  GROUP BY user_id ORDER BY sum(POINT) DESC LIMIT 5
+    </select>
+
+    <select id="selectMyPoint" parameterType="int" resultType="pointMyResponseDto">      
+      SELECT SUM(point) AS point 
+      FROM tbl_point 
+      GROUP BY user_id 
+      HAVING user_id = #{userId}
+    </select>
+
+</mapper>

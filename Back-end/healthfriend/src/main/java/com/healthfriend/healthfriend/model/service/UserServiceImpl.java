@@ -1,6 +1,7 @@
 package com.healthfriend.healthfriend.model.service;
 
 import com.healthfriend.healthfriend.model.DTO.user.UserModifyRequest;
+import com.healthfriend.healthfriend.model.DTO.user.UserPasswordChangeRequest;
 import com.healthfriend.healthfriend.model.DTO.user.UserAccountRequest;
 import com.healthfriend.healthfriend.model.DTO.user.UserResponse;
 import com.healthfriend.healthfriend.model.DTO.user.UserSignup;
@@ -24,9 +25,6 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public boolean modifyUser(UserModifyRequest userModifyRequest) throws Exception {
-    if (userModifyRequest.getPassword() == null) {
-      throw new Exception();
-    }
     return sqlSession.getMapper(UserMapper.class).updateUser(userModifyRequest) == 1;
   }
 
@@ -48,8 +46,8 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public boolean updateUserPassword(UserAccountRequest userAccountRequest) throws Exception {
-    return sqlSession.getMapper(UserMapper.class).updateUserPassword(userAccountRequest) == 1;
+  public boolean updateUserRandomPassword(UserAccountRequest userAccountRequest) throws Exception {
+    return sqlSession.getMapper(UserMapper.class).updateUserRandomPassword(userAccountRequest) == 1;
   }
 
   @Override
@@ -65,5 +63,20 @@ public class UserServiceImpl implements UserService {
   @Override
   public boolean modifyLogin(UserTokenDto userTokenDto) throws Exception {
     return sqlSession.getMapper(UserMapper.class).updateLogin(userTokenDto) == 1;
+  }
+
+  @Override
+  public UserResponse findUserById(UserPasswordChangeRequest passwordChangeRequest) throws Exception {
+    return sqlSession.getMapper(UserMapper.class).selectUserByIdAndPassword(passwordChangeRequest);
+  }
+
+  @Override
+  public boolean updateUserPassword(UserPasswordChangeRequest passwordChangeRequest) throws Exception {
+    return sqlSession.getMapper(UserMapper.class).updateUserPassword(passwordChangeRequest) == 1;
+  }
+
+  @Override
+  public UserResponse findUserById(int id) throws Exception {
+    return sqlSession.getMapper(UserMapper.class).selectUserById(id);
   }
 }
