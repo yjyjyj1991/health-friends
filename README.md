@@ -58,9 +58,6 @@
 - Teachable Machine을 이용한 동작 카운트
 - 운동 데이터 관리
 - 맞춤형 식단 제공 (사용자 몸무게와 활동량 기반으로 계산 - IIFYM)
-
-![image](/uploads/ecca49415eb8b55b0cbd2b1f4ba9c078/image.png)
-
 - 연간 랭킹 Top 5 제공
 
 
@@ -78,6 +75,6 @@ npm start
 - Backend
 
 ```bash
-cd Back-end
-
+cd Back-end/healthfriend
+./mvnw spring-boot:run
 ```
